@@ -44,6 +44,7 @@ export const FlexContainer = styled.div`
 export const FlexContainerItem = styled.div<{ space?: string }>`
     flex: ${({ space }) => (space ? `0 1 ${space}` : "1")};
     height: 100%;
+    position: relative;
 `;
 
 export const FlexColumnContainer = styled.div<{ alignItems?: string }>`

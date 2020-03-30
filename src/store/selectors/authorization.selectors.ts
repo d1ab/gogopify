@@ -17,3 +17,8 @@ export const getAuthorizationFailedState = createSelector(
     authorizationState,
     ({ authorizationFailed }) => authorizationFailed
 );
+
+export const getAuthorizationAccessToken = createSelector(
+    authorizationState,
+    ({ token }) => token
+);

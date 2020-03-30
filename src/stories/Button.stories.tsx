@@ -11,13 +11,9 @@ export default {
 
 storiesOf("Buttons ", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
-    .add("Primary Button", () => (
+    .add("all", () => (
         <Container>
             <Button onClick={action("clicked")}>Hello Primary</Button>
-        </Container>
-    ))
-    .add("Secondary Button", () => (
-        <Container>
             <Button color={"secondary"} onClick={action("clicked")}>
                 Hello Secondary
             </Button>

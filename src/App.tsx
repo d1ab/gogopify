@@ -14,8 +14,10 @@ import { Main } from "components/Main/Main";
 import { Route, Router, Switch } from "react-router";
 import { history } from "store/store";
 import { Profile } from "components/Profile/Profile";
-import { NotificationBarProvider } from "components/_common/NotificationBar/NotificationBarProvider";
-import { Notification } from "components/_common/NotificationBar/NotificationBar";
+import { NotificationBarProvider } from "components/NotificationBar/NotificationBarProvider";
+import { Notification } from "components/NotificationBar/NotificationBar";
+import { Backdrop } from "./components/Backdrop/Backdrop";
+import { BackdropProvider } from "./components/Backdrop/BackdropProvider";
 
 export const App: React.FC = () => {
     return (
@@ -33,15 +35,18 @@ export const App: React.FC = () => {
                     </TopBar>
                     <Router history={history}>
                         <NotificationBarProvider>
-                            <Notification />
-                            <Switch>
-                                <Route exact={true} path={"/"}>
-                                    <Main />
-                                </Route>
-                                <Route exact={true} path={"/profile"}>
-                                    <Profile />
-                                </Route>
-                            </Switch>
+                            <BackdropProvider>
+                                <Notification />
+                                <Backdrop />
+                                <Switch>
+                                    <Route exact={true} path={"/"}>
+                                        <Main />
+                                    </Route>
+                                    <Route exact={true} path={"/profile"}>
+                                        <Profile />
+                                    </Route>
+                                </Switch>
+                            </BackdropProvider>
                         </NotificationBarProvider>
                     </Router>
                 </FlexContainerItem>

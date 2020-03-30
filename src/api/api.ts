@@ -1,4 +1,4 @@
-import { accessToken, isTestingEnv, userIdentifier } from "utils/utils";
+import { getAccessToken, isTestingEnv, userIdentifier } from "utils/utils";
 
 export interface HttpResponse<T> extends Response {
     parsedBody?: T;
@@ -43,7 +43,7 @@ export async function get<T>(
     args: RequestInit = {
         method: "get",
         headers: {
-            Authorization: accessToken || "",
+            Authorization: getAccessToken() || "",
         },
     }
 ): Promise<HttpResponse<T>> {

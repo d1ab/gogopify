@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { NotificationType } from "./NotificationBar.styled";
 
 export const NotificationContext = createContext<NotificationBarProviderProps>({

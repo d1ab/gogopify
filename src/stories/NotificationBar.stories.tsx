@@ -1,13 +1,10 @@
 import { storiesOf } from "@storybook/react";
-import React, { useContext } from "react";
-import { Notification } from "../components/_common/NotificationBar/NotificationBar";
-import { Container } from "../components/_common/Container/Container";
-import { Button } from "../components/_common/Button/Button";
-import { useNotification } from "../components/_common/NotificationBar/useNotification";
-import {
-    NotificationBarProvider,
-    NotificationContext,
-} from "../components/_common/NotificationBar/NotificationBarProvider";
+import React from "react";
+import { Notification } from "components/NotificationBar/NotificationBar";
+import { Container } from "components/_common/Container/Container";
+import { Button } from "components/_common/Button/Button";
+import { useNotification } from "hooks/useNotification";
+import { NotificationBarProvider } from "components/NotificationBar/NotificationBarProvider";
 
 export default {
     title: "NotificationBar",

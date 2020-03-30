@@ -1,6 +1,10 @@
 import { ActionType, createReducer } from "typesafe-actions";
 import * as actions from "store/actions/authorization.actions";
-import { authorize } from "store/actions/authorization.actions";
+import {
+    authorize,
+    writeAccessToken,
+} from "store/actions/authorization.actions";
+
 export type AuthorizationAction = ActionType<typeof actions>;
 
 export type AuthorizationState = Readonly<{
@@ -40,5 +44,12 @@ export const authorizationReducer = createReducer<
             ...state,
             authorizationFailed: true,
             isAuthorizing: false,
+        };
+    })
+    .handleAction(writeAccessToken, (state, action) => {
+        return {
+            ...state,
+            isAuthorized: true,
+            token: action.payload.accessToken,
         };
     });

@@ -1,7 +1,7 @@
 import React from "react";
 import { NotificationBarContainer } from "./NotificationBar.styled";
-import { Typography } from "../Typography/Typography";
-import { useNotification } from "./useNotification";
+import { Typography } from "components/_common/Typography/Typography";
+import { useNotification } from "hooks/useNotification";
 
 const { SmallParagraph } = Typography;
 
