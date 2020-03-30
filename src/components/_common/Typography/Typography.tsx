@@ -1,9 +1,14 @@
 import React from "react";
 import { Link as RouterLink, LinkProps } from "react-router-dom";
-import DynamicStyledSystemComponent, { StyledSystemProps } from "components/_common/DynamicStyledComponent/DynamicStyledComponent";
+import DynamicStyledSystemComponent, {
+    StyledSystemProps,
+} from "components/_common/DynamicStyledComponent/DynamicStyledComponent";
 import { typographyStyles } from "styles/typography";
 
-type AnchorProps = StyledSystemProps & Pick<LinkProps, "to"> & { onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void };
+type AnchorProps = StyledSystemProps &
+    Pick<LinkProps, "to"> & {
+        onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+    };
 
 const Link: React.FC<AnchorProps> = ({ to, onClick, children, ...props }) => (
     <RouterLink to={to} onClick={onClick}>
@@ -26,7 +31,10 @@ interface TypographyComponentProps {
     Link: React.FC<AnchorProps>;
 }
 
-const createComponent: (textStyle: StyledSystemProps, displayName: string) => React.FC<StyledSystemProps> = (textStyle, displayName) => {
+const createComponent: (
+    textStyle: StyledSystemProps,
+    displayName: string
+) => React.FC<StyledSystemProps> = (textStyle, displayName) => {
     const component: React.FC<StyledSystemProps> = (props) => (
         <DynamicStyledSystemComponent {...textStyle} {...props}>
             {props.children}
@@ -46,6 +54,9 @@ export const Typography: TypographyComponentProps = {
     LargeLead: createComponent(typographyStyles.LargeLead, "LargeLead"),
     SmallLead: createComponent(typographyStyles.SmallLead, "SmallLead"),
     Paragraph: createComponent(typographyStyles.Paragraph, "Paragraph"),
-    SmallParagraph: createComponent(typographyStyles.SmallParagraph, "SmallParagraph"),
+    SmallParagraph: createComponent(
+        typographyStyles.SmallParagraph,
+        "SmallParagraph"
+    ),
     Link: Link,
 };

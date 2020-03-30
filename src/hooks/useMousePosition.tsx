@@ -61,6 +61,7 @@ export const useMousePosition = (
                 elementRef.removeEventListener("click", mouseClickHandler);
             }
         };
+        // eslint-disable-next-line
     }, []);
 
     return state;

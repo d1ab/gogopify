@@ -1,32 +1,23 @@
-import { createStore, applyMiddleware, compose } from "redux";
-import { RootAction, RootState } from "typesafe-actions";
+import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
+import { createBrowserHistory } from "history";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { rootSaga } from "./rootSaga";
+import createRootReducer from "./rootReducer";
 
-import { composeEnhancers } from "./utils";
-// import rootReducer from './root-reducer';
-// import rootEpic from './root-epic';
-// import services from '../services';
+export const history = createBrowserHistory();
 
-// configure middlewares
-// const middlewares = [epicMiddleware];
 const sagaMiddleware = createSagaMiddleware();
 
-const composeEnhancer =
-    (process.env.NODE_ENV !== "production" &&
-        window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]) || compose;
-
-const store = createStore(reducer, applyMiddleware(sagaMiddleware));
-
-sagaMiddleware.run(helloSaga);
-// compose enhancers
-
-// rehydrate state on app start
-const initialState = {};
+const composeEnhancers = composeWithDevTools({});
 
 // create store
-const store = createStore(rootReducer, initialState, enhancer);
+const store = createStore(
+    createRootReducer(history),
+    {},
+    composeEnhancers(applyMiddleware(sagaMiddleware))
+);
 
-epicMiddleware.run(rootEpic);
+sagaMiddleware.run(rootSaga);
 
-// export store singleton instance
 export default store;

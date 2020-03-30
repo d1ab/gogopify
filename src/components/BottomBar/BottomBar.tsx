@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useRef } from "react";
 import { FlexContainerItem } from "components/_common/Container/Container";
 import { Controls } from "./Controls/Controls";
 import { PlaybackBar } from "./PlaybackBar/PlaybackBar";
@@ -15,13 +15,8 @@ export const BottomBar: React.FC<{ audioUrl: string }> = ({ audioUrl }) => {
         setAudioPlay,
         setTrackTime,
         isPlaying,
-        toggledTrackTime,
     } = useAudioPlayer(audioUrl);
     const audioRef = useRef(audio);
-
-    // const handleTrackTime = useCallback((toggledTime: number) => {
-    //     setTrackTime(toggledTime);
-    // }, []);
 
     return (
         <PlayerContainer>
@@ -36,7 +31,6 @@ export const BottomBar: React.FC<{ audioUrl: string }> = ({ audioUrl }) => {
                 <PlaybackBar
                     currentTime={currentTrackTime}
                     duration={trackDuration}
-                    toggledTime={toggledTrackTime}
                     handleTrackTime={setTrackTime}
                 />
             </FlexContainerItem>

@@ -1,21 +1,52 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import {
+    Container,
+    FlexContainer,
+    FlexContainerItem,
+} from "components/_common/Container/Container";
+import { SideBar } from "components/SideBar/SideBar";
+import { SideBarItem } from "components/SideBar/SideBarList/SideBarList";
+import { TopBar } from "components/TopBar/TopBar";
+import { Search } from "components/TopBar/Search/Search";
+import { BottomBar } from "components/BottomBar/BottomBar";
+import { Main } from "components/Main/Main";
+import { Route, Router, Switch } from "react-router";
+import { history } from "store/store";
+import { Profile } from "components/Profile/Profile";
+import { NotificationBarProvider } from "components/_common/NotificationBar/NotificationBarProvider";
+import { Notification } from "components/_common/NotificationBar/NotificationBar";
 
-function App() {
+export const App: React.FC = () => {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <Container space={"0"}>
+            <FlexContainer>
+                <FlexContainerItem space={"230px"}>
+                    <SideBar>
+                        <SideBarItem>Categories</SideBarItem>
+                        <SideBarItem>New releases</SideBarItem>
+                    </SideBar>
+                </FlexContainerItem>
+                <FlexContainerItem>
+                    <TopBar>
+                        <Search />
+                    </TopBar>
+                    <Router history={history}>
+                        <NotificationBarProvider>
+                            <Notification />
+                            <Switch>
+                                <Route exact={true} path={"/"}>
+                                    <Main />
+                                </Route>
+                                <Route exact={true} path={"/profile"}>
+                                    <Profile />
+                                </Route>
+                            </Switch>
+                        </NotificationBarProvider>
+                    </Router>
+                </FlexContainerItem>
+            </FlexContainer>
+            <BottomBar audioUrl={""} />
+        </Container>
     );
-}
-
-export default App;
+};

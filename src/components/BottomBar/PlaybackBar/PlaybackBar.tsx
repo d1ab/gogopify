@@ -36,6 +36,7 @@ export const PlaybackBar: React.FC<PlaybackBar> = ({
         }
 
         progress.current = (currentTime / duration) * 100;
+        // eslint-disable-next-line
     }, [currentTime, duration]);
 
     useLayoutEffect(() => {
@@ -60,6 +61,7 @@ export const PlaybackBar: React.FC<PlaybackBar> = ({
         if (isMouseDown) {
             progress.current = (calculateToggledTime(mouseX) / duration) * 100;
         }
+        // eslint-disable-next-line
     }, [mouseX, isMouseUp, isMouseDown, duration]);
 
     return (

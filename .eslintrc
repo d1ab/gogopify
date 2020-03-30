@@ -1,16 +1,24 @@
 {
     "parser": "@typescript-eslint/parser",
     "globals": {
+        "FormData": true,
+        "Symbol": true,
+        "Request": true,
         "Audio": true,
+        "Promise": true,
         "process": true,
-        "window": true
+        "window": true,
+        "fetch": true,
+        "document": true,
+        "localStorage": true
     },
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
         "prettier/@typescript-eslint",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:jest/all"
     ],
     "parserOptions": {
         "ecmaVersion": 2018,
@@ -28,7 +36,8 @@
         ],
         "react/jsx-max-props-per-line": ["error", { "maximum": 1, "when": "multiline" }],
         "react/prop-types": "off",
-        "@typescript-eslint/no-explicit-any": "error"
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/camelcase": ["error", { "properties": "never" }]
     },
     "settings": {
         "react": {

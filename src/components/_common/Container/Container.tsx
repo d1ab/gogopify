@@ -19,11 +19,6 @@ export const GridContainer = styled.div`
     margin: ${({ theme }) => theme.space.M}px;
 `;
 
-export const FlexContainer = styled.div`
-    display: flex;
-    position: relative;
-`;
-
 export const Container = styled.div<{ space?: string }>`
     position: relative;
     background-color: ${({ theme }) => theme.colors.bgBlackLight};
@@ -38,10 +33,29 @@ export const ContainerFluid = styled.div<{ space?: string }>`
     padding: ${({ theme, space }) => (space ? space : theme.space.L)}px;
 `;
 
+export const FlexContainer = styled.div`
+    display: flex;
+    position: relative;
+`;
+
 /**
  * Flex container item decorator
  */
 export const FlexContainerItem = styled.div<{ space?: string }>`
     flex: ${({ space }) => (space ? `0 1 ${space}` : "1")};
     height: 100%;
+`;
+
+export const FlexColumnContainer = styled.div<{ alignItems?: string }>`
+    display: flex;
+    flex-direction: column;
+    align-items: ${({ alignItems }) =>
+        alignItems ? alignItems : "flex-start"};
+`;
+
+export const FlexRowContainer = styled.div<{ alignItems?: string }>`
+    display: flex;
+    flex-direction: row;
+    align-items: ${({ alignItems }) =>
+        alignItems ? alignItems : "flex-start"};
 `;
