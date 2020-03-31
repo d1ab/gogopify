@@ -1,4 +1,5 @@
-import API, { postAuth } from "api/api";
+import API, { post } from "api/api";
+import { userIdentifier } from "../utils/utils";
 
 export interface Authorization {
     access_token: string;
@@ -6,10 +7,14 @@ export interface Authorization {
     expires_in: number;
 }
 
-const authorize = (): Promise<Authorization | undefined> => {
-    return postAuth<Authorization>(`${API.baseAuthUrl}/token`).then(
-        ({ parsedBody }) => parsedBody
-    );
+const authorize = (
+    headers: HeadersInit
+): Promise<Authorization | undefined> => {
+    return post<Authorization>(
+        `${API.baseAuthUrl}/token`,
+        "grant_type=client_credentials",
+        { headers }
+    ).then(({ parsedBody }) => parsedBody);
 };
 
 export default {

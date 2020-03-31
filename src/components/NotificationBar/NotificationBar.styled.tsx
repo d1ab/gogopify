@@ -31,4 +31,5 @@ export const NotificationBarContainer = styled.div.attrs<{
     width: 100%;
     height: 35px;
     display: flex;
+    z-index: 1;
 `;

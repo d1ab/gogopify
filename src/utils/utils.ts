@@ -8,5 +8,12 @@ export const userIdentifier = window.btoa(
 
 export const getAccessToken = () => localStorage.getItem(ACCESS_TOKEN_KEY);
 
+export const removeAccessToken = () =>
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+
 export const setAccessToken = (accessToken: string) =>
     localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+
+export const isPlainObject = (obj: any): boolean => {
+    return Object.prototype.toString.call(obj) === "[object Object]";
+};

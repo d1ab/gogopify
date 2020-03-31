@@ -39,8 +39,11 @@ export type StyledSystemProps =
     | FontFamilyProps
     | LineHeightProps
     | TextAlignProps
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    | { color: string; as?: keyof JSX.IntrinsicElements | React.ComponentType<any> };
+    | {
+          color: string;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+      };
 
 export default styled.div`
   ${space}

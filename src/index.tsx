@@ -3,17 +3,26 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { App } from "App";
 import * as serviceWorker from "./serviceWorker";
-import store from "store/store";
+import store, { history } from "store/store";
 
 import "./index.scss";
 import { ThemeProvider } from "styled-components";
 import { defaultTheme } from "./styles/defaultTheme";
+import { BackdropProvider } from "./components/Backdrop/BackdropProvider";
+import { NotificationBarProvider } from "./components/NotificationBar/NotificationBarProvider";
+import { Router } from "react-router";
 
 const Root = () => (
     <Provider store={store}>
         <React.StrictMode>
             <ThemeProvider theme={defaultTheme}>
-                <App />
+                <NotificationBarProvider>
+                    <BackdropProvider>
+                        <Router history={history}>
+                            <App />
+                        </Router>
+                    </BackdropProvider>
+                </NotificationBarProvider>
             </ThemeProvider>
         </React.StrictMode>
     </Provider>

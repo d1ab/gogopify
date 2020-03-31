@@ -11,7 +11,7 @@ type AnchorProps = StyledSystemProps &
     };
 
 const Link: React.FC<AnchorProps> = ({ to, onClick, children, ...props }) => (
-    <RouterLink to={to} onClick={onClick}>
+    <RouterLink to={to} onClick={onClick} style={{ textDecoration: "none" }}>
         <DynamicStyledSystemComponent {...typographyStyles.Link} {...props}>
             {children}
         </DynamicStyledSystemComponent>

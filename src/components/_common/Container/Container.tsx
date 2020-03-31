@@ -21,6 +21,7 @@ export const GridContainer = styled.div`
 
 export const Container = styled.div<{ space?: string }>`
     position: relative;
+    overflow: scroll;
     background-color: ${({ theme }) => theme.colors.bgBlackLight};
     //height: 100vh;
     padding: ${({ theme, space }) => (space ? space : theme.space.L)}px;

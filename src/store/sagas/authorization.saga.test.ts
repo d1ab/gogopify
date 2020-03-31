@@ -11,31 +11,22 @@ import {
 import { authorizationSaga } from "store/sagas/authorization.saga";
 import { authorize } from "store/actions/authorization.actions";
 import { nockHeaders } from "setupTests";
+import { ACCESS_TOKEN_KEY } from "../../utils/utils";
 
 const sagaMiddleware = createSagaMiddleware();
 
 describe("authorizationSaga", () => {
     it("creates 'AUTHORIZATION_SUCCESS' when user authorization has been done", async () => {
-        nock(process.env.REACT_APP_SPOTIFY_ACCOUNTS_URL!, {
-            reqheaders: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-        })
+        nock(process.env.REACT_APP_SPOTIFY_ACCOUNTS_URL!)
+            .defaultReplyHeaders(nockHeaders)
             .post("/token", {
                 grant_type: "client_credentials",
             })
-            .reply(
-                OK,
-                {
-                    access_token: "sampleToken",
-                    token_type: "bearer",
-                    expires_in: 3600,
-                },
-                {
-                    ...nockHeaders,
-                    "Content-Type": "application/x-www-form-urlencoded",
-                }
-            );
+            .reply(OK, {
+                access_token: "sampleToken",
+                token_type: "bearer",
+                expires_in: 3600,
+            });
 
         const sagaTester = new SagaTester({
             initialState: authorizationInitialState,
@@ -43,6 +34,8 @@ describe("authorizationSaga", () => {
             reducers: authorizationReducer as any,
             middlewares: [sagaMiddleware],
         });
+        console.log(localStorage.__STORE__);
+
         sagaTester.start(authorizationSaga);
 
         expect(sagaTester.getState()).toStrictEqual(authorizationInitialState);
@@ -58,11 +51,12 @@ describe("authorizationSaga", () => {
                 expires_in: 3600,
             },
         });
-
+        expect(localStorage.__STORE__[ACCESS_TOKEN_KEY]).toBe("sampleToken");
         expect(sagaTester.getState()).toStrictEqual({
             isAuthorized: true,
             isAuthorizing: false,
             authorizationFailed: false,
+            isTokenExpired: false,
             token: "sampleToken",
         });
 
@@ -70,12 +64,14 @@ describe("authorizationSaga", () => {
     });
 
     it("creates 'AUTHORIZATION_FAILED' when user authorization failed", async () => {
-        nock(process.env.REACT_APP_SPOTIFY_ACCOUNTS_URL!)
-            .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+        nock(process.env.REACT_APP_SPOTIFY_ACCOUNTS_URL!, {
+            allowUnmocked: true,
+        })
+            .defaultReplyHeaders(nockHeaders)
             .post("/token", {
                 grant_type: "client_credentials",
             })
-            .reply(BAD_REQUEST, nockHeaders);
+            .reply(BAD_REQUEST);
 
         const sagaTester = new SagaTester({
             initialState: authorizationInitialState,
@@ -92,13 +88,13 @@ describe("authorizationSaga", () => {
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
             type: types.AUTHORIZE_FAILED,
-            payload: 400,
         });
 
         expect(sagaTester.getState()).toStrictEqual({
             isAuthorized: false,
             isAuthorizing: false,
             authorizationFailed: true,
+            isTokenExpired: false,
             token: null,
         });
 

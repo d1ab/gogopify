@@ -22,3 +22,8 @@ export const getAuthorizationAccessToken = createSelector(
     authorizationState,
     ({ token }) => token
 );
+
+export const getAuthorizationExpirationState = createSelector(
+    authorizationState,
+    ({ isTokenExpired }) => isTokenExpired
+);

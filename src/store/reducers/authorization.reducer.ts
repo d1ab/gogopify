@@ -2,8 +2,10 @@ import { ActionType, createReducer } from "typesafe-actions";
 import * as actions from "store/actions/authorization.actions";
 import {
     authorize,
+    clearAccessToken,
     writeAccessToken,
 } from "store/actions/authorization.actions";
+import { getAccessToken } from "../../utils/utils";
 
 export type AuthorizationAction = ActionType<typeof actions>;
 
@@ -11,14 +13,18 @@ export type AuthorizationState = Readonly<{
     isAuthorized: boolean;
     isAuthorizing: boolean;
     authorizationFailed: boolean;
+    isTokenExpired: boolean;
     token: string | null;
 }>;
 
+const accessToken = getAccessToken();
+
 export const authorizationInitialState: AuthorizationState = {
-    isAuthorized: false,
+    isAuthorized: !!accessToken,
     isAuthorizing: false,
     authorizationFailed: false,
-    token: null,
+    isTokenExpired: false,
+    token: accessToken,
 };
 
 export const authorizationReducer = createReducer<
@@ -36,6 +42,7 @@ export const authorizationReducer = createReducer<
             ...state,
             isAuthorizing: false,
             isAuthorized: true,
+            isTokenExpired: false,
             token: action.payload.access_token,
         };
     })
@@ -51,5 +58,13 @@ export const authorizationReducer = createReducer<
             ...state,
             isAuthorized: true,
             token: action.payload.accessToken,
+        };
+    })
+    .handleAction(clearAccessToken, (state) => {
+        return {
+            ...state,
+            isAuthorized: false,
+            isTokenExpired: true,
+            token: null,
         };
     });
