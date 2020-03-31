@@ -5,8 +5,7 @@ import {
     AuthorizationState,
     authorizationReducer,
 } from "./reducers/authorization.reducer";
-import {
-    categoriesReducer,
+import categoriesReducers, {
     CategoriesState,
 } from "./reducers/categories.reducer";
 
@@ -20,7 +19,7 @@ const createRootReducer = (history: History<History.PoorMansUnknown>) =>
     combineReducers({
         router: connectRouter(history),
         authorization: authorizationReducer,
-        categories: categoriesReducer,
+        categories: categoriesReducers,
     });
 
 export default createRootReducer;

@@ -24,12 +24,12 @@ import {
 import { useNotification } from "./hooks/useNotification";
 import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import { Typography } from "components/_common/Typography/Typography";
+import { Playlist } from "./components/Playlist/Playlist";
+import { CategoryPlaylists } from "./components/CategoryPlaylists/CategoryPlaylists";
 
 const { Link } = Typography;
 
 export const App: React.FC = () => {
-    console.log("RENDER");
-
     const isTokenExpired = useSelector(getAuthorizationExpirationState);
     const isAuthorized = useSelector(getAuthorizationState);
     const { push } = useHistory();
@@ -76,6 +76,12 @@ export const App: React.FC = () => {
                                 exact={true}
                                 path={"/categories"}
                                 component={Categories}
+                            />
+                            <ProtectedRoute
+                                isAuthorized={isAuthorized}
+                                exact={true}
+                                path={"/category/:id/playlists"}
+                                component={CategoryPlaylists}
                             />
                         </Switch>
                     </Container>

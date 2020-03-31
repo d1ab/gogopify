@@ -15,6 +15,7 @@ export interface ThemeColors {
     border: CSS.ColorProperty;
     bgBlackLight: CSS.ColorProperty;
     bgBlack: CSS.ColorProperty;
+    bgGraphite: CSS.ColorProperty;
 }
 
 export const colors: ThemeColors = {
@@ -28,6 +29,7 @@ export const colors: ThemeColors = {
     text: "#000",
     disabled: "#f5222d",
     border: "#B3B3B3",
-    bgBlackLight: "#323232",
+    bgGraphite: "#323232",
     bgBlack: "#000000",
+    bgBlackLight: "#282828",
 };

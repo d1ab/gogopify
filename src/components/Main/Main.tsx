@@ -12,11 +12,8 @@ import {
     getAuthorizationState,
     getAuthProcessingState,
 } from "store/selectors/authorization.selectors";
-import {
-    authorize,
-} from "store/actions/authorization.actions";
+import { authorize } from "store/actions/authorization.actions";
 import { useNotification } from "hooks/useNotification";
-import { setAccessToken } from "utils/utils";
 import { useLoader } from "../../hooks/useLoader";
 
 const { H3, H5, Link } = Typography;

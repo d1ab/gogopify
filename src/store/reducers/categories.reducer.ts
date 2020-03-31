@@ -1,26 +1,48 @@
 import { ActionType, createReducer } from "typesafe-actions";
-import * as actions from "store/actions/categories.actions";
-import { Category } from "../../api/categories";
+import * as categoriesActions from "store/actions/categories.actions";
+import * as categoryPlaylistsActions from "store/actions/categoryPlaylists.actions";
+import { Category, CategoryPlaylist } from "../../api/categories";
 import { fetchCategories } from "store/actions/categories.actions";
+import { fetchCategoryPlaylists } from "../actions/categoryPlaylists.actions";
+import { combineReducers } from "redux";
 
-export type CategoriesAction = ActionType<typeof actions>;
+export type CategoriesAction = ActionType<typeof categoriesActions>;
+export type CategoryPlaylistsAction = ActionType<
+    typeof categoryPlaylistsActions
+>;
 
-export type CategoriesState = Readonly<{
-    categories: Category[];
+export interface CategoriesState {
+    mainCategories: MainCategoriesState;
+    playlists: CategoryPlaylistsState;
+}
+
+export type MainCategoriesState = Readonly<{
+    types: Category[];
     isFetching: boolean;
     categoriesFetchingFailed: boolean;
 }>;
 
-export const categoriesInitialState: CategoriesState = {
-    categories: [],
+export type CategoryPlaylistsState = Readonly<{
+    playlists: CategoryPlaylist[];
+    isFetching: boolean;
+    categoriesPlaylistsFetchingFailed: boolean;
+}>;
+
+export const categoriesInitialState: MainCategoriesState = {
+    types: [],
     isFetching: false,
     categoriesFetchingFailed: false,
 };
 
-export const categoriesReducer = createReducer<
-    CategoriesState,
-    CategoriesAction
->(categoriesInitialState)
+export const categoryPlaylistsInitialState: CategoryPlaylistsState = {
+    playlists: [],
+    isFetching: false,
+    categoriesPlaylistsFetchingFailed: false,
+};
+
+const categoriesReducer = createReducer<MainCategoriesState, CategoriesAction>(
+    categoriesInitialState
+)
     .handleAction(fetchCategories.request, () => {
         return {
             ...categoriesInitialState,
@@ -33,7 +55,7 @@ export const categoriesReducer = createReducer<
             return {
                 ...state,
                 isFetching: false,
-                categories: categories.items,
+                types: categories.items,
             };
         }
     )
@@ -44,3 +66,36 @@ export const categoriesReducer = createReducer<
             categoriesFetchingFailed: true,
         };
     });
+
+const categoryPlaylistReducer = createReducer<
+    CategoryPlaylistsState,
+    CategoryPlaylistsAction
+>(categoryPlaylistsInitialState)
+    .handleAction(fetchCategoryPlaylists.request, () => {
+        return {
+            ...categoryPlaylistsInitialState,
+            isFetching: true,
+        };
+    })
+    .handleAction(
+        fetchCategoryPlaylists.success,
+        (state, { payload: { playlists } }) => {
+            return {
+                ...state,
+                isFetching: false,
+                playlists: playlists.items,
+            };
+        }
+    )
+    .handleAction(fetchCategoryPlaylists.failure, (state) => {
+        return {
+            ...state,
+            isFetching: false,
+            categoriesPlaylistsFetchingFailed: true,
+        };
+    });
+
+export default combineReducers<CategoriesState>({
+    mainCategories: categoriesReducer,
+    playlists: categoryPlaylistReducer,
+});

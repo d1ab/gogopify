@@ -34,12 +34,9 @@ describe("authorizationSaga", () => {
             reducers: authorizationReducer as any,
             middlewares: [sagaMiddleware],
         });
-        console.log(localStorage.__STORE__);
-
         sagaTester.start(authorizationSaga);
 
         expect(sagaTester.getState()).toStrictEqual(authorizationInitialState);
-
         sagaTester.dispatch(authorize.request());
         await sagaTester.waitFor(types.AUTHORIZE_SUCCESS);
 

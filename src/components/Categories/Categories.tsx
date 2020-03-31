@@ -8,7 +8,7 @@ import { Typography } from "components/_common/Typography/Typography";
 import { CategoryBox } from "./Categories.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../../store/actions/categories.actions";
-import { getCategoriesProperties } from "store/selectors/categories.selectors";
+import { getMainCategories } from "store/selectors/categories.selectors";
 import { useLoader } from "../../hooks/useLoader";
 import { useNotification } from "../../hooks/useNotification";
 
@@ -19,12 +19,12 @@ export const Categories: React.FC<RouteComponentProps> = () => {
     const dispatch = useDispatch();
     const { showLoader, hideLoader } = useLoader();
     const { showNotification } = useNotification();
-    const { categories, isFetching, categoriesFetchingFailed } = useSelector(
-        getCategoriesProperties
+    const { types, isFetching, categoriesFetchingFailed } = useSelector(
+        getMainCategories
     );
 
     useEffect(() => {
-        if (!categories.length) {
+        if (!types.length) {
             dispatch(fetchCategories.request(CATEGORY_LIMIT));
         }
     }, []);
@@ -50,11 +50,11 @@ export const Categories: React.FC<RouteComponentProps> = () => {
         <Container>
             <H3>Kategorie</H3>
             <FlexContainer style={{ flexWrap: "wrap" }}>
-                {categories.map(({ id, name, href, icons }) => {
+                {types.map(({ id, name, href, icons }) => {
                     const [icon] = icons;
 
                     return (
-                        <Link key={id} to={"/somewhere"}>
+                        <Link key={id} to={`/category/${id}/playlists`}>
                             <CategoryBox url={icon.url}>
                                 <H5 textAlign={"center"} margin={15}>
                                     {name}

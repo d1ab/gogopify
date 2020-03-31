@@ -3,11 +3,12 @@ import SagaTester from "redux-saga-tester";
 import nock from "nock";
 import types from "store/constants/categories.constants";
 import expect from "expect";
-import { BAD_REQUEST, OK, UNAUTHORIZED } from "http-status-codes";
-import {
+import { BAD_REQUEST, OK } from "http-status-codes";
+import categoriesReducer, {
     categoriesInitialState,
-    categoriesReducer,
+    categoryPlaylistsInitialState,
 } from "store/reducers/categories.reducer";
+import { authorizationReducer } from "../reducers/authorization.reducer";
 import { nockHeaders } from "setupTests";
 import API from "api/api";
 import { fetchCategoriesSaga } from "./categories.saga";
@@ -32,17 +33,26 @@ describe("categoriesSaga", () => {
         const sagaTester = new SagaTester({
             initialState: {
                 authorization: authorizationInitialState,
-                categories: categoriesInitialState,
+                categories: {
+                    mainCategories: categoriesInitialState,
+                    playlists: categoryPlaylistsInitialState,
+                },
             },
             // eslint-disable-next-line
-            reducers: categoriesReducer as any,
+            reducers: {
+                authorization: authorizationReducer,
+                categories: categoriesReducer,
+            },
             middlewares: [sagaMiddleware],
         });
         sagaTester.start(fetchCategoriesSaga, { payload: 30 });
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
-            categories: categoriesInitialState,
+            categories: {
+                mainCategories: categoriesInitialState,
+                playlists: categoryPlaylistsInitialState,
+            },
         });
 
         sagaTester.dispatch(fetchCategories.request(30));
@@ -56,9 +66,15 @@ describe("categoriesSaga", () => {
         });
 
         expect(sagaTester.getState()).toStrictEqual({
-            categories: categoriesFixture.categories.items,
-            isFetching: false,
-            categoriesFetchingFailed: false,
+            authorization: authorizationInitialState,
+            categories: {
+                mainCategories: {
+                    types: categoriesFixture.categories.items,
+                    isFetching: false,
+                    categoriesFetchingFailed: false,
+                },
+                playlists: categoryPlaylistsInitialState,
+            },
         });
 
         nock.cleanAll();
@@ -76,17 +92,26 @@ describe("categoriesSaga", () => {
         const sagaTester = new SagaTester({
             initialState: {
                 authorization: authorizationInitialState,
-                categories: categoriesInitialState,
+                categories: {
+                    mainCategories: categoriesInitialState,
+                    playlists: categoryPlaylistsInitialState,
+                },
             },
             // eslint-disable-next-line
-            reducers: categoriesReducer as any,
+            reducers: {
+                categories: categoriesReducer,
+                authorization: authorizationReducer,
+            },
             middlewares: [sagaMiddleware],
         });
         sagaTester.start(fetchCategoriesSaga, { payload: 30 });
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
-            categories: categoriesInitialState,
+            categories: {
+                mainCategories: categoriesInitialState,
+                playlists: categoryPlaylistsInitialState,
+            },
         });
 
         sagaTester.dispatch(fetchCategories.request(30));
@@ -97,9 +122,15 @@ describe("categoriesSaga", () => {
         });
 
         expect(sagaTester.getState()).toStrictEqual({
-            categories: [],
-            isFetching: false,
-            categoriesFetchingFailed: true,
+            authorization: authorizationInitialState,
+            categories: {
+                playlists: categoryPlaylistsInitialState,
+                mainCategories: {
+                    types: [],
+                    isFetching: false,
+                    categoriesFetchingFailed: true,
+                },
+            },
         });
 
         nock.cleanAll();

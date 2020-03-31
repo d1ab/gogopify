@@ -1,9 +1,28 @@
 import API, { get } from "./api";
-import { getAccessToken } from "utils/utils";
+
+export interface Category {
+    id: string;
+    name: string;
+    href: string;
+    icons: CategoryImage[];
+}
+
+export interface CategoryImage {
+    height: number;
+    url: string;
+    width: number;
+}
+
+export interface CategoryPlaylist {
+    images: CategoryImage[];
+    id: string;
+    name: string;
+    description: string;
+    href: string;
+}
 
 export interface Categories {
     categories: {
-        href: string;
         items: Category[];
         limit: number;
         next: string | null;
@@ -13,17 +32,15 @@ export interface Categories {
     };
 }
 
-export interface Category {
-    id: string;
-    name: string;
-    href: string;
-    icons: CategoryIcon[];
-}
-
-export interface CategoryIcon {
-    height: number;
-    url: string;
-    width: number;
+export interface CategoryPlaylists {
+    playlists: {
+        items: CategoryPlaylist[];
+        limit: number;
+        next: string | null;
+        offset: number;
+        previous: string | null;
+        total: number;
+    };
 }
 
 const fetchCategories = (
@@ -36,6 +53,17 @@ const fetchCategories = (
     ).then(({ parsedBody }) => parsedBody);
 };
 
+const fetchCategoryPlaylists = (
+    categoryId: string,
+    headers?: HeadersInit
+): Promise<CategoryPlaylists | undefined> => {
+    return get<CategoryPlaylists>(
+        `${API.baseApiUrl}/browse/categories/${categoryId}/playlists`,
+        { headers }
+    ).then(({ parsedBody }) => parsedBody);
+};
+
 export default {
     fetchCategories,
+    fetchCategoryPlaylists,
 };

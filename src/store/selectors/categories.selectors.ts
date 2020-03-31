@@ -1,13 +1,25 @@
 import { AppState } from "store/rootReducer";
 import { createSelector } from "reselect";
 
-const categoriesState = (state: AppState) => state.categories;
+const categoriesState = ({ categories }: AppState) => categories.mainCategories;
 
-export const getCategoriesProperties = createSelector(
+const categoriesPlaylistsState = ({ categories }: AppState) =>
+    categories.playlists;
+
+export const getMainCategories = createSelector(
     categoriesState,
-    ({ categories, isFetching, categoriesFetchingFailed }) => ({
-        categories,
+    ({ types, isFetching, categoriesFetchingFailed }) => ({
+        types,
         isFetching,
         categoriesFetchingFailed,
+    })
+);
+
+export const getCategoryPlaylists = createSelector(
+    categoriesPlaylistsState,
+    ({ playlists, isFetching, categoriesPlaylistsFetchingFailed }) => ({
+        playlists,
+        isFetching,
+        categoriesPlaylistsFetchingFailed,
     })
 );

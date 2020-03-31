@@ -8,7 +8,6 @@ import { defaultTheme } from "../src/styles/defaultTheme";
 
 const history = createBrowserHistory();
 
-
 addParameters({
     backgrounds: [
         { name: 'gogopify', value: '#151514' },

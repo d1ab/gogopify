@@ -26,7 +26,6 @@ export function* authorizationSaga(): Generator {
         const response = yield call(authorization.authorize, headers);
         // TODO: handle typing for response
         const typedResponse = response as Authorization;
-        console.log(typedResponse);
         setAccessToken(typedResponse.access_token);
         yield put(authorize.success(typedResponse));
     } catch (err) {

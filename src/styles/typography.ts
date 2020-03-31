@@ -13,7 +13,7 @@ export interface FontSize {
     big: number;
 }
 
-const fontFamilies: { heading: string; body: string } = {
+export const fontFamilies: { heading: string; body: string } = {
     heading: "Montserrat, serif",
     body: "Raleway, sans-serif",
 };
@@ -40,6 +40,7 @@ interface TypographyStyles {
     SmallLead: StyledSystemProps;
     Paragraph: StyledSystemProps;
     SmallParagraph: StyledSystemProps;
+    Ellipsis: StyledSystemProps;
     Link: StyledSystemProps;
 }
 export const typographyStyles: TypographyStyles = {
@@ -100,6 +101,13 @@ export const typographyStyles: TypographyStyles = {
         as: "p",
     },
     SmallParagraph: {
+        fontSize: [13, 14, 14, 15],
+        fontWeight: fontWeight.thin,
+        color: colors.secondary,
+        fontFamily: fontFamilies.body,
+        as: "p",
+    },
+    Ellipsis: {
         fontSize: [13, 14, 14, 15],
         fontWeight: fontWeight.thin,
         color: colors.secondary,
