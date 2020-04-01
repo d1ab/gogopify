@@ -8,6 +8,7 @@ import { useNotification } from "../../hooks/useNotification";
 import { getCategoryPlaylists } from "../../store/selectors/categories.selectors";
 import { fetchCategoryPlaylists } from "../../store/actions/categoryPlaylists.actions";
 import { PlaylistCard } from "./PlaylistCard/PlaylistCard";
+import { fetchFeaturedPlaylists } from "../../store/actions/featuredPlaylists.actions";
 
 const { H3, Link } = Typography;
 
@@ -25,12 +26,18 @@ export const CategoryPlaylists: React.FC<RouteComponentProps<{
 
     useEffect(() => {
         // TODO: visited categories should be cached and taken from store
+        if (!match.params.id) {
+            dispatch(fetchFeaturedPlaylists.request("")); // empty string used only for consistency with shared reducer
+
+            return;
+        }
+
         dispatch(fetchCategoryPlaylists.request(match.params.id));
     }, []);
 
     useEffect(() => {
         if (isFetching) {
-            showLoader();
+            return showLoader();
         }
 
         hideLoader();

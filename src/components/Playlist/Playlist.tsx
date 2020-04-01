@@ -48,7 +48,7 @@ export const Playlist: React.FC<RouteComponentProps<{
 
     useEffect(() => {
         if (isFetching) {
-            showLoader();
+            return showLoader();
         }
 
         hideLoader();

@@ -50,7 +50,7 @@ export const App: React.FC = () => {
                         <Link to={"/categories"}>
                             <SideBarItem>Categories</SideBarItem>
                         </Link>
-                        <Link to={"/"}>
+                        <Link to={"/featured/playlists"}>
                             <SideBarItem>New releases</SideBarItem>
                         </Link>
                     </SideBar>
@@ -81,6 +81,12 @@ export const App: React.FC = () => {
                                 isAuthorized={isAuthorized}
                                 exact={true}
                                 path={"/category/:id/playlists"}
+                                component={CategoryPlaylists}
+                            />
+                            <ProtectedRoute
+                                isAuthorized={isAuthorized}
+                                exact={true}
+                                path={"/featured/playlists"}
                                 component={CategoryPlaylists}
                             />
                             <ProtectedRoute

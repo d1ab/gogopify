@@ -1,9 +1,10 @@
 import { ActionType, createReducer } from "typesafe-actions";
 import * as categoriesActions from "store/actions/categories.actions";
 import * as categoryPlaylistsActions from "store/actions/categoryPlaylists.actions";
-import { Category, CategoryPlaylist } from "../../api/categories";
+import { Category, CategoryPlaylist } from "api/categories";
 import { fetchCategories } from "store/actions/categories.actions";
-import { fetchCategoryPlaylists } from "../actions/categoryPlaylists.actions";
+import { fetchCategoryPlaylists } from "store/actions/categoryPlaylists.actions";
+import { fetchFeaturedPlaylists } from "store/actions/featuredPlaylists.actions";
 import { combineReducers } from "redux";
 
 export type CategoriesAction = ActionType<typeof categoriesActions>;
@@ -72,15 +73,18 @@ const categoryPlaylistReducer = createReducer<
     CategoryPlaylistsState,
     CategoryPlaylistsAction
 >(categoryPlaylistsInitialState)
-    .handleAction(fetchCategoryPlaylists.request, () => {
-        return {
-            ...categoryPlaylistsInitialState,
-            isFetching: true,
-            categoriesPlaylistsFetchingFailed: false,
-        };
-    })
     .handleAction(
-        fetchCategoryPlaylists.success,
+        [fetchCategoryPlaylists.request, fetchFeaturedPlaylists.request],
+        () => {
+            return {
+                ...categoryPlaylistsInitialState,
+                isFetching: true,
+                categoriesPlaylistsFetchingFailed: false,
+            };
+        }
+    )
+    .handleAction(
+        [fetchCategoryPlaylists.success, fetchFeaturedPlaylists.success],
         (state, { payload: { playlists } }) => {
             return {
                 ...state,
@@ -89,13 +93,16 @@ const categoryPlaylistReducer = createReducer<
             };
         }
     )
-    .handleAction(fetchCategoryPlaylists.failure, (state) => {
-        return {
-            ...state,
-            isFetching: false,
-            categoriesPlaylistsFetchingFailed: true,
-        };
-    });
+    .handleAction(
+        [fetchCategoryPlaylists.failure || fetchFeaturedPlaylists.failure],
+        (state) => {
+            return {
+                ...state,
+                isFetching: false,
+                categoriesPlaylistsFetchingFailed: true,
+            };
+        }
+    );
 
 export default combineReducers<CategoriesState>({
     mainCategories: categoriesReducer,

@@ -27,20 +27,19 @@ export const useAudioPlayer = (): UserAudioPlayer => {
         trackDuration: 0,
         currentTrackTime: 0,
     });
-    console.log({ isPlaying });
 
-    // const setPlay = useCallback((isPlaying) => setAudioPlay(isPlaying), []);
+    const setPlay = useCallback((isPlaying) => setAudioPlay(isPlaying), []);
+
+    const setAudio = useCallback((audioUrl) => setAudioUrl(audioUrl), []);
 
     useLayoutEffect(() => {
         if (audioRef.current) {
             if (isPlaying) {
                 // something unexpected may happen?
-                console.log("PLAY");
                 audioRef.current.play().catch((err) => {
                     console.error(err);
                 });
             } else {
-                console.log("PAUSE");
                 audioRef.current.pause();
             }
         }
@@ -70,7 +69,6 @@ export const useAudioPlayer = (): UserAudioPlayer => {
         audioRef.current.addEventListener("timeupdate", setAudioTime);
 
         return (): void => {
-            console.log("UNREGISTERIMG");
             audioRef.current!.removeEventListener("loadeddata", setAudio);
             audioRef.current!.removeEventListener("timeupdate", setAudioTime);
         };
@@ -81,7 +79,6 @@ export const useAudioPlayer = (): UserAudioPlayer => {
             return;
         }
 
-        console.error("AUDIO CHANGED!!! PLAY!!!");
         setAudioPlay(() => true);
     }, [audioUrl]);
 
@@ -97,9 +94,9 @@ export const useAudioPlayer = (): UserAudioPlayer => {
         ...state,
         audio: audioRef.current!,
         isPlaying,
-        setAudioPlay,
+        setAudioPlay: setPlay,
         setTrackTime,
         toggledTrackTime,
-        setAudioUrl,
+        setAudioUrl: setAudio,
     };
 };

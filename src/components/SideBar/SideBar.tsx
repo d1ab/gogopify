@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Typography } from "../_common/Typography/Typography";
 import { SideBarList } from "./SideBarList/SideBarList";
 
-const { H3 } = Typography;
+const { H3, Link } = Typography;
 
 const NavMenu = styled.div`
     display: flex;
@@ -18,7 +18,9 @@ const NavMenu = styled.div`
 export const SideBar: React.FC = ({ children }) => {
     return (
         <NavMenu>
-            <H3>GoGopify</H3>
+            <Link to={"/"}>
+                <H3>GoGopify</H3>
+            </Link>
             <SideBarList>{children}</SideBarList>
         </NavMenu>
     );

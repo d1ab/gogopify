@@ -31,7 +31,7 @@ export const Categories: React.FC<RouteComponentProps> = () => {
 
     useEffect(() => {
         if (isFetching) {
-            showLoader();
+            return showLoader();
         }
 
         hideLoader();

@@ -16,7 +16,7 @@ import { authorize } from "store/actions/authorization.actions";
 import { useNotification } from "hooks/useNotification";
 import { useLoader } from "../../hooks/useLoader";
 
-const { H3, H5, Link } = Typography;
+const { H5, Link } = Typography;
 
 export const Main: React.FC = () => {
     const dispatch = useDispatch();
@@ -50,7 +50,6 @@ export const Main: React.FC = () => {
 
     return (
         <Container>
-            <H3>Kategorie</H3>
             {!isAuthorized ? (
                 <FlexColumnContainer alignItems={"center"}>
                     <H5>Proszę się zalogować żeby uzyskać dostęp do serwisu</H5>

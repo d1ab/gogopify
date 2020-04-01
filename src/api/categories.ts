@@ -32,15 +32,21 @@ export interface Categories {
     };
 }
 
+export interface Playlists {
+    items: CategoryPlaylist[];
+    limit: number;
+    next: string | null;
+    offset: number;
+    previous: string | null;
+    total: number;
+}
+
 export interface CategoryPlaylists {
-    playlists: {
-        items: CategoryPlaylist[];
-        limit: number;
-        next: string | null;
-        offset: number;
-        previous: string | null;
-        total: number;
-    };
+    playlists: Playlists;
+}
+
+export interface NewReleases {
+    playlists: Playlists;
 }
 
 const fetchCategories = (
@@ -49,6 +55,16 @@ const fetchCategories = (
 ): Promise<Categories | undefined> => {
     return get<Categories>(
         `${API.baseApiUrl}/browse/categories?limit=${limit}`,
+        { headers }
+    ).then(({ parsedBody }) => parsedBody);
+};
+
+// TODO: FIX CategoryPlaylists and NewReleases share similar properties
+const fetchFeaturedPlaylists = (
+    headers?: HeadersInit
+): Promise<CategoryPlaylists | undefined> => {
+    return get<NewReleases | undefined>(
+        `${API.baseApiUrl}/browse/featured-playlists`,
         { headers }
     ).then(({ parsedBody }) => parsedBody);
 };
@@ -65,5 +81,6 @@ const fetchCategoryPlaylists = (
 
 export default {
     fetchCategories,
+    fetchFeaturedPlaylists,
     fetchCategoryPlaylists,
 };
