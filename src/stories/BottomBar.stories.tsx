@@ -14,8 +14,10 @@ storiesOf("BottomBar ", module)
         <ContainerFluid space={"0"}>
             <BottomBar
                 audioUrl={
-                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+                    "https://p.scdn.co/mp3-preview/42847ffa3c83fcfce624d09a8d3d39a15d53e199?cid=d81366c1377b47d99b2d43da6a461c32"
                 }
             />
         </ContainerFluid>
     ));
+
+// "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"

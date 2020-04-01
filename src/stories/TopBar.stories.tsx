@@ -13,7 +13,7 @@ export default {
 
 storiesOf("TopBar ", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
-    .add("empty", () => (
+    .add("default", () => (
         <TopBar>
             <Paragraph>Empty TopBar</Paragraph>
         </TopBar>

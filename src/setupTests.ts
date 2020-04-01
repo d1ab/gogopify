@@ -21,3 +21,19 @@ export const nockHeaders = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": allowedHeaders.join(","),
 };
+
+/**
+ * jsdom doesn't support any loading or playback media operations.
+ */
+window.HTMLMediaElement.prototype.load = () => {
+    /* do nothing */
+};
+window.HTMLMediaElement.prototype.play = () => {
+    /* do nothing */
+};
+window.HTMLMediaElement.prototype.pause = () => {
+    /* do nothing */
+};
+window.HTMLMediaElement.prototype.addTextTrack = () => {
+    /* do nothing */
+};

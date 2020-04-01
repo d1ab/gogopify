@@ -9,7 +9,7 @@ import { getCategoryPlaylists } from "../../store/selectors/categories.selectors
 import { fetchCategoryPlaylists } from "../../store/actions/categoryPlaylists.actions";
 import { PlaylistCard } from "./PlaylistCard/PlaylistCard";
 
-const { H3 } = Typography;
+const { H3, Link } = Typography;
 
 export const CategoryPlaylists: React.FC<RouteComponentProps<{
     id: string;
@@ -49,16 +49,18 @@ export const CategoryPlaylists: React.FC<RouteComponentProps<{
         <Container>
             <H3>Playlists</H3>
             <FlexContainer style={{ flexWrap: "wrap" }}>
-                {playlists.map(({ id, href, name, description, images }) => {
+                {playlists.map(({ id, name, description, images }) => {
                     const [image] = images;
 
                     return (
-                        <PlaylistCard
-                            key={id}
-                            name={name}
-                            description={description}
-                            backgroundUrl={image.url}
-                        />
+                        <Link key={id} to={`/playlist/${id}`}>
+                            <PlaylistCard
+                                key={id}
+                                name={name}
+                                description={description}
+                                backgroundUrl={image.url}
+                            />
+                        </Link>
                     );
                 })}
             </FlexContainer>

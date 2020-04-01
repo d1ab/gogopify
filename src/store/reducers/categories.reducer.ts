@@ -75,6 +75,7 @@ const categoryPlaylistReducer = createReducer<
         return {
             ...categoryPlaylistsInitialState,
             isFetching: true,
+            categoriesPlaylistsFetchingFailed: false,
         };
     })
     .handleAction(

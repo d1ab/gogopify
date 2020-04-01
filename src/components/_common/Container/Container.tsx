@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Space } from "../../../styles/spaces";
 
 export const Divider = styled.div`
     border: 1px solid ${({ theme }) => theme.colors.border};
@@ -34,7 +35,9 @@ export const ContainerFluid = styled.div<{ space?: string }>`
     padding: ${({ theme, space }) => (space ? space : theme.space.L)}px;
 `;
 
-export const FlexContainer = styled.div`
+export const FlexContainer = styled.div<{ paddings?: number }>`
+    padding: ${({ theme, paddings }) =>
+        paddings ? paddings : theme.space.NONE}px;
     display: flex;
     position: relative;
 `;
@@ -42,8 +45,13 @@ export const FlexContainer = styled.div`
 /**
  * Flex container item decorator
  */
-export const FlexContainerItem = styled.div<{ space?: string }>`
+export const FlexContainerItem = styled.div<{
+    space?: string;
+    paddings?: number;
+}>`
     flex: ${({ space }) => (space ? `0 1 ${space}` : "1")};
+    padding: ${({ theme, paddings }) =>
+        paddings ? paddings : theme.space.NONE}px;
     height: 100%;
     position: relative;
 `;

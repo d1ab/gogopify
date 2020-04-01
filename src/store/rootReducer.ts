@@ -8,18 +8,22 @@ import {
 import categoriesReducers, {
     CategoriesState,
 } from "./reducers/categories.reducer";
+import { PlaylistState, playlistReducer } from "./reducers/playlist.reducer";
 
 export interface AppState {
     router: History<History.PoorMansUnknown>;
     authorization: AuthorizationState;
     categories: CategoriesState;
+    playlist: PlaylistState;
 }
 
 const createRootReducer = (history: History<History.PoorMansUnknown>) =>
-    combineReducers({
-        router: connectRouter(history),
+    combineReducers<AppState>({
+        // eslint-disable-next-line
+        router: connectRouter(history) as any, // needs different interface?
         authorization: authorizationReducer,
         categories: categoriesReducers,
+        playlist: playlistReducer,
     });
 
 export default createRootReducer;

@@ -9,7 +9,7 @@ import {
 
 interface Controls {
     handlePlay(isPlaying: boolean): void;
-    canPlay: boolean;
+    // canPlay: boolean;
     isPlaying: boolean;
 }
 

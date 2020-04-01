@@ -83,6 +83,12 @@ export const App: React.FC = () => {
                                 path={"/category/:id/playlists"}
                                 component={CategoryPlaylists}
                             />
+                            <ProtectedRoute
+                                isAuthorized={isAuthorized}
+                                exact={true}
+                                path={"/playlist/:id"}
+                                component={Playlist}
+                            />
                         </Switch>
                     </Container>
                 </FlexContainerItem>

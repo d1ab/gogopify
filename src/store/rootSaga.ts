@@ -5,11 +5,14 @@ import { authorizationSaga } from "./sagas/authorization.saga";
 import { fetchCategoriesSaga } from "./sagas/categories.saga";
 import { fetchCategoryPlaylists } from "./actions/categoryPlaylists.actions";
 import { fetchCategoryPlaylistsSaga } from "./sagas/categoryPlaylists.saga";
+import { fetchPlaylist } from "./actions/playlist.actions";
+import { fetchPlaylistSaga } from "./sagas/playlist.saga";
 
 export function* rootSaga() {
     yield all([
         takeEvery(authorize.request, authorizationSaga),
         takeEvery(fetchCategories.request, fetchCategoriesSaga),
         takeEvery(fetchCategoryPlaylists.request, fetchCategoryPlaylistsSaga),
+        takeEvery(fetchPlaylist.request, fetchPlaylistSaga),
     ]);
 }
