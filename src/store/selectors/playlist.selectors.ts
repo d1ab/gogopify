@@ -4,13 +4,8 @@ import { Tracks } from "../../api/playlist";
 
 const playlistState = ({ playlist }: AppState) => playlist;
 
-export const getPlaylistInfo = createSelector(
-    playlistState,
-    ({ name, image }) => ({ name, image })
-);
+export const getTracks = createSelector(playlistState, ({ items }) => items);
 
-export const getTracks = createSelector(playlistState, ({ items }) => items)
-;
 export const getPlaylistProcessingStatus = createSelector(
     playlistState,
     ({ isFetching, playlistFetchingFailed }) => ({

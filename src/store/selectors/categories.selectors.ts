@@ -23,3 +23,21 @@ export const getCategoryPlaylists = createSelector(
         categoriesPlaylistsFetchingFailed,
     })
 );
+
+export const getCategoryPlaylistInfoById = (id: string) =>
+    createSelector(categoriesPlaylistsState, ({ playlists }) => {
+        const currentPlaylist = playlists.find(
+            (playlist) => playlist.id === id
+        );
+
+        return currentPlaylist
+            ? {
+                  image: currentPlaylist.images[0].url,
+                  name: currentPlaylist.name,
+              }
+            : {
+                  image:
+                      "https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png",
+                  name: "",
+              };
+    });

@@ -16,16 +16,12 @@ export type PlaylistAction = ActionType<typeof playlistActions>;
 
 export type PlaylistState = Readonly<{
     items: Tracks[];
-    image: string;
-    name: string;
     isFetching: boolean;
     playlistFetchingFailed: boolean;
 }>;
 
 export const playlistInitialState: PlaylistState = {
-    name: "",
     items: [],
-    image: "",
     isFetching: false,
     playlistFetchingFailed: false,
 };
@@ -59,10 +55,6 @@ export const playlistReducer = createReducer<PlaylistState, PlaylistAction>(
         return {
             ...state,
             isFetching: false,
-            // TODO: name and image must be taken from categories
-            name: "Unnamed",
-            image:
-                "https://i.scdn.co/image/b16064142fcd2bd318b08aab0b93b46e87b1ebf5",
             items: payload.items
                 // TODO: probably this filtering can be done on API side
                 .filter((item) => item.track !== null && item.track.preview_url)

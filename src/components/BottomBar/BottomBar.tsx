@@ -5,7 +5,8 @@ import { PlaybackBar } from "./PlaybackBar/PlaybackBar";
 import { useAudioPlayer } from "hooks/useAudioPlayer";
 import { PlayerContainer, Audio } from "./BottomBar.styled";
 import { useSelector } from "react-redux";
-import { getActiveTrack } from "../../store/selectors/playlist.selectors";
+import { getActiveTrack } from "store/selectors/playlist.selectors";
+import { TrackInfo } from "./TrackInfo/TrackInfo";
 
 // TODO: temporary added url arg, change when async actions will be applied
 export const BottomBar: React.FC<{ audioUrl?: string }> = ({ audioUrl }) => {
@@ -65,7 +66,9 @@ export const BottomBar: React.FC<{ audioUrl?: string }> = ({ audioUrl }) => {
 
     return (
         <PlayerContainer>
-            <FlexContainerItem space={"25%"}>A</FlexContainerItem>
+            <FlexContainerItem space={"25%"}>
+                {isActive && track && <TrackInfo />}
+            </FlexContainerItem>
             <FlexContainerItem>
                 <Audio ref={audioRef} />
                 <Controls
@@ -79,7 +82,7 @@ export const BottomBar: React.FC<{ audioUrl?: string }> = ({ audioUrl }) => {
                     handleTrackTime={setTrackTime}
                 />
             </FlexContainerItem>
-            <FlexContainerItem space={"25%"}>C</FlexContainerItem>
+            <FlexContainerItem space={"25%"} />
         </PlayerContainer>
     );
 };

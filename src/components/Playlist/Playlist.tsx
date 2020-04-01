@@ -13,7 +13,6 @@ import { List } from "components/_common/List/List.styled";
 import { TrackItem } from "./TrackItem/TrackItem";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    getPlaylistInfo,
     getPlaylistProcessingStatus,
     getTracks,
 } from "store/selectors/playlist.selectors";
@@ -22,6 +21,7 @@ import { useEffect } from "react";
 import { fetchPlaylist } from "../../store/actions/playlist.actions";
 import { useLoader } from "../../hooks/useLoader";
 import { useNotification } from "../../hooks/useNotification";
+import { getCategoryPlaylistInfoById } from "../../store/selectors/categories.selectors";
 
 const { H4 } = Typography;
 
@@ -35,7 +35,9 @@ export const Playlist: React.FC<RouteComponentProps<{
 }>> = ({ match }) => {
     const dispatch = useDispatch();
     const tracks = useSelector(getTracks);
-    const { name, image } = useSelector(getPlaylistInfo);
+    const { name, image } = useSelector(
+        getCategoryPlaylistInfoById(match.params.id)
+    );
     const { isFetching, playlistFetchingFailed } = useSelector(
         getPlaylistProcessingStatus
     );
@@ -81,7 +83,9 @@ export const Playlist: React.FC<RouteComponentProps<{
                     <List>
                         {tracks.map(({ track }) => {
                             // TODO: what if track has more artists?
-                            const [artist] = track.album.artists;
+                            const artists = track.album.artists
+                                .map((artist) => artist.name)
+                                .join(", ");
 
                             return (
                                 <TrackItem
@@ -89,7 +93,7 @@ export const Playlist: React.FC<RouteComponentProps<{
                                     id={track.id}
                                     // will be available due to the track filtering on selector
                                     audioUrl={track.preview_url}
-                                    artistName={artist.name}
+                                    artistName={artists}
                                     songName={track.name}
                                 />
                             );
