@@ -9,11 +9,8 @@ export const getPlaylistInfo = createSelector(
     ({ name, image }) => ({ name, image })
 );
 
-export const getTracks = createSelector(playlistState, ({ items }) =>
-    // TODO: probably this filtering should be done on API site
-    items.filter(({ track }) => track.preview_url !== null)
-);
-
+export const getTracks = createSelector(playlistState, ({ items }) => items)
+;
 export const getPlaylistProcessingStatus = createSelector(
     playlistState,
     ({ isFetching, playlistFetchingFailed }) => ({
@@ -23,9 +20,15 @@ export const getPlaylistProcessingStatus = createSelector(
 );
 
 export const checkActiveItemById = (id: string) =>
-    createSelector(playlistState, ({ items }) =>
-        items.some(({ track, isActive }) => track.id === id && isActive)
-    );
+    createSelector(playlistState, ({ items }) => {
+        const activeTrack = items.find(
+            ({ track, isActive }) => track.id === id && isActive
+        );
+
+        return activeTrack
+            ? { isPlaying: activeTrack.isPlaying, isActive: true }
+            : { isPlaying: false, isActive: false };
+    });
 
 export const getActiveTrack = createSelector(playlistState, ({ items }) => {
     const activeTrack = items.find(({ isActive }) => isActive);

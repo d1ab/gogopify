@@ -35,7 +35,7 @@ export const BottomBar: React.FC<{ audioUrl?: string }> = ({ audioUrl }) => {
         if (isActive) {
             // initialize track is nothing was set before
             if (isActiveTrackPlaying && !currentPlayTrack) {
-                setCurrentTrack(track.preview_url!);
+                return setCurrentTrack(track.preview_url);
             }
 
             // if track has changed
@@ -44,13 +44,17 @@ export const BottomBar: React.FC<{ audioUrl?: string }> = ({ audioUrl }) => {
                 currentPlayTrack !== track.preview_url
             ) {
                 setAudioPlay(false);
-                setCurrentTrack(track.preview_url!);
+
+                return setCurrentTrack(track.preview_url);
             }
 
-            // if track is paused
+            // if active track is paused
             if (isActiveTrackPaused) {
-                setAudioPlay(false);
+                return setAudioPlay(false);
             }
+
+            // resume paused
+            setAudioPlay(true);
         }
     }, [
         isActive,

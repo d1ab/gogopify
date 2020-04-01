@@ -5,7 +5,7 @@ import { Typography } from "components/_common/Typography/Typography";
 import { PlayerIcon } from "components/Playlist/TrackItem/TrackItem.styled";
 import { Play, Pause } from "@styled-icons/boxicons-regular";
 import { useDispatch, useSelector } from "react-redux";
-import { checkActiveItemById } from "../../../store/selectors/playlist.selectors";
+import { checkActiveItemById, getActiveTrack } from "../../../store/selectors/playlist.selectors";
 import { updateTrack } from "store/actions/playlist.actions";
 
 const PlayBtn = PlayerIcon(Play);
@@ -20,26 +20,33 @@ interface TrackItem {
     audioUrl: string;
 }
 
+/**
+ * Component representing single song on the playlist
+ * @param id
+ * @param artistName
+ * @param songName
+ * @constructor
+ */
 export const TrackItem: React.FC<TrackItem> = ({
     id,
     artistName,
     songName,
 }) => {
     const dispatch = useDispatch();
-    const isTrackActive = useSelector(checkActiveItemById(id));
+    const { isActive, isPlaying } = useSelector(checkActiveItemById(id));
 
     return (
-        <ListItem isActive={isTrackActive}>
-            {!isTrackActive ? (
+        <ListItem isActive={isActive}>
+            {!isPlaying ? (
                 <PlayBtn
-                    isActive={isTrackActive}
+                    isActive={isActive}
                     onClick={() =>
                         dispatch(updateTrack({ id, isPlaying: true }))
                     }
                 />
             ) : (
                 <PauseBtn
-                    isActive={isTrackActive}
+                    isActive={isActive}
                     onClick={() =>
                         dispatch(updateTrack({ id, isPlaying: false }))
                     }

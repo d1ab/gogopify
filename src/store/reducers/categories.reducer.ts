@@ -46,6 +46,7 @@ const categoriesReducer = createReducer<MainCategoriesState, CategoriesAction>(
     .handleAction(fetchCategories.request, () => {
         return {
             ...categoriesInitialState,
+            categoriesFetchingFailed: false,
             isFetching: true,
         };
     })

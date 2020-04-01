@@ -25,6 +25,11 @@ import { useNotification } from "../../hooks/useNotification";
 
 const { H4 } = Typography;
 
+/**
+ * Playlist component, allows to play audio
+ * @param match
+ * @constructor
+ */
 export const Playlist: React.FC<RouteComponentProps<{
     id: string;
 }>> = ({ match }) => {
@@ -83,7 +88,7 @@ export const Playlist: React.FC<RouteComponentProps<{
                                     key={track.id}
                                     id={track.id}
                                     // will be available due to the track filtering on selector
-                                    audioUrl={track.preview_url!}
+                                    audioUrl={track.preview_url}
                                     artistName={artist.name}
                                     songName={track.name}
                                 />

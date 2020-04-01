@@ -6,6 +6,8 @@ import {
     PlayCircle,
     PauseCircle,
 } from "@styled-icons/boxicons-regular";
+import { useDispatch } from "react-redux";
+import { go } from "../../../store/actions/playlist.actions";
 
 interface Controls {
     handlePlay(isPlaying: boolean): void;
@@ -40,15 +42,20 @@ const Pause = styled(PauseCircle)`
 `;
 
 export const Controls: React.FC<Controls> = ({ handlePlay, isPlaying }) => {
+    const dispatch = useDispatch();
+
     return (
         <PlayerContainer>
-            <Previous size={32} />
+            <Previous
+                size={32}
+                onClick={() => dispatch(go({ to: "previous" }))}
+            />
             {!isPlaying ? (
                 <Play size={40} onClick={(): void => handlePlay(true)} />
             ) : (
                 <Pause size={40} onClick={(): void => handlePlay(false)} />
             )}
-            <Next size={32} />
+            <Next size={32} onClick={() => dispatch(go({ to: "next" }))} />
         </PlayerContainer>
     );
 };

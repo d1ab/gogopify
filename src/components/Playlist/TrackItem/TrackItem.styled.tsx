@@ -16,7 +16,7 @@ export const PlayerIcon = (icon: StyledIcon) => styled(icon).attrs<{
     left: -15px;
     top: 50%;
     transform: translate(50%, -50%);
-    opacity: 0;
+    opacity: ${({ isActive }) => (isActive ? 1 : 0)};
     cursor: pointer;
 
     ${ListItem}:hover & {

@@ -1,14 +1,6 @@
 import { CategoryImage } from "./categories";
 import API, { get } from "./api";
 
-// export interface Playlist {
-//     name: string;
-//     description: string;
-//     id: string;
-//     images: CategoryImage[];
-//     tracks: Tracks;
-// }
-
 export interface TrackPlayerDecrator {
     isPlaying: boolean;
     isPaused: boolean;
@@ -25,12 +17,16 @@ export interface PlaylistTracks {
 }
 
 export interface Tracks extends TrackPlayerDecrator {
-    track: {
-        id: string;
-        name: string;
-        preview_url: string | null;
-        album: Album;
-    };
+    // track can be null
+    track: Track;
+}
+
+interface Track {
+    id: string;
+    name: string;
+    // track can be null
+    preview_url: string;
+    album: Album;
 }
 
 interface Artist {

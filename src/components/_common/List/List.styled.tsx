@@ -12,13 +12,13 @@ export const List = styled.ul`
 export const ListItem = styled.li.attrs<{
     isActive?: boolean;
 }>(({ isActive }) => {
-    return {
-        style: {
-            // backgroundColor: isActive
-            //     ? "rgba(255, 255, 255, 0.2)"
-            //     : "transparent",
-        },
-    };
+    if (isActive) {
+        return {
+            style: {
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
+            },
+        };
+    }
 })<{ isActive?: boolean }>`
     position: relative;
     display: flex;

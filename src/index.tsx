@@ -10,21 +10,21 @@ import { ThemeProvider } from "styled-components";
 import { defaultTheme } from "./styles/defaultTheme";
 import { BackdropProvider } from "./components/Backdrop/BackdropProvider";
 import { NotificationBarProvider } from "./components/NotificationBar/NotificationBarProvider";
-import { Router } from "react-router";
+import { ConnectedRouter } from "connected-react-router";
 
 const Root = () => (
     <Provider store={store}>
-        <React.StrictMode>
-            <ThemeProvider theme={defaultTheme}>
-                <NotificationBarProvider>
-                    <BackdropProvider>
-                        <Router history={history}>
+        <ConnectedRouter history={history}>
+            <React.StrictMode>
+                <ThemeProvider theme={defaultTheme}>
+                    <NotificationBarProvider>
+                        <BackdropProvider>
                             <App />
-                        </Router>
-                    </BackdropProvider>
-                </NotificationBarProvider>
-            </ThemeProvider>
-        </React.StrictMode>
+                        </BackdropProvider>
+                    </NotificationBarProvider>
+                </ThemeProvider>
+            </React.StrictMode>
+        </ConnectedRouter>
     </Provider>
 );
 

@@ -1,10 +1,11 @@
 import { put, call, select } from "redux-saga/effects";
 import { getAuthorizationAccessToken } from "../selectors/authorization.selectors";
 import API, { CategoryPlaylists } from "../../api/categories";
-import { UNAUTHORIZED } from "http-status-codes";
+import { NOT_FOUND, UNAUTHORIZED } from "http-status-codes";
 import { clearAccessToken } from "../actions/authorization.actions";
 import { removeAccessToken } from "../../utils/utils";
 import { fetchCategoryPlaylists } from "../actions/categoryPlaylists.actions";
+import { push } from "connected-react-router";
 
 export function* fetchCategoryPlaylistsSaga(
     action: ReturnType<typeof fetchCategoryPlaylists.request>
@@ -31,6 +32,11 @@ export function* fetchCategoryPlaylistsSaga(
         if (err.status === UNAUTHORIZED) {
             yield put(clearAccessToken());
             removeAccessToken();
+        }
+
+        // TODO: can this happen?
+        if (err.status === NOT_FOUND) {
+            yield put(push("/"));
         }
     }
 }
