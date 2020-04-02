@@ -51,7 +51,7 @@ export const App: React.FC = () => {
                             <SideBarItem>Categories</SideBarItem>
                         </Link>
                         <Link to={"/featured/playlists"}>
-                            <SideBarItem>New releases</SideBarItem>
+                            <SideBarItem>Featured</SideBarItem>
                         </Link>
                     </SideBar>
                 </FlexContainerItem>

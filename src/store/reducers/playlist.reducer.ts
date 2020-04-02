@@ -53,7 +53,7 @@ export const playlistReducer = createReducer<PlaylistState, PlaylistAction>(
             isFetching: false,
             items: payload.items
                 // TODO: probably this filtering can be done on API side
-                .filter((item) => item.track !== null && item.track.preview_url)
+                .filter((item) => item.track && item.track.preview_url)
                 .map((item) => {
                     return {
                         ...item,

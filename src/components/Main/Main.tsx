@@ -25,8 +25,6 @@ export const Main: React.FC = () => {
     const { showNotification } = useNotification();
     const { showLoader, hideLoader } = useLoader();
 
-    console.log({ isAuthorized, isAuthorizing, authorizationFailed, token });
-
     useEffect(() => {
         if (authorizationFailed) {
             showNotification(

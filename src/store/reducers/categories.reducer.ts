@@ -94,7 +94,7 @@ const categoryPlaylistReducer = createReducer<
         }
     )
     .handleAction(
-        [fetchCategoryPlaylists.failure || fetchFeaturedPlaylists.failure],
+        [fetchCategoryPlaylists.failure, fetchFeaturedPlaylists.failure],
         (state) => {
             return {
                 ...state,

@@ -1,33 +1,32 @@
-import createSagaMiddleware from "redux-saga";
-import SagaTester from "redux-saga-tester";
 import nock from "nock";
-import types from "store/constants/categories.constants";
-import expect from "expect";
+import API from "api/api";
+import { nockHeaders } from "setupTests";
 import { BAD_REQUEST, OK } from "http-status-codes";
+import SagaTester from "redux-saga-tester";
+import {
+    authorizationInitialState,
+    authorizationReducer,
+} from "store/reducers/authorization.reducer";
 import categoriesReducer, {
     categoriesInitialState,
     categoryPlaylistsInitialState,
 } from "store/reducers/categories.reducer";
-import { authorizationReducer } from "../reducers/authorization.reducer";
-import { nockHeaders } from "setupTests";
-import API from "api/api";
-import { fetchCategoriesSaga } from "./categories.saga";
-import { fetchCategories } from "../actions/categories.actions";
-import { categoriesFixture } from "../../fixtures/categories.fixture";
-import { authorizationInitialState } from "../reducers/authorization.reducer";
+import types from "store/constants/categoryPlaylists.constants";
+import { categoryPlaylistsFixture } from "fixtures/categoryPlaylists.fixture";
+import createSagaMiddleware from "redux-saga";
+import { fetchCategoryPlaylists } from "store/actions/categoryPlaylists.actions";
+import { fetchCategoryPlaylistsSaga } from "./categoryPlaylists.saga";
 
 const sagaMiddleware = createSagaMiddleware();
+const playlistId = "party";
 
-describe("categoriesSaga", () => {
-    it("creates 'FETCH_CATEGORIES_SUCCESS' when authorized user is fetching categories", async () => {
+describe("categoryPlaylistSaga", () => {
+    it("creates 'FETCH_CATEGORY_PLAYLISTS_SUCCESS' when authorized user is fetching playlists", async () => {
         nock(API.baseApiUrl!, { allowUnmocked: true })
             .defaultReplyHeaders(nockHeaders)
-            .get("/browse/categories")
-            .query({
-                limit: 30,
-            })
+            .get(`/browse/categories/${playlistId}/playlists`)
             .reply(OK, {
-                categories: categoriesFixture.categories,
+                playlists: categoryPlaylistsFixture.playlists,
             });
 
         const sagaTester = new SagaTester({
@@ -45,7 +44,7 @@ describe("categoriesSaga", () => {
             },
             middlewares: [sagaMiddleware],
         });
-        sagaTester.start(fetchCategoriesSaga, { payload: 30 });
+        sagaTester.start(fetchCategoryPlaylistsSaga, { payload: playlistId });
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
@@ -55,38 +54,35 @@ describe("categoriesSaga", () => {
             },
         });
 
-        sagaTester.dispatch(fetchCategories.request(30));
-        await sagaTester.waitFor(types.FETCH_CATEGORIES_SUCCESS);
+        sagaTester.dispatch(fetchCategoryPlaylists.request(playlistId));
+        await sagaTester.waitFor(types.FETCH_CATEGORY_PLAYLISTS_SUCCESS);
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
-            type: types.FETCH_CATEGORIES_SUCCESS,
+            type: types.FETCH_CATEGORY_PLAYLISTS_SUCCESS,
             payload: {
-                categories: categoriesFixture.categories,
+                playlists: categoryPlaylistsFixture.playlists,
             },
         });
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
             categories: {
-                mainCategories: {
-                    types: categoriesFixture.categories.items,
+                mainCategories: categoriesInitialState,
+                playlists: {
+                    playlists: categoryPlaylistsFixture.playlists.items,
                     isFetching: false,
-                    categoriesFetchingFailed: false,
+                    categoriesPlaylistsFetchingFailed: false,
                 },
-                playlists: categoryPlaylistsInitialState,
             },
         });
 
         nock.cleanAll();
     });
 
-    it("creates 'FETCH_CATEGORIES_FAILED' when unauthorized user is fetching categories", async () => {
+    it("creates 'FETCH_CATEGORY_PLAYLISTS_FAILED' when unauthorized user is fetching playlists", async () => {
         nock(API.baseApiUrl!, { allowUnmocked: true })
             .defaultReplyHeaders(nockHeaders)
-            .get("/browse/categories")
-            .query({
-                limit: 30,
-            })
+            .get(`/browse/categories/${playlistId}/playlists`)
             .reply(BAD_REQUEST);
 
         const sagaTester = new SagaTester({
@@ -99,12 +95,12 @@ describe("categoriesSaga", () => {
             },
             // eslint-disable-next-line
             reducers: {
-                categories: categoriesReducer,
                 authorization: authorizationReducer,
+                categories: categoriesReducer,
             },
             middlewares: [sagaMiddleware],
         });
-        sagaTester.start(fetchCategoriesSaga, { payload: 30 });
+        sagaTester.start(fetchCategoryPlaylistsSaga, { payload: playlistId });
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
@@ -114,21 +110,21 @@ describe("categoriesSaga", () => {
             },
         });
 
-        sagaTester.dispatch(fetchCategories.request(30));
-        await sagaTester.waitFor(types.FETCH_CATEGORIES_FAILED);
+        sagaTester.dispatch(fetchCategoryPlaylists.request(playlistId));
+        await sagaTester.waitFor(types.FETCH_CATEGORY_PLAYLISTS_FAILED);
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
-            type: types.FETCH_CATEGORIES_FAILED,
+            type: types.FETCH_CATEGORY_PLAYLISTS_FAILED,
         });
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
             categories: {
-                playlists: categoryPlaylistsInitialState,
-                mainCategories: {
-                    types: [],
+                mainCategories: categoriesInitialState,
+                playlists: {
+                    playlists: [],
                     isFetching: false,
-                    categoriesFetchingFailed: true,
+                    categoriesPlaylistsFetchingFailed: true,
                 },
             },
         });
