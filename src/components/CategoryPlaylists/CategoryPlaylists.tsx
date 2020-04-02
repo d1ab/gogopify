@@ -13,7 +13,8 @@ import { fetchFeaturedPlaylists } from "../../store/actions/featuredPlaylists.ac
 const { H3, Link } = Typography;
 
 export const CategoryPlaylists: React.FC<RouteComponentProps<{
-    id: string;
+    id?: string;
+    featuredId?: string;
 }>> = ({ match }) => {
     const dispatch = useDispatch();
     const { showLoader, hideLoader } = useLoader();
@@ -26,13 +27,13 @@ export const CategoryPlaylists: React.FC<RouteComponentProps<{
 
     useEffect(() => {
         // TODO: visited categories should be cached and taken from store
-        if (!match.params.id) {
+        if (match.params.featuredId) {
             dispatch(fetchFeaturedPlaylists.request("")); // empty string used only for consistency with shared reducer
-
-            return;
         }
 
-        dispatch(fetchCategoryPlaylists.request(match.params.id));
+        if (match.params.id) {
+            dispatch(fetchCategoryPlaylists.request(match.params.id));
+        }
     }, []);
 
     useEffect(() => {

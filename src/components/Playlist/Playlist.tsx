@@ -31,12 +31,12 @@ const { H4 } = Typography;
  * @constructor
  */
 export const Playlist: React.FC<RouteComponentProps<{
-    id: string;
+    id?: string;
 }>> = ({ match }) => {
     const dispatch = useDispatch();
     const tracks = useSelector(getTracks);
     const { name, image } = useSelector(
-        getCategoryPlaylistInfoById(match.params.id)
+        getCategoryPlaylistInfoById(match && match.params.id)
     );
     const { isFetching, playlistFetchingFailed } = useSelector(
         getPlaylistProcessingStatus
@@ -45,7 +45,9 @@ export const Playlist: React.FC<RouteComponentProps<{
     const { showNotification } = useNotification();
 
     useEffect(() => {
-        dispatch(fetchPlaylist.request(match.params.id));
+        if (match.params.id) {
+            dispatch(fetchPlaylist.request(match.params.id));
+        }
     }, []);
 
     useEffect(() => {

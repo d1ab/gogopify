@@ -3,7 +3,6 @@ import React from "react";
 import { Container } from "components/_common/Container/Container";
 import { Button } from "components/_common/Button/Button";
 import { useLoader } from "hooks/useLoader";
-import { BackdropProvider } from "components/Backdrop/BackdropProvider";
 import { Backdrop } from "components/Backdrop/Backdrop";
 
 export default {
@@ -28,11 +27,9 @@ storiesOf("Backdrop ", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
     .add("default", () => {
         return (
-            <BackdropProvider>
-                <Container style={{ height: "100vh" }}>
-                    <Backdrop />
-                    <ButtonWrapper />
-                </Container>
-            </BackdropProvider>
+            <Container style={{ height: "100vh" }}>
+                <Backdrop />
+                <ButtonWrapper />
+            </Container>
         );
     });

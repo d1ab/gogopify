@@ -1,31 +1,16 @@
 import React from "react";
 import { render } from "react-dom";
-import { Provider } from "react-redux";
 import { App } from "App";
 import * as serviceWorker from "./serviceWorker";
-import store, { history } from "store/store";
+import initStore from "store/store";
 
 import "./index.scss";
-import { ThemeProvider } from "styled-components";
-import { defaultTheme } from "./styles/defaultTheme";
-import { BackdropProvider } from "./components/Backdrop/BackdropProvider";
-import { NotificationBarProvider } from "./components/NotificationBar/NotificationBarProvider";
-import { ConnectedRouter } from "connected-react-router";
+import { ProviderWrapper } from "./components/Provider/ProviderWrapper";
 
 const Root = () => (
-    <Provider store={store}>
-        <ConnectedRouter history={history}>
-            <React.StrictMode>
-                <ThemeProvider theme={defaultTheme}>
-                    <NotificationBarProvider>
-                        <BackdropProvider>
-                            <App />
-                        </BackdropProvider>
-                    </NotificationBarProvider>
-                </ThemeProvider>
-            </React.StrictMode>
-        </ConnectedRouter>
-    </Provider>
+    <ProviderWrapper store={initStore()}>
+        <App />
+    </ProviderWrapper>
 );
 
 render(<Root />, document.getElementById("root"));

@@ -3,7 +3,7 @@ import createSagaMiddleware from "redux-saga";
 import { createBrowserHistory } from "history";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { rootSaga } from "./rootSaga";
-import createRootReducer from "./rootReducer";
+import createRootReducer, { AppState } from "./rootReducer";
 
 export const history = createBrowserHistory();
 
@@ -12,12 +12,16 @@ const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = composeWithDevTools({});
 
 // create store
-const store = createStore(
-    createRootReducer(history),
-    {},
-    composeEnhancers(applyMiddleware(sagaMiddleware))
-);
+const initStore = (initialState?: AppState) => {
+    const store = createStore(
+        createRootReducer(history),
+        initialState || {},
+        composeEnhancers(applyMiddleware(sagaMiddleware))
+    );
 
-sagaMiddleware.run(rootSaga);
+    sagaMiddleware.run(rootSaga);
 
-export default store;
+    return store;
+};
+
+export default initStore;

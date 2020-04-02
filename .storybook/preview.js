@@ -1,13 +1,10 @@
 import { addParameters } from "@storybook/react"; // <- or your storybook framework
 import { addDecorator, configure } from "@storybook/react";
-import { ThemeProvider } from "styled-components";
 import React from "react";
-import { Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
-import { defaultTheme } from "../src/styles/defaultTheme";
 import requireContext from "require-context.macro";
-
-const history = createBrowserHistory();
+import { ProviderWrapper } from "../src/components/Provider/ProviderWrapper";
+import { storeFixture } from "../src/fixtures/store.fixture";
+import initStore from "../src/store/store";
 
 addParameters({
     backgrounds: [
@@ -17,12 +14,8 @@ addParameters({
 });
 
 addDecorator((story) => (
-    <ThemeProvider theme={defaultTheme}>
-        <Router history={history}>{story()}</Router>
-    </ThemeProvider>
+    <ProviderWrapper store={initStore(storeFixture)}>{story()}</ProviderWrapper>
 ));
-
-// const req = require.context('../stories', true, /\.stories\.js$/); // <- import all the stories at once
 
 function loadStories() {
     req.keys().forEach((filename) => req(filename));

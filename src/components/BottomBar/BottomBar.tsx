@@ -8,8 +8,7 @@ import { useSelector } from "react-redux";
 import { getActiveTrack } from "store/selectors/playlist.selectors";
 import { TrackInfo } from "./TrackInfo/TrackInfo";
 
-// TODO: temporary added url arg, change when async actions will be applied
-export const BottomBar: React.FC<{ audioUrl?: string }> = ({ audioUrl }) => {
+export const Player: React.FC = () => {
     const {
         isActive,
         isPlaying: isActiveTrackPlaying,

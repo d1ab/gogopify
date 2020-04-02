@@ -9,7 +9,6 @@ import { SideBar } from "components/SideBar/SideBar";
 import { SideBarItem } from "components/SideBar/SideBarList/SideBarList";
 import { TopBar } from "components/TopBar/TopBar";
 import { Search } from "components/TopBar/Search/Search";
-import { BottomBar } from "components/BottomBar/BottomBar";
 import { Main } from "components/Main/Main";
 import { Route, Switch, useHistory } from "react-router";
 import { Profile } from "components/Profile/Profile";
@@ -27,6 +26,7 @@ import { Typography } from "components/_common/Typography/Typography";
 import { Playlist } from "./components/Playlist/Playlist";
 import { CategoryPlaylists } from "./components/CategoryPlaylists/CategoryPlaylists";
 import { Button } from "./components/_common/Button/Button";
+import { Player } from "./components/BottomBar/BottomBar";
 
 const { Link } = Typography;
 
@@ -97,7 +97,7 @@ export const App: React.FC = () => {
                             <ProtectedRoute
                                 isAuthorized={isAuthorized}
                                 exact={true}
-                                path={"/featured/playlists"}
+                                path={"/:featuredId/playlists"}
                                 component={CategoryPlaylists}
                             />
                             <ProtectedRoute
@@ -110,7 +110,7 @@ export const App: React.FC = () => {
                     </Container>
                 </FlexContainerItem>
             </FlexContainer>
-            <BottomBar audioUrl={""} />
+            <Player />
         </Container>
     );
 };

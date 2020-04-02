@@ -17,7 +17,7 @@ import { useNotification } from "hooks/useNotification";
 import { useLoader } from "../../hooks/useLoader";
 import { Redirect } from "react-router";
 
-const { H5, Link } = Typography;
+const { H5 } = Typography;
 
 export const Main: React.FC = () => {
     const dispatch = useDispatch();
