@@ -31,3 +31,7 @@ export const Button = styled.button<ButtonStyled>`
         outline: none;
     }
 `;
+
+Button.defaultProps = {
+    color: "primary",
+};
