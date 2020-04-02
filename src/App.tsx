@@ -31,7 +31,7 @@ const { Link } = Typography;
 
 export const App: React.FC = () => {
     const isTokenExpired = useSelector(getAuthorizationExpirationState);
-    const isAuthorized = useSelector(getAuthorizationState);
+    const { isAuthorized } = useSelector(getAuthorizationState);
     const { push } = useHistory();
     const { showNotification } = useNotification();
 

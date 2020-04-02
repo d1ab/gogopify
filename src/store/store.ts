@@ -11,8 +11,8 @@ const sagaMiddleware = createSagaMiddleware();
 
 const composeEnhancers = composeWithDevTools({});
 
-// create store
-const initStore = (initialState?: AppState) => {
+// create store, any added for testing purposes
+const initStore = (initialState?: AppState | any) => {
     const store = createStore(
         createRootReducer(history),
         initialState || {},

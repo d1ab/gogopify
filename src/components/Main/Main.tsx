@@ -6,12 +6,7 @@ import {
 import { Button } from "components/_common/Button/Button.styled";
 import { Typography } from "components/_common/Typography/Typography";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    getAuthorizationAccessToken,
-    getAuthorizationFailedState,
-    getAuthorizationState,
-    getAuthProcessingState,
-} from "store/selectors/authorization.selectors";
+import { getAuthorizationState } from "store/selectors/authorization.selectors";
 import { authorize } from "store/actions/authorization.actions";
 import { useNotification } from "hooks/useNotification";
 import { useLoader } from "../../hooks/useLoader";
@@ -21,10 +16,12 @@ const { H5 } = Typography;
 
 export const Main: React.FC = () => {
     const dispatch = useDispatch();
-    const isAuthorized = useSelector(getAuthorizationState);
-    const authorizationFailed = useSelector(getAuthorizationFailedState);
-    const isAuthorizing = useSelector(getAuthProcessingState);
-    const token = useSelector(getAuthorizationAccessToken);
+    const {
+        isAuthorized,
+        isAuthorizing,
+        authorizationFailed,
+        token,
+    } = useSelector(getAuthorizationState);
     const { showNotification } = useNotification();
     const { showLoader, hideLoader } = useLoader();
 

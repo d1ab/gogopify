@@ -10,7 +10,7 @@ export const getAuthProcessingState = createSelector(
 
 export const getAuthorizationState = createSelector(
     authorizationState,
-    ({ isAuthorized }) => isAuthorized
+    (state) => state
 );
 
 export const getAuthorizationFailedState = createSelector(

@@ -8,3 +8,5 @@ declare global {
         __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: typeof compose;
     }
 }
+
+declare module "enzyme-adapter-react-16";
