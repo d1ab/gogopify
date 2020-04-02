@@ -6,7 +6,6 @@ export const List = styled.ul`
     margin: 0;
     padding: 0;
     border: 0;
-    overflow: scroll;
 `;
 
 export const ListItem = styled.li.attrs<{

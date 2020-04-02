@@ -20,11 +20,19 @@ export const GridContainer = styled.div`
     margin: ${({ theme }) => theme.space.M}px;
 `;
 
-export const Container = styled.div<{ space?: string }>`
+export const Container = styled.div.attrs<{ space?: string; scroll?: boolean }>(
+    ({ scroll }) => {
+        if (scroll) {
+            return {
+                style: {
+                    overflowY: "scroll",
+                },
+            };
+        }
+    }
+)<{ space?: string; scroll?: boolean }>`
     position: relative;
-    overflow: scroll;
     background-color: ${({ theme }) => theme.colors.bgBlackLight};
-    //height: 100vh;
     padding: ${({ theme, space }) => (space ? space : theme.space.L)}px;
 `;
 

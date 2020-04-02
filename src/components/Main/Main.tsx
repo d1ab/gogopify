@@ -15,6 +15,7 @@ import {
 import { authorize } from "store/actions/authorization.actions";
 import { useNotification } from "hooks/useNotification";
 import { useLoader } from "../../hooks/useLoader";
+import { Redirect } from "react-router";
 
 const { H5, Link } = Typography;
 
@@ -48,19 +49,18 @@ export const Main: React.FC = () => {
         }
     }, [isAuthorizing, isAuthorized, token]);
 
+    if (isAuthorized) {
+        return <Redirect to={"/categories"} />;
+    }
+
     return (
         <Container>
-            {!isAuthorized ? (
+            {!isAuthorized && (
                 <FlexColumnContainer alignItems={"center"}>
-                    <H5>Proszę się zalogować żeby uzyskać dostęp do serwisu</H5>
+                    <H5>Please login to get access to the service!</H5>
                     <Button onClick={() => dispatch(authorize.request())}>
-                        Zaloguj się!
+                        Login
                     </Button>
-                </FlexColumnContainer>
-            ) : (
-                <FlexColumnContainer>
-                    <H5>Zalogowno pomyślnie</H5>
-                    <Link to={"/profile"}>Link do profilu</Link>
                 </FlexColumnContainer>
             )}
         </Container>

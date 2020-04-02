@@ -26,6 +26,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import { Typography } from "components/_common/Typography/Typography";
 import { Playlist } from "./components/Playlist/Playlist";
 import { CategoryPlaylists } from "./components/CategoryPlaylists/CategoryPlaylists";
+import { Button } from "./components/_common/Button/Button";
 
 const { Link } = Typography;
 
@@ -56,10 +57,20 @@ export const App: React.FC = () => {
                     </SideBar>
                 </FlexContainerItem>
                 <FlexContainerItem>
-                    <TopBar>{isAuthorized && <Search />}</TopBar>
-                    {/*TODO: move this calc to styles => 170 is sum bot top + bottom bar*/}
+                    <TopBar>
+                        {isAuthorized && (
+                            <>
+                                <Search />
+                                <Link to={"/profile"}>
+                                    <Button color={"secondary"}>Profile</Button>
+                                </Link>
+                            </>
+                        )}
+                    </TopBar>
+                    {/*TODO: move this calc to js => 170 is sum bot top + bottom bar*/}
                     <Container
                         space="0"
+                        scroll={true}
                         style={{ height: "calc(100vh - 170px)" }}>
                         <Notification />
                         <Backdrop />
