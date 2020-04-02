@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router-dom";
 import {
     Container,
     FlexContainer,
-} from "components/_common/Container/Container";
+} from "components/_common/Container/Container.styled";
 import { Typography } from "components/_common/Typography/Typography";
 import { CategoryBox } from "./Categories.styled";
 import { useDispatch, useSelector } from "react-redux";

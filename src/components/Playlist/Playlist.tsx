@@ -3,10 +3,9 @@ import {
     FlexColumnContainer,
     FlexContainer,
     FlexContainerItem,
-} from "components/_common/Container/Container";
+} from "components/_common/Container/Container.styled";
 import * as React from "react";
 import { Typography } from "components/_common/Typography/Typography";
-import { Button } from "components/_common/Button/Button";
 import { space } from "components/../styles/spaces";
 import { Image } from "components/_common/Image/Image.styled";
 import { List } from "components/_common/List/List.styled";
@@ -36,7 +35,7 @@ export const Playlist: React.FC<RouteComponentProps<{
     const dispatch = useDispatch();
     const tracks = useSelector(getTracks);
     const { name, image } = useSelector(
-        getCategoryPlaylistInfoById(match && match.params.id)
+        getCategoryPlaylistInfoById(match.params.id)
     );
     const { isFetching, playlistFetchingFailed } = useSelector(
         getPlaylistProcessingStatus
@@ -78,7 +77,6 @@ export const Playlist: React.FC<RouteComponentProps<{
                     <FlexColumnContainer alignItems={"center"}>
                         <Image src={image} />
                         <H4 margin={"10px 0"}>{name}</H4>
-                        <Button>ODTWORZ</Button>
                     </FlexColumnContainer>
                 </FlexContainerItem>
                 <FlexContainerItem paddings={space.L}>

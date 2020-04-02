@@ -1,8 +1,4 @@
-import {
-    ActionType,
-    createReducer,
-    PayloadActionCreator,
-} from "typesafe-actions";
+import { ActionType, createReducer } from "typesafe-actions";
 import * as playlistActions from "store/actions/playlist.actions";
 import { Tracks } from "api/playlist";
 import { fetchPlaylist, go, updateTrack } from "store/actions/playlist.actions";

@@ -1,19 +1,8 @@
 import React from "react";
-import styled from "styled-components";
-import { Typography } from "../_common/Typography/Typography";
-import { SideBarList } from "./SideBarList/SideBarList";
+import { Typography } from "components/_common/Typography/Typography";
+import { NavMenu, SideBarList } from "./SideBar.styled";
 
 const { H3, Link } = Typography;
-
-const NavMenu = styled.div`
-    display: flex;
-    height: 100vh;
-    flex-direction: column;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
-    max-width: 230px;
-    z-index: 3;
-`;
 
 export const SideBar: React.FC = ({ children }) => {
     return (

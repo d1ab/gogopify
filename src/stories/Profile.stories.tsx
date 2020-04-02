@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/react";
 import React from "react";
-import { Container } from "components/_common/Container/Container";
+import { Container } from "components/_common/Container/Container.styled";
 import { Profile } from "components/Profile/Profile";
 
 export default {

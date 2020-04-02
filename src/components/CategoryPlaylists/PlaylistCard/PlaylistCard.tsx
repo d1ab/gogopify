@@ -1,5 +1,5 @@
 import React from "react";
-import { FlexContainerItem } from "../../_common/Container/Container";
+import { FlexContainerItem } from "../../_common/Container/Container.styled";
 import {
     CategoryPlaylistBoxContainer,
     CategoryPlaylistBoxImage,
@@ -8,7 +8,7 @@ import {
 import { Typography } from "components/_common/Typography/Typography";
 import { fontWeight } from "styles/typography";
 
-const { Paragraph, H5 } = Typography;
+const { Paragraph } = Typography;
 
 interface PlaylistCard {
     name: string;

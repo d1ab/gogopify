@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import {
     Container,
     FlexColumnContainer,
-} from "components/_common/Container/Container";
-import { Button } from "components/_common/Button/Button";
+} from "components/_common/Container/Container.styled";
+import { Button } from "components/_common/Button/Button.styled";
 import { Typography } from "components/_common/Typography/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import {

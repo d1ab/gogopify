@@ -1,4 +1,4 @@
-import { Container, FlexContainer } from "../_common/Container/Container";
+import { Container, FlexContainer } from "../_common/Container/Container.styled";
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { Typography } from "components/_common/Typography/Typography";

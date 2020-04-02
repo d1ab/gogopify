@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Space } from "../../../styles/spaces";
 
 export const Divider = styled.div`
     border: 1px solid ${({ theme }) => theme.colors.border};
@@ -20,17 +19,18 @@ export const GridContainer = styled.div`
     margin: ${({ theme }) => theme.space.M}px;
 `;
 
-export const Container = styled.div.attrs<{ space?: string; scroll?: boolean }>(
-    ({ scroll }) => {
-        if (scroll) {
-            return {
-                style: {
-                    overflowY: "scroll",
-                },
-            };
-        }
+export const Container = styled.div.attrs<{
+    space?: string;
+    scroll?: boolean;
+}>(({ scroll }) => {
+    if (scroll) {
+        return {
+            style: {
+                overflowY: "scroll",
+            },
+        };
     }
-)<{ space?: string; scroll?: boolean }>`
+})<{ space?: string; scroll?: boolean }>`
     position: relative;
     background-color: ${({ theme }) => theme.colors.bgBlackLight};
     padding: ${({ theme, space }) => (space ? space : theme.space.L)}px;

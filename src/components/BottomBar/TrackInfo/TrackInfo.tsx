@@ -3,7 +3,7 @@ import {
     FlexColumnContainer,
     FlexContainer,
     FlexContainerItem,
-} from "components/_common/Container/Container";
+} from "components/_common/Container/Container.styled";
 import { Image } from "components/_common/Image/Image.styled";
 import { fontSize } from "styles/typography";
 import { useSelector } from "react-redux";

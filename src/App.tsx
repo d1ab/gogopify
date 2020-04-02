@@ -4,11 +4,10 @@ import {
     Container,
     FlexContainer,
     FlexContainerItem,
-} from "components/_common/Container/Container";
+} from "components/_common/Container/Container.styled";
 import { SideBar } from "components/SideBar/SideBar";
-import { SideBarItem } from "components/SideBar/SideBarList/SideBarList";
+import { SideBarItem } from "components/SideBar/SideBar.styled";
 import { TopBar } from "components/TopBar/TopBar";
-import { Search } from "components/TopBar/Search/Search";
 import { Main } from "components/Main/Main";
 import { Route, Switch, useHistory } from "react-router";
 import { Profile } from "components/Profile/Profile";
@@ -25,7 +24,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import { Typography } from "components/_common/Typography/Typography";
 import { Playlist } from "./components/Playlist/Playlist";
 import { CategoryPlaylists } from "./components/CategoryPlaylists/CategoryPlaylists";
-import { Button } from "./components/_common/Button/Button";
+import { Button } from "./components/_common/Button/Button.styled";
 import { Player } from "./components/BottomBar/BottomBar";
 
 const { Link } = Typography;
@@ -59,12 +58,9 @@ export const App: React.FC = () => {
                 <FlexContainerItem>
                     <TopBar>
                         {isAuthorized && (
-                            <>
-                                <Search />
-                                <Link to={"/profile"}>
-                                    <Button color={"secondary"}>Profile</Button>
-                                </Link>
-                            </>
+                            <Link to={"/profile"}>
+                                <Button color={"secondary"}>Profile</Button>
+                            </Link>
                         )}
                     </TopBar>
                     {/*TODO: move this calc to js => 170 is sum bot top + bottom bar*/}

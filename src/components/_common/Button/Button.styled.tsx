@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import { ColorTypes } from "styles/colors";
-import { fontWeight, fontSize } from "styles/typography";
 
-interface Button {
+interface ButtonStyled {
     color?: ColorTypes;
     fontWeight?: number;
     fontSize?: number;
 }
 
-export const Button = styled.button<Button>`
+export const Button = styled.button<ButtonStyled>`
     background-color: ${({ color, theme }) => {
         return color ? theme.colors[color] : theme.colors.primary;
     }};
@@ -32,9 +31,3 @@ export const Button = styled.button<Button>`
         outline: none;
     }
 `;
-
-Button.defaultProps = {
-    color: "primary",
-    fontWeight: fontWeight.normal,
-    fontSize: fontSize.normal,
-};

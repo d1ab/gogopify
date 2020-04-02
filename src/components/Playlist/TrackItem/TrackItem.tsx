@@ -5,7 +5,7 @@ import { Typography } from "components/_common/Typography/Typography";
 import { PlayerIcon } from "components/Playlist/TrackItem/TrackItem.styled";
 import { Play, Pause } from "@styled-icons/boxicons-regular";
 import { useDispatch, useSelector } from "react-redux";
-import { checkActiveItemById, getActiveTrack } from "../../../store/selectors/playlist.selectors";
+import { checkActiveItemById } from "../../../store/selectors/playlist.selectors";
 import { updateTrack } from "store/actions/playlist.actions";
 
 const PlayBtn = PlayerIcon(Play);

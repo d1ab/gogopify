@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FlexContainerItem } from "components/_common/Container/Container";
+import { FlexContainerItem } from "components/_common/Container/Container.styled";
 import { Controls } from "./Controls/Controls";
 import { PlaybackBar } from "./PlaybackBar/PlaybackBar";
 import { useAudioPlayer } from "hooks/useAudioPlayer";
@@ -71,8 +71,8 @@ export const Player: React.FC = () => {
             <FlexContainerItem>
                 <Audio ref={audioRef} />
                 <Controls
+                    isDisabled={!currentPlayTrack}
                     handlePlay={setAudioPlay}
-                    // canPlay={canPlay}
                     isPlaying={isPlaying}
                 />
                 <PlaybackBar

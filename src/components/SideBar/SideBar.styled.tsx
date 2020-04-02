@@ -23,3 +23,13 @@ export const SideBarItem = styled.li`
         color: rgba(255, 255, 255, 1);
     }
 `;
+
+export const NavMenu = styled.div`
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    max-width: 230px;
+    z-index: 3;
+`;

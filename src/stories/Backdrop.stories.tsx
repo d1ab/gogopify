@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import React from "react";
-import { Container } from "components/_common/Container/Container";
-import { Button } from "components/_common/Button/Button";
+import { Container } from "components/_common/Container/Container.styled";
+import { Button } from "components/_common/Button/Button.styled";
 import { useLoader } from "hooks/useLoader";
 import { Backdrop } from "components/Backdrop/Backdrop";
 

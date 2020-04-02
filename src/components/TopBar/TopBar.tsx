@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FlexContainer } from "../_common/Container/Container";
+import { FlexContainer } from "../_common/Container/Container.styled";
 
 const Bar = styled.div`
     display: flex;

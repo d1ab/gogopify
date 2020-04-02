@@ -10,7 +10,7 @@ import {
     FlexContainer,
     ColorCircle,
     ContainerFluid,
-} from "../components/_common/Container/Container";
+} from "../components/_common/Container/Container.styled";
 
 const { H1, H2, H3, H4, H5, LargeLead, Link, Paragraph, SmallLead, SmallParagraph } = Typography;
 

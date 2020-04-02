@@ -1,8 +1,8 @@
 import { storiesOf } from "@storybook/react";
 import React from "react";
 import { SideBar } from "components/SideBar/SideBar";
-import { Container } from "components/_common/Container/Container";
-import { SideBarItem } from "components/SideBar/SideBarList/SideBarList";
+import { Container } from "components/_common/Container/Container.styled";
+import { SideBarItem } from "components/SideBar/SideBar.styled";
 
 export default {
     title: "SideBar",

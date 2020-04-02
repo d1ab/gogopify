@@ -1,11 +1,22 @@
-import { Container } from "../components/_common/Container/Container";
+import { Container } from "../components/_common/Container/Container.styled";
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { Playlist } from "components/Playlist/Playlist";
+import { Route } from "react-router";
 
 export default {
     title: "Playlist",
     component: Playlist,
+};
+
+const routeComponentPropsMock = {
+    history: {} as any,
+    location: {
+        params: {},
+    } as any,
+    match: {
+        params: { id: "" },
+    } as any,
 };
 
 storiesOf("Playlist ", module)
@@ -13,6 +24,8 @@ storiesOf("Playlist ", module)
     .add("default", () => (
         <Container style={{ height: "100vh" }} scroll={true}>
             {/*TODO: should be handled by storybook-react-router, linking is causing problems */}
-            <Playlist match={{ params: {} }} />
+            <Route>
+                <Playlist {...routeComponentPropsMock} />
+            </Route>
         </Container>
     ));

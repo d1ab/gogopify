@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Search as SearchIco } from "@styled-icons/evil";
 import React from "react";
-import { Input } from "../../_common/Input/Input";
+import { Input } from "components/_common/Input/Input.styled";
 
 const SearchIcon = styled(SearchIco)`
     color: black;

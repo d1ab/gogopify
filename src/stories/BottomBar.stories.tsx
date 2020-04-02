@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/react";
 import React from "react";
-import { ContainerFluid } from "../components/_common/Container/Container";
+import { ContainerFluid } from "../components/_common/Container/Container.styled";
 import { Player } from "../components/BottomBar/BottomBar";
 
 export default {

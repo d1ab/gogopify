@@ -1,4 +1,4 @@
-import { Container } from "../components/_common/Container/Container";
+import { Container } from "../components/_common/Container/Container.styled";
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { Categories } from "../components/Categories/Categories";
