@@ -34,7 +34,9 @@ export const authorizationReducer = createReducer<
     .handleAction(authorize.request, () => {
         return {
             ...authorizationInitialState,
+            isAuthorized: false,
             isAuthorizing: true,
+            token: null,
         };
     })
     .handleAction(authorize.success, (state, action) => {
