@@ -87,7 +87,9 @@ describe("categoriesSaga", () => {
             .query({
                 limit: 30,
             })
-            .reply(BAD_REQUEST);
+            .reply(BAD_REQUEST, {
+                status: BAD_REQUEST,
+            });
 
         const sagaTester = new SagaTester({
             initialState: {
@@ -119,6 +121,9 @@ describe("categoriesSaga", () => {
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
             type: types.FETCH_CATEGORIES_FAILED,
+            payload: {
+                status: BAD_REQUEST,
+            },
         });
 
         expect(sagaTester.getState()).toStrictEqual({

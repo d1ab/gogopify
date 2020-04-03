@@ -12,4 +12,4 @@ export const fetchCategories = createAsyncAction(
     FETCH_CATEGORIES_REQUEST,
     FETCH_CATEGORIES_SUCCESS,
     FETCH_CATEGORIES_FAILED
-)<number, Categories, Error>();
+)<number, Categories, { status: number }>();

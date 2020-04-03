@@ -5,14 +5,15 @@ import { Container } from "components/_common/Container/Container.styled";
 import { Button } from "components/_common/Button/Button.styled";
 import { useNotification } from "hooks/useNotification";
 import { NotificationBarProvider } from "components/NotificationBar/NotificationBarProvider";
+import { NotificationType } from "../components/NotificationBar/NotificationBar.styled";
 
-const ButtonWrapper: React.FC = () => {
+const ButtonWrapper: React.FC<{ type: NotificationType }> = ({ type }) => {
     const { showNotification } = useNotification();
 
     return (
         <Button
             onClick={() => {
-                showNotification("Success notification!", "success");
+                showNotification("Success notification!", type);
             }}>
             Show notification!
         </Button>
@@ -26,7 +27,7 @@ storiesOf("NotificationBar ", module)
             <NotificationBarProvider>
                 <Container>
                     <Notification />
-                    <ButtonWrapper />
+                    <ButtonWrapper type={"success"} />
                 </Container>
             </NotificationBarProvider>
         );
@@ -36,7 +37,7 @@ storiesOf("NotificationBar ", module)
             <NotificationBarProvider>
                 <Container>
                     <Notification />
-                    <ButtonWrapper />
+                    <ButtonWrapper type={"error"} />
                 </Container>
             </NotificationBarProvider>
         );

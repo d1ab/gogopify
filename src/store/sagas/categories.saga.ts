@@ -23,12 +23,11 @@ export function* fetchCategoriesSaga(
 
         yield put(fetchCategories.success(response as Categories));
     } catch (err) {
-        yield put(fetchCategories.failure(err.status));
+        yield put(fetchCategories.failure({ status: err.status }));
 
         // TODO: DRY, how to handle saga error handler?
         if (err.status === UNAUTHORIZED) {
             yield put(clearAccessToken());
-            removeAccessToken();
         }
     }
 }
