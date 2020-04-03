@@ -26,6 +26,7 @@ import { Playlist } from "./components/Playlist/Playlist";
 import { CategoryPlaylists } from "./components/CategoryPlaylists/CategoryPlaylists";
 import { Button } from "./components/_common/Button/Button.styled";
 import { Player } from "./components/BottomBar/BottomBar";
+import { Search } from "./components/TopBar/Search/Search";
 
 const { Link } = Typography;
 
@@ -58,9 +59,12 @@ export const App: React.FC = () => {
                 <FlexContainerItem>
                     <TopBar>
                         {isAuthorized && (
-                            <Link to={"/profile"}>
-                                <Button color={"secondary"}>Profile</Button>
-                            </Link>
+                            <>
+                                <Search />
+                                <Link to={"/profile"}>
+                                    <Button color={"secondary"}>Profile</Button>
+                                </Link>
+                            </>
                         )}
                     </TopBar>
                     {/*TODO: move this calc to js => 170 is sum bot top + bottom bar*/}

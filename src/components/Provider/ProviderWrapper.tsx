@@ -22,12 +22,21 @@ export const ProviderWrapper: React.FC<ProviderWrapper> = ({
             <React.StrictMode>
                 <ThemeProvider theme={defaultTheme}>
                     <NotificationBarProvider>
-                        <BackdropProvider>
-                            {children}
-                        </BackdropProvider>
+                        <BackdropProvider>{children}</BackdropProvider>
                     </NotificationBarProvider>
                 </ThemeProvider>
             </React.StrictMode>
+        </ConnectedRouter>
+    </Provider>
+);
+
+export const StorybookProviderWrapper: React.FC<ProviderWrapper> = ({
+    children,
+    store,
+}) => (
+    <Provider store={store}>
+        <ConnectedRouter history={history}>
+            <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>
         </ConnectedRouter>
     </Provider>
 );

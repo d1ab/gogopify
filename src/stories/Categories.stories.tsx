@@ -4,18 +4,23 @@ import { storiesOf } from "@storybook/react";
 import { Categories } from "../components/Categories/Categories";
 import { Route } from "react-router";
 
-export default {
-    title: "Categories",
-    component: Categories,
+const routeComponentPropsMock = {
+    history: {} as any,
+    location: {
+        params: {},
+    } as any,
+    match: {
+        params: {},
+    } as any,
 };
 
-storiesOf("Categories ", module)
+storiesOf("Categories", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
     .add("default", () => (
         <Container>
             <Route>
                 {/*TODO: should be handled by storybook-react-router, linking is causing problems */}
-                <Categories match={{ params: {} }} />
+                <Categories {...routeComponentPropsMock} />
             </Route>
         </Container>
     ));

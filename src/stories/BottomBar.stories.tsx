@@ -3,11 +3,6 @@ import React from "react";
 import { ContainerFluid } from "../components/_common/Container/Container.styled";
 import { Player } from "../components/BottomBar/BottomBar";
 
-export default {
-    title: "BottomBar",
-    component: Player,
-};
-
 storiesOf("Player ", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
     .add("default", () => (

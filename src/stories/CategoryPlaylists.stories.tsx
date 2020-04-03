@@ -4,19 +4,23 @@ import { storiesOf } from "@storybook/react";
 import { CategoryPlaylists } from "../components/CategoryPlaylists/CategoryPlaylists";
 import { Route } from "react-router";
 
-export default {
-    title: "CategoryPlaylist",
-    component: CategoryPlaylists,
+const routeComponentPropsMock = {
+    history: {} as any,
+    location: {
+        params: {},
+    } as any,
+    match: {
+        params: {},
+    } as any,
 };
 
 storiesOf("CategoryPlaylists ", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
-    // .addDecorator(StoryRouter())
     .add("default", () => (
         <Container>
             <Route>
                 {/*TODO: should be handled by storybook-react-router, linking is causing problems */}
-                <CategoryPlaylists match={{ params: {} }} />
+                <CategoryPlaylists {...routeComponentPropsMock} />
             </Route>
         </Container>
     ));

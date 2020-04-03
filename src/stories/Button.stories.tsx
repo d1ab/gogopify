@@ -4,11 +4,6 @@ import { Button } from "components/_common/Button/Button.styled";
 import { storiesOf } from "@storybook/react";
 import { Container } from "../components/_common/Container/Container.styled";
 
-export default {
-    title: "Button",
-    component: Button,
-};
-
 storiesOf("Buttons ", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
     .add("all", () => (

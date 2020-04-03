@@ -21,8 +21,3 @@ export const writeAccessToken = createAction(WRITE_ACCESS_TOKEN)<{
 }>();
 
 export const clearAccessToken = createAction(CLEAR_ACCESS_TOKEN)();
-
-// const withPayload = createAction(
-//     'CREATE_ACTION',
-//     (arg: { payload: string }) => arg.payload
-// )<string>();

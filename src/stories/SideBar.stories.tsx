@@ -4,11 +4,6 @@ import { SideBar } from "components/SideBar/SideBar";
 import { Container } from "components/_common/Container/Container.styled";
 import { SideBarItem } from "components/SideBar/SideBar.styled";
 
-export default {
-    title: "SideBar",
-    component: SideBar,
-};
-
 storiesOf("SideBar ", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
     .add("empty", () => (

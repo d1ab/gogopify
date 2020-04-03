@@ -4,11 +4,7 @@ import { Container } from "components/_common/Container/Container.styled";
 import { Button } from "components/_common/Button/Button.styled";
 import { useLoader } from "hooks/useLoader";
 import { Backdrop } from "components/Backdrop/Backdrop";
-
-export default {
-    title: "Backdrop",
-    component: Backdrop,
-};
+import { BackdropProvider } from "../components/Backdrop/BackdropProvider";
 
 const ButtonWrapper: React.FC = () => {
     const { showLoader } = useLoader();
@@ -27,9 +23,11 @@ storiesOf("Backdrop ", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
     .add("default", () => {
         return (
-            <Container style={{ height: "100vh" }}>
-                <Backdrop />
-                <ButtonWrapper />
-            </Container>
+            <BackdropProvider>
+                <Container style={{ height: "100vh" }}>
+                    <Backdrop />
+                    <ButtonWrapper />
+                </Container>
+            </BackdropProvider>
         );
     });
