@@ -50,7 +50,7 @@ export const Categories: React.FC<RouteComponentProps> = () => {
         <Container>
             <H3>Kategorie</H3>
             <FlexContainer style={{ flexWrap: "wrap" }}>
-                {types.map(({ id, name, href, icons }) => {
+                {types.map(({ id, name, icons }) => {
                     const [icon] = icons;
 
                     return (

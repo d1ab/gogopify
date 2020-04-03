@@ -50,7 +50,7 @@ export const NotificationBarProvider: React.FC = ({ children }) => {
                 message: "",
                 isVisible: false,
             });
-        }, 5000);
+        }, 3000);
 
         return (): void => {
             clearTimeout(timer);

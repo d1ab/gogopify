@@ -46,7 +46,7 @@ export const Main: React.FC = () => {
         }
     }, [isAuthorizing, isAuthorized, token]);
 
-    if (isAuthorized) {
+    if (isAuthorized && token) {
         return <Redirect to={"/categories"} />;
     }
 
