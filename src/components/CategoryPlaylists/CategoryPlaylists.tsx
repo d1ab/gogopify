@@ -1,14 +1,18 @@
-import { Container, FlexContainer } from "../_common/Container/Container.styled";
+import {
+    Container,
+    FlexContainer,
+} from "components/_common/Container/Container.styled";
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import { Typography } from "components/_common/Typography/Typography";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoader } from "../../hooks/useLoader";
-import { useNotification } from "../../hooks/useNotification";
-import { getCategoryPlaylists } from "../../store/selectors/categories.selectors";
-import { fetchCategoryPlaylists } from "../../store/actions/categoryPlaylists.actions";
+import { useLoader } from "hooks/useLoader";
+import { useNotification } from "hooks/useNotification";
+import { getCategoryPlaylists } from "store/selectors/categories.selectors";
+import { fetchCategoryPlaylists } from "store/actions/categoryPlaylists.actions";
 import { PlaylistCard } from "./PlaylistCard/PlaylistCard";
-import { fetchFeaturedPlaylists } from "../../store/actions/featuredPlaylists.actions";
+import { fetchFeaturedPlaylists } from "store/actions/featuredPlaylists.actions";
+import { resetStateError } from "store/actions/utility.actions";
 
 const { H3, Link } = Typography;
 
@@ -34,6 +38,12 @@ export const CategoryPlaylists: React.FC<RouteComponentProps<{
         if (match.params.id) {
             dispatch(fetchCategoryPlaylists.request(match.params.id));
         }
+
+        return () => {
+            if (categoriesPlaylistsFetchingFailed) {
+                dispatch(resetStateError());
+            }
+        };
     }, []);
 
     useEffect(() => {

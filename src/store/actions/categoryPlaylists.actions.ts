@@ -12,4 +12,4 @@ export const fetchCategoryPlaylists = createAsyncAction(
     FETCH_CATEGORY_PLAYLISTS_REQUEST,
     FETCH_CATEGORY_PLAYLISTS_SUCCESS,
     FETCH_CATEGORY_PLAYLISTS_FAILED
-)<string, CategoryPlaylists, Error>();
+)<string, CategoryPlaylists, { status: number }>();

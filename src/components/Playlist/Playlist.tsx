@@ -21,6 +21,7 @@ import { fetchPlaylist } from "../../store/actions/playlist.actions";
 import { useLoader } from "../../hooks/useLoader";
 import { useNotification } from "../../hooks/useNotification";
 import { getCategoryPlaylistInfoById } from "../../store/selectors/categories.selectors";
+import { resetStateError } from "../../store/actions/utility.actions";
 
 const { H4 } = Typography;
 
@@ -47,6 +48,12 @@ export const Playlist: React.FC<RouteComponentProps<{
         if (match.params.id) {
             dispatch(fetchPlaylist.request(match.params.id));
         }
+
+        return () => {
+            if (playlistFetchingFailed) {
+                dispatch(resetStateError());
+            }
+        };
     }, []);
 
     useEffect(() => {
