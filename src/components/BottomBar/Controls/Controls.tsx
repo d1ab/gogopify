@@ -15,13 +15,13 @@ interface Controls {
     isPlaying: boolean;
 }
 
-const Next = ControlIcon(SkipNext);
+export const Next = ControlIcon(SkipNext);
 
-const Previous = ControlIcon(SkipPrevious);
+export const Previous = ControlIcon(SkipPrevious);
 
-const Play = ControlIcon(PlayCircle);
+export const Play = ControlIcon(PlayCircle);
 
-const Pause = ControlIcon(PauseCircle);
+export const Pause = ControlIcon(PauseCircle);
 
 export const Controls: React.FC<Controls> = ({
     handlePlay,
@@ -41,13 +41,13 @@ export const Controls: React.FC<Controls> = ({
                 <Play
                     isDisabled={isDisabled}
                     size={40}
-                    onClick={(): void => handlePlay(true)}
+                    onClick={() => handlePlay(true)}
                 />
             ) : (
                 <Pause
                     isDisabled={isDisabled}
                     size={40}
-                    onClick={(): void => handlePlay(false)}
+                    onClick={() => handlePlay(false)}
                 />
             )}
             <Next
