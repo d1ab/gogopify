@@ -6,8 +6,6 @@ import { fetchCategories } from "store/actions/categories.actions";
 import { fetchCategoryPlaylists } from "store/actions/categoryPlaylists.actions";
 import { fetchFeaturedPlaylists } from "store/actions/featuredPlaylists.actions";
 import { combineReducers } from "redux";
-import { resetStateError } from "store/actions/utility.actions";
-import { UNAUTHORIZED } from "http-status-codes";
 
 export type CategoriesAction = ActionType<typeof categoriesActions>;
 export type CategoryPlaylistsAction = ActionType<
@@ -46,9 +44,10 @@ export const categoryPlaylistsInitialState: CategoryPlaylistsState = {
 const categoriesReducer = createReducer<MainCategoriesState, CategoriesAction>(
     categoriesInitialState
 )
-    .handleAction(fetchCategories.request, (state) => {
+    .handleAction(fetchCategories.request, () => {
         return {
-            ...state,
+            ...categoriesInitialState,
+            categoriesFetchingFailed: false,
             isFetching: true,
         };
     })
@@ -57,20 +56,17 @@ const categoriesReducer = createReducer<MainCategoriesState, CategoriesAction>(
         (state, { payload: { categories } }) => {
             return {
                 ...state,
-                types: categories.items,
                 isFetching: false,
+                types: categories.items,
             };
         }
     )
-    .handleAction(fetchCategories.failure, (state, { payload: { status } }) => {
+    .handleAction(fetchCategories.failure, (state) => {
         return {
             ...state,
             isFetching: false,
-            categoriesFetchingFailed: status !== UNAUTHORIZED,
+            categoriesFetchingFailed: true,
         };
-    })
-    .handleAction(resetStateError as any, () => {
-        return categoriesInitialState;
     });
 
 const categoryPlaylistReducer = createReducer<
@@ -79,9 +75,10 @@ const categoryPlaylistReducer = createReducer<
 >(categoryPlaylistsInitialState)
     .handleAction(
         [fetchCategoryPlaylists.request, fetchFeaturedPlaylists.request],
-        (state) => {
+        () => {
             return {
-                ...state,
+                ...categoryPlaylistsInitialState,
+                isFetching: true,
                 categoriesPlaylistsFetchingFailed: false,
             };
         }
@@ -98,17 +95,14 @@ const categoryPlaylistReducer = createReducer<
     )
     .handleAction(
         [fetchCategoryPlaylists.failure, fetchFeaturedPlaylists.failure],
-        (state, { payload: { status } }) => {
+        (state) => {
             return {
                 ...state,
                 isFetching: false,
-                categoriesPlaylistsFetchingFailed: status !== UNAUTHORIZED,
+                categoriesPlaylistsFetchingFailed: true,
             };
         }
-    )
-    .handleAction(resetStateError as any, () => {
-        return categoryPlaylistsInitialState;
-    });
+    );
 
 export default combineReducers<CategoriesState>({
     mainCategories: categoriesReducer,

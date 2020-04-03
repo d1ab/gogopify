@@ -30,5 +30,11 @@ export function* authorizationSaga(): Generator {
         yield put(authorize.success(typedResponse));
     } catch (err) {
         yield put(authorize.failure(err.status));
+
+        // TODO: DRY, how to handle saga error handler?
+        if (err.status === UNAUTHORIZED) {
+            yield put(clearAccessToken());
+            removeAccessToken();
+        }
     }
 }

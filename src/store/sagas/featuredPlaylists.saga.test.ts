@@ -82,9 +82,7 @@ describe("categoryPlaylistSaga", () => {
         nock(API.baseApiUrl!, { allowUnmocked: true })
             .defaultReplyHeaders(nockHeaders)
             .get("/browse/featured-playlists")
-            .reply(BAD_REQUEST, {
-                status: BAD_REQUEST,
-            });
+            .reply(BAD_REQUEST);
 
         const sagaTester = new SagaTester({
             initialState: {
@@ -116,9 +114,6 @@ describe("categoryPlaylistSaga", () => {
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
             type: types.FETCH_FEATURED_PLAYLISTS_FAILED,
-            payload: {
-                status: BAD_REQUEST,
-            },
         });
 
         expect(sagaTester.getState()).toStrictEqual({

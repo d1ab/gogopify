@@ -2,7 +2,6 @@ import { ActionType, createReducer } from "typesafe-actions";
 import * as playlistActions from "store/actions/playlist.actions";
 import { Tracks } from "api/playlist";
 import { fetchPlaylist, go, updateTrack } from "store/actions/playlist.actions";
-import { UNAUTHORIZED } from "http-status-codes";
 
 export const navigateTo = {
     next: "next",
@@ -65,11 +64,11 @@ export const playlistReducer = createReducer<PlaylistState, PlaylistAction>(
                 }),
         };
     })
-    .handleAction(fetchPlaylist.failure, (state, { payload: { status } }) => {
+    .handleAction(fetchPlaylist.failure, (state) => {
         return {
             ...state,
             isFetching: false,
-            playlistFetchingFailed: status !== UNAUTHORIZED,
+            playlistFetchingFailed: true,
         };
     })
     .handleAction(updateTrack, (state, { payload }) => {

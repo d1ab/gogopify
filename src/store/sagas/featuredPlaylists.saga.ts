@@ -25,7 +25,7 @@ export function* fetchFeaturedPlaylistsSaga(): Generator {
             fetchFeaturedPlaylists.success(response as CategoryPlaylists)
         );
     } catch (err) {
-        yield put(fetchFeaturedPlaylists.failure({ status: err.status }));
+        yield put(fetchFeaturedPlaylists.failure(err.status));
 
         // TODO: DRY, how to handle saga error handler?
         if (err.status === UNAUTHORIZED) {

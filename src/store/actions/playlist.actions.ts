@@ -14,7 +14,7 @@ export const fetchPlaylist = createAsyncAction(
     FETCH_PLAYLIST_REQUEST,
     FETCH_PLAYLIST_SUCCESS,
     FETCH_PLAYLIST_FAILED
-)<string, PlaylistTracks, { status: number }>();
+)<string, PlaylistTracks, number>();
 
 export const updateTrack = createAction(UPDATE_TRACK)<{
     id: string;

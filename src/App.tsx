@@ -27,7 +27,6 @@ import { CategoryPlaylists } from "./components/CategoryPlaylists/CategoryPlayli
 import { Button } from "./components/_common/Button/Button.styled";
 import { Player } from "./components/BottomBar/BottomBar";
 import { Search } from "./components/TopBar/Search/Search";
-import { removeAccessToken } from "./utils/utils";
 
 const { Link } = Typography;
 
@@ -40,7 +39,6 @@ export const App: React.FC = () => {
     useEffect(() => {
         if (isTokenExpired) {
             showNotification("Token has expired, please re-log", "error");
-            removeAccessToken();
             push("/");
         }
     }, [isTokenExpired]);

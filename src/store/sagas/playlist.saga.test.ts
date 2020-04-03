@@ -77,9 +77,7 @@ describe("categoryPlaylistSaga", () => {
                 offset: 0,
                 limit: 100,
             })
-            .reply(BAD_REQUEST, {
-                status: BAD_REQUEST,
-            });
+            .reply(BAD_REQUEST);
 
         const sagaTester = new SagaTester({
             initialState: {
@@ -104,9 +102,6 @@ describe("categoryPlaylistSaga", () => {
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
             type: types.FETCH_PLAYLIST_FAILED,
-            payload: {
-                status: BAD_REQUEST,
-            },
         });
 
         expect(sagaTester.getState()).toStrictEqual({
