@@ -5,11 +5,6 @@ import { Button } from "components/_common/Button/Button.styled";
 import { useLoader } from "hooks/useLoader";
 import { Backdrop } from "components/Backdrop/Backdrop";
 
-export default {
-    title: "Backdrop",
-    component: Backdrop,
-};
-
 const ButtonWrapper: React.FC = () => {
     const { showLoader } = useLoader();
 

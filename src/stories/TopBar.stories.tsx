@@ -6,11 +6,6 @@ import { Search } from "components/TopBar/Search/Search";
 
 const { Paragraph } = Typography;
 
-export default {
-    title: "TopBar",
-    component: TopBar,
-};
-
 storiesOf("TopBar ", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
     .add("default", () => (

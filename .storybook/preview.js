@@ -2,7 +2,7 @@ import { addParameters } from "@storybook/react"; // <- or your storybook framew
 import { addDecorator, configure } from "@storybook/react";
 import React from "react";
 import requireContext from "require-context.macro";
-import { ProviderWrapper } from "../src/components/Provider/ProviderWrapper";
+import { StorybookProviderWrapper } from "../src/components/Provider/ProviderWrapper";
 import { storeFixture } from "../src/fixtures/store.fixture";
 import initStore from "../src/store/store";
 
@@ -14,11 +14,16 @@ addParameters({
 });
 
 addDecorator((story) => (
-    <ProviderWrapper store={initStore(storeFixture)}>{story()}</ProviderWrapper>
+    <StorybookProviderWrapper store={initStore(storeFixture)}>
+        {story()}
+    </StorybookProviderWrapper>
 ));
 
-function loadStories() {
-    req.keys().forEach((filename) => req(filename));
-}
+const req = requireContext('../src/stories', true, /\.stories\.tsx$/);
 
-configure(requireContext("../src", true, /\.stories\.tsx$/), module);
+const loadStories = () => {
+    req.keys().forEach((filename) => req(filename));
+};
+
+configure(loadStories, module);
+

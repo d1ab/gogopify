@@ -4,11 +4,6 @@ import { storiesOf } from "@storybook/react";
 import { Playlist } from "components/Playlist/Playlist";
 import { Route } from "react-router";
 
-export default {
-    title: "Playlist",
-    component: Playlist,
-};
-
 const routeComponentPropsMock = {
     history: {} as any,
     location: {

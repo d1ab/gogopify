@@ -6,11 +6,6 @@ import { Button } from "components/_common/Button/Button.styled";
 import { useNotification } from "hooks/useNotification";
 import { NotificationBarProvider } from "components/NotificationBar/NotificationBarProvider";
 
-export default {
-    title: "NotificationBar",
-    component: Notification,
-};
-
 const ButtonWrapper: React.FC = () => {
     const { showNotification } = useNotification();
 
