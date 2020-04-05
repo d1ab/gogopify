@@ -1,8 +1,10 @@
 import { Container } from "../components/_common/Container/Container.styled";
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import { CategoryPlaylists } from "../components/CategoryPlaylists/CategoryPlaylists";
+import { Playlists } from "../components/Playlists/Playlists";
 import { Route } from "react-router";
+import { fetchPlaylists } from "../store/actions/playlists.actions";
+import { act } from "@testing-library/react";
 
 const routeComponentPropsMock = {
     history: {} as any,
@@ -14,13 +16,16 @@ const routeComponentPropsMock = {
     } as any,
 };
 
-storiesOf("CategoryPlaylists ", module)
+storiesOf("Playlists ", module)
     .addParameters({ viewport: { defaultViewport: "default" } })
     .add("default", () => (
         <Container>
             <Route>
                 {/*TODO: should be handled by storybook-react-router, linking is causing problems */}
-                <CategoryPlaylists {...routeComponentPropsMock} />
+                <Playlists
+                    {...routeComponentPropsMock}
+                    title={"Example playlist"}
+                />
             </Route>
         </Container>
     ));

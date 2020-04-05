@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { truncate } from "styles/utils";
 import { fontFamilies, fontSize } from "styles/typography";
 
-export const CategoryPlaylistBoxContainer = styled.div`
+export const PlaylistBoxContainer = styled.div`
     display: flex;
     //align-items: flex-end;
     flex-direction: column;
@@ -17,7 +17,7 @@ export const CategoryPlaylistBoxContainer = styled.div`
     background-color: ${({ theme }) => theme.colors.bgGraphite};
 `;
 
-export const CategoryPlaylistBoxImage = styled.div<{ url: string }>`
+export const PlaylistBoxImage = styled.div<{ url: string }>`
     background: url(${({ url }) => url}) no-repeat center;
     background-size: cover;
     height: 100%;

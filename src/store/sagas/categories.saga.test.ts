@@ -6,7 +6,7 @@ import expect from "expect";
 import { BAD_REQUEST, OK } from "http-status-codes";
 import categoriesReducer, {
     categoriesInitialState,
-    categoryPlaylistsInitialState,
+    playlistsInitialState,
 } from "store/reducers/categories.reducer";
 import { authorizationReducer } from "../reducers/authorization.reducer";
 import { nockHeaders } from "setupTests";
@@ -35,7 +35,7 @@ describe("categoriesSaga", () => {
                 authorization: authorizationInitialState,
                 categories: {
                     mainCategories: categoriesInitialState,
-                    playlists: categoryPlaylistsInitialState,
+                    playlists: playlistsInitialState,
                 },
             },
             // eslint-disable-next-line
@@ -51,7 +51,7 @@ describe("categoriesSaga", () => {
             authorization: authorizationInitialState,
             categories: {
                 mainCategories: categoriesInitialState,
-                playlists: categoryPlaylistsInitialState,
+                playlists: playlistsInitialState,
             },
         });
 
@@ -73,7 +73,7 @@ describe("categoriesSaga", () => {
                     isFetching: false,
                     categoriesFetchingFailed: false,
                 },
-                playlists: categoryPlaylistsInitialState,
+                playlists: playlistsInitialState,
             },
         });
 
@@ -96,7 +96,7 @@ describe("categoriesSaga", () => {
                 authorization: authorizationInitialState,
                 categories: {
                     mainCategories: categoriesInitialState,
-                    playlists: categoryPlaylistsInitialState,
+                    playlists: playlistsInitialState,
                 },
             },
             // eslint-disable-next-line
@@ -112,7 +112,7 @@ describe("categoriesSaga", () => {
             authorization: authorizationInitialState,
             categories: {
                 mainCategories: categoriesInitialState,
-                playlists: categoryPlaylistsInitialState,
+                playlists: playlistsInitialState,
             },
         });
 
@@ -129,7 +129,7 @@ describe("categoriesSaga", () => {
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
             categories: {
-                playlists: categoryPlaylistsInitialState,
+                playlists: playlistsInitialState,
                 mainCategories: {
                     types: [],
                     isFetching: false,

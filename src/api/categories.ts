@@ -1,4 +1,9 @@
 import API, { get } from "./api";
+import { Artist } from "./playlist";
+
+interface PlaylistsDecorator {
+    artists?: Artist[];
+}
 
 export interface Category {
     id: string;
@@ -13,12 +18,13 @@ export interface CategoryImage {
     width: number;
 }
 
-export interface CategoryPlaylist {
+export interface Playlist extends PlaylistsDecorator {
     images: CategoryImage[];
     id: string;
     name: string;
     description: string;
     href: string;
+    type: "playlist" | "album";
 }
 
 export interface Categories {
@@ -33,21 +39,17 @@ export interface Categories {
 }
 
 export interface Playlists {
-    items: CategoryPlaylist[];
+    playlists: PlaylistProperties;
+}
+
+export interface PlaylistProperties {
+    items: Playlist[];
     limit: number;
     next: string | null;
     offset: number;
     previous: string | null;
     total: number;
-}
-
-export interface CategoryPlaylists {
-    playlists: Playlists;
-}
-
-export interface NewReleases {
-    playlists: Playlists;
-}
+};
 
 const fetchCategories = (
     limit: number,
@@ -59,21 +61,20 @@ const fetchCategories = (
     ).then(({ parsedBody }) => parsedBody);
 };
 
-// TODO: FIX CategoryPlaylists and NewReleases share similar properties
 const fetchFeaturedPlaylists = (
     headers?: HeadersInit
-): Promise<CategoryPlaylists | undefined> => {
-    return get<NewReleases | undefined>(
+): Promise<Playlists | undefined> => {
+    return get<Playlists | undefined>(
         `${API.baseApiUrl}/browse/featured-playlists`,
         { headers }
     ).then(({ parsedBody }) => parsedBody);
 };
 
-const fetchCategoryPlaylists = (
+const fetchPlaylists = (
     categoryId: string,
     headers?: HeadersInit
-): Promise<CategoryPlaylists | undefined> => {
-    return get<CategoryPlaylists>(
+): Promise<Playlists | undefined> => {
+    return get<Playlists>(
         `${API.baseApiUrl}/browse/categories/${categoryId}/playlists`,
         { headers }
     ).then(({ parsedBody }) => parsedBody);
@@ -82,5 +83,5 @@ const fetchCategoryPlaylists = (
 export default {
     fetchCategories,
     fetchFeaturedPlaylists,
-    fetchCategoryPlaylists,
+    fetchPlaylists,
 };

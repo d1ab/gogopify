@@ -9,13 +9,13 @@ import {
 } from "store/reducers/authorization.reducer";
 import categoriesReducer, {
     categoriesInitialState,
-    categoryPlaylistsInitialState,
+    playlistsInitialState,
 } from "store/reducers/categories.reducer";
-import types from "store/constants/categoryPlaylists.constants";
-import { categoryPlaylistsFixture } from "fixtures/categoryPlaylists.fixture";
+import types from "store/constants/playlists.constants";
+import { playlistsFixture } from "fixtures/playlists.fixture";
 import createSagaMiddleware from "redux-saga";
-import { fetchCategoryPlaylists } from "store/actions/categoryPlaylists.actions";
-import { fetchCategoryPlaylistsSaga } from "./categoryPlaylists.saga";
+import { fetchPlaylists } from "store/actions/playlists.actions";
+import { fetchPlaylistsSaga } from "./playlists.saga";
 
 const sagaMiddleware = createSagaMiddleware();
 const playlistId = "party";
@@ -26,7 +26,7 @@ describe("categoryPlaylistSaga", () => {
             .defaultReplyHeaders(nockHeaders)
             .get(`/browse/categories/${playlistId}/playlists`)
             .reply(OK, {
-                playlists: categoryPlaylistsFixture.playlists,
+                playlists: playlistsFixture.playlists,
             });
 
         const sagaTester = new SagaTester({
@@ -34,7 +34,7 @@ describe("categoryPlaylistSaga", () => {
                 authorization: authorizationInitialState,
                 categories: {
                     mainCategories: categoriesInitialState,
-                    playlists: categoryPlaylistsInitialState,
+                    playlists: playlistsInitialState,
                 },
             },
             // eslint-disable-next-line
@@ -44,23 +44,23 @@ describe("categoryPlaylistSaga", () => {
             },
             middlewares: [sagaMiddleware],
         });
-        sagaTester.start(fetchCategoryPlaylistsSaga, { payload: playlistId });
+        sagaTester.start(fetchPlaylistsSaga, { payload: playlistId });
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
             categories: {
                 mainCategories: categoriesInitialState,
-                playlists: categoryPlaylistsInitialState,
+                playlists: playlistsInitialState,
             },
         });
 
-        sagaTester.dispatch(fetchCategoryPlaylists.request(playlistId));
-        await sagaTester.waitFor(types.FETCH_CATEGORY_PLAYLISTS_SUCCESS);
+        sagaTester.dispatch(fetchPlaylists.request(playlistId));
+        await sagaTester.waitFor(types.FETCH_PLAYLISTS_SUCCESS);
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
-            type: types.FETCH_CATEGORY_PLAYLISTS_SUCCESS,
+            type: types.FETCH_PLAYLISTS_SUCCESS,
             payload: {
-                playlists: categoryPlaylistsFixture.playlists,
+                playlists: playlistsFixture.playlists,
             },
         });
 
@@ -69,9 +69,9 @@ describe("categoryPlaylistSaga", () => {
             categories: {
                 mainCategories: categoriesInitialState,
                 playlists: {
-                    playlists: categoryPlaylistsFixture.playlists.items,
+                    playlists: playlistsFixture.playlists.items,
                     isFetching: false,
-                    categoriesPlaylistsFetchingFailed: false,
+                    playlistsFetchingFailed: false,
                 },
             },
         });
@@ -92,7 +92,7 @@ describe("categoryPlaylistSaga", () => {
                 authorization: authorizationInitialState,
                 categories: {
                     mainCategories: categoriesInitialState,
-                    playlists: categoryPlaylistsInitialState,
+                    playlists: playlistsInitialState,
                 },
             },
             // eslint-disable-next-line
@@ -102,21 +102,21 @@ describe("categoryPlaylistSaga", () => {
             },
             middlewares: [sagaMiddleware],
         });
-        sagaTester.start(fetchCategoryPlaylistsSaga, { payload: playlistId });
+        sagaTester.start(fetchPlaylistsSaga, { payload: playlistId });
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
             categories: {
                 mainCategories: categoriesInitialState,
-                playlists: categoryPlaylistsInitialState,
+                playlists: playlistsInitialState,
             },
         });
 
-        sagaTester.dispatch(fetchCategoryPlaylists.request(playlistId));
-        await sagaTester.waitFor(types.FETCH_CATEGORY_PLAYLISTS_FAILED);
+        sagaTester.dispatch(fetchPlaylists.request(playlistId));
+        await sagaTester.waitFor(types.FETCH_PLAYLISTS_FAILED);
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
-            type: types.FETCH_CATEGORY_PLAYLISTS_FAILED,
+            type: types.FETCH_PLAYLISTS_FAILED,
             payload: {
                 status: BAD_REQUEST,
             },
@@ -129,7 +129,7 @@ describe("categoryPlaylistSaga", () => {
                 playlists: {
                     playlists: [],
                     isFetching: false,
-                    categoriesPlaylistsFetchingFailed: true,
+                    playlistsFetchingFailed: true,
                 },
             },
         });

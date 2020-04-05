@@ -29,7 +29,7 @@ interface Track {
     album: Album;
 }
 
-interface Artist {
+export interface Artist {
     id: string;
     name: string;
 }
@@ -52,6 +52,19 @@ const fetchPlaylist = (
     ).then(({ parsedBody }) => parsedBody);
 };
 
+const fetchAlbumPlaylist = (
+    playlistId: string,
+    headers?: HeadersInit
+): Promise<PlaylistTracks | undefined> => {
+    return get<PlaylistTracks>(
+        `${API.baseApiUrl}/albums/${playlistId}/tracks`,
+        {
+            headers,
+        }
+    ).then(({ parsedBody }) => parsedBody);
+};
+
 export default {
     fetchPlaylist,
+    fetchAlbumPlaylist,
 };

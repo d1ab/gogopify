@@ -1,22 +1,21 @@
 import { ActionType, createReducer } from "typesafe-actions";
 import * as categoriesActions from "store/actions/categories.actions";
-import * as categoryPlaylistsActions from "store/actions/categoryPlaylists.actions";
-import { Category, CategoryPlaylist } from "api/categories";
+import * as categoryPlaylistsActions from "store/actions/playlists.actions";
+import { Category, Playlist } from "api/categories";
 import { fetchCategories } from "store/actions/categories.actions";
-import { fetchCategoryPlaylists } from "store/actions/categoryPlaylists.actions";
+import { fetchPlaylists } from "store/actions/playlists.actions";
 import { fetchFeaturedPlaylists } from "store/actions/featuredPlaylists.actions";
 import { combineReducers } from "redux";
 import { resetStateError } from "store/actions/utility.actions";
 import { UNAUTHORIZED } from "http-status-codes";
+import { fetchNewReleases } from "../actions/albums.actions";
 
 export type CategoriesAction = ActionType<typeof categoriesActions>;
-export type CategoryPlaylistsAction = ActionType<
-    typeof categoryPlaylistsActions
->;
+export type PlaylistsAction = ActionType<typeof categoryPlaylistsActions>;
 
 export interface CategoriesState {
     mainCategories: MainCategoriesState;
-    playlists: CategoryPlaylistsState;
+    playlists: PlaylistsState;
 }
 
 export type MainCategoriesState = Readonly<{
@@ -25,10 +24,10 @@ export type MainCategoriesState = Readonly<{
     categoriesFetchingFailed: boolean;
 }>;
 
-export type CategoryPlaylistsState = Readonly<{
-    playlists: CategoryPlaylist[];
+export type PlaylistsState = Readonly<{
+    playlists: Playlist[];
     isFetching: boolean;
-    categoriesPlaylistsFetchingFailed: boolean;
+    playlistsFetchingFailed: boolean;
 }>;
 
 export const categoriesInitialState: MainCategoriesState = {
@@ -37,10 +36,10 @@ export const categoriesInitialState: MainCategoriesState = {
     categoriesFetchingFailed: false,
 };
 
-export const categoryPlaylistsInitialState: CategoryPlaylistsState = {
+export const playlistsInitialState: PlaylistsState = {
     playlists: [],
     isFetching: false,
-    categoriesPlaylistsFetchingFailed: false,
+    playlistsFetchingFailed: false,
 };
 
 const categoriesReducer = createReducer<MainCategoriesState, CategoriesAction>(
@@ -73,44 +72,66 @@ const categoriesReducer = createReducer<MainCategoriesState, CategoriesAction>(
         return categoriesInitialState;
     });
 
-const categoryPlaylistReducer = createReducer<
-    CategoryPlaylistsState,
-    CategoryPlaylistsAction
->(categoryPlaylistsInitialState)
+const playlistReducer = createReducer<PlaylistsState, PlaylistsAction>(
+    playlistsInitialState
+)
     .handleAction(
-        [fetchCategoryPlaylists.request, fetchFeaturedPlaylists.request],
+        [
+            fetchPlaylists.request,
+            fetchFeaturedPlaylists.request,
+            fetchNewReleases.request,
+        ],
         (state) => {
             return {
                 ...state,
-                categoriesPlaylistsFetchingFailed: false,
+                playlistsFetchingFailed: false,
             };
         }
     )
     .handleAction(
-        [fetchCategoryPlaylists.success, fetchFeaturedPlaylists.success],
+        [
+            fetchPlaylists.success,
+            fetchFeaturedPlaylists.success,
+            fetchNewReleases.success,
+        ],
         (state, { payload: { playlists } }) => {
             return {
                 ...state,
                 isFetching: false,
-                playlists: playlists.items,
+                playlists: playlists.items.map(
+                    ({ description, artists, ...item }) => {
+                        return {
+                            ...item,
+                            // put artist to description if its an album
+                            description:
+                                item.type === "album" && artists
+                                    ? artists.map(({ name }) => name).join(", ")
+                                    : description,
+                        };
+                    }
+                ),
             };
         }
     )
     .handleAction(
-        [fetchCategoryPlaylists.failure, fetchFeaturedPlaylists.failure],
+        [
+            fetchPlaylists.failure,
+            fetchFeaturedPlaylists.failure,
+            fetchNewReleases.failure,
+        ],
         (state, { payload: { status } }) => {
             return {
                 ...state,
                 isFetching: false,
-                categoriesPlaylistsFetchingFailed: status !== UNAUTHORIZED,
+                playlistsFetchingFailed: status !== UNAUTHORIZED,
             };
         }
     )
     .handleAction(resetStateError as any, () => {
-        return categoryPlaylistsInitialState;
+        return playlistsInitialState;
     });
 
 export default combineReducers<CategoriesState>({
     mainCategories: categoriesReducer,
-    playlists: categoryPlaylistReducer,
+    playlists: playlistReducer,
 });

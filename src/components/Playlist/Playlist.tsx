@@ -17,11 +17,11 @@ import {
 } from "store/selectors/playlist.selectors";
 import { RouteComponentProps } from "react-router";
 import { useEffect } from "react";
-import { fetchPlaylist } from "../../store/actions/playlist.actions";
-import { useLoader } from "../../hooks/useLoader";
-import { useNotification } from "../../hooks/useNotification";
+import { fetchPlaylist } from "store/actions/playlist.actions";
+import { useLoader } from "hooks/useLoader";
+import { useNotification } from "hooks/useNotification";
 import { getCategoryPlaylistInfoById } from "../../store/selectors/categories.selectors";
-import { resetStateError } from "../../store/actions/utility.actions";
+import { resetStateError } from "store/actions/utility.actions";
 
 const { H4 } = Typography;
 
@@ -89,7 +89,6 @@ export const Playlist: React.FC<RouteComponentProps<{
                 <FlexContainerItem paddings={space.L}>
                     <List>
                         {tracks.map(({ track }) => {
-                            // TODO: what if track has more artists?
                             const artists = track.album.artists
                                 .map((artist) => artist.name)
                                 .join(", ");

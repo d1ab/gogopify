@@ -3,19 +3,22 @@ import { authorize } from "./actions/authorization.actions";
 import { fetchCategories } from "./actions/categories.actions";
 import { authorizationSaga } from "./sagas/authorization.saga";
 import { fetchCategoriesSaga } from "./sagas/categories.saga";
-import { fetchCategoryPlaylists } from "./actions/categoryPlaylists.actions";
-import { fetchCategoryPlaylistsSaga } from "./sagas/categoryPlaylists.saga";
+import { fetchPlaylists } from "./actions/playlists.actions";
+import { fetchPlaylistsSaga } from "./sagas/playlists.saga";
 import { fetchPlaylist } from "./actions/playlist.actions";
 import { fetchPlaylistSaga } from "./sagas/playlist.saga";
 import { fetchFeaturedPlaylists } from "./actions/featuredPlaylists.actions";
 import { fetchFeaturedPlaylistsSaga } from "./sagas/featuredPlaylists.saga";
+import { fetchNewReleases } from "./actions/albums.actions";
+import { fetchNewReleasesSaga } from "./sagas/newReleases.saga";
 
-export function* rootSaga() {
+export function* rootSaga(): Generator {
     yield all([
         takeEvery(authorize.request, authorizationSaga),
         takeEvery(fetchCategories.request, fetchCategoriesSaga),
-        takeEvery(fetchCategoryPlaylists.request, fetchCategoryPlaylistsSaga),
+        takeEvery(fetchPlaylists.request, fetchPlaylistsSaga),
         takeEvery(fetchFeaturedPlaylists.request, fetchFeaturedPlaylistsSaga),
         takeEvery(fetchPlaylist.request, fetchPlaylistSaga),
+        takeEvery(fetchNewReleases.request, fetchNewReleasesSaga),
     ]);
 }

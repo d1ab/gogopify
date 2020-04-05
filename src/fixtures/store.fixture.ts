@@ -882,7 +882,7 @@ export const storeFixture = {
                 },
             ],
             isFetching: false,
-            categoriesPlaylistsFetchingFailed: false,
+            playlistsFetchingFailed: false,
         },
     },
     playlist: {

@@ -1,10 +1,10 @@
 import React from "react";
 import { FlexContainerItem } from "../../_common/Container/Container.styled";
 import {
-    CategoryPlaylistBoxContainer,
-    CategoryPlaylistBoxImage,
+    PlaylistBoxContainer,
+    PlaylistBoxImage,
     Description,
-} from "components/CategoryPlaylists/CategoryPlaylists.styled";
+} from "components/Playlists/Playlists.styled";
 import { Typography } from "components/_common/Typography/Typography";
 import { fontWeight } from "styles/typography";
 
@@ -19,13 +19,13 @@ interface PlaylistCard {
 export const PlaylistCard: React.FC<PlaylistCard> = React.memo(
     ({ name, description, backgroundUrl }) => {
         return (
-            <CategoryPlaylistBoxContainer>
-                <CategoryPlaylistBoxImage url={backgroundUrl} />
+            <PlaylistBoxContainer>
+                <PlaylistBoxImage url={backgroundUrl} />
                 <FlexContainerItem>
                     <Paragraph fontWeight={fontWeight.bold}>{name}</Paragraph>
                     <Description>{description}</Description>
                 </FlexContainerItem>
-            </CategoryPlaylistBoxContainer>
+            </PlaylistBoxContainer>
         );
     }
 );

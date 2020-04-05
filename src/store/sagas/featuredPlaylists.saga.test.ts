@@ -9,7 +9,7 @@ import {
 } from "store/reducers/authorization.reducer";
 import categoriesReducer, {
     categoriesInitialState,
-    categoryPlaylistsInitialState,
+    playlistsInitialState,
 } from "store/reducers/categories.reducer";
 import types from "store/constants/featuredPlaylists.constants";
 import createSagaMiddleware from "redux-saga";
@@ -33,7 +33,7 @@ describe("categoryPlaylistSaga", () => {
                 authorization: authorizationInitialState,
                 categories: {
                     mainCategories: categoriesInitialState,
-                    playlists: categoryPlaylistsInitialState,
+                    playlists: playlistsInitialState,
                 },
             },
             // eslint-disable-next-line
@@ -49,7 +49,7 @@ describe("categoryPlaylistSaga", () => {
             authorization: authorizationInitialState,
             categories: {
                 mainCategories: categoriesInitialState,
-                playlists: categoryPlaylistsInitialState,
+                playlists: playlistsInitialState,
             },
         });
 
@@ -70,7 +70,7 @@ describe("categoryPlaylistSaga", () => {
                 playlists: {
                     playlists: featuredPlaylistsFixture.playlists.items,
                     isFetching: false,
-                    categoriesPlaylistsFetchingFailed: false,
+                    playlistsFetchingFailed: false,
                 },
             },
         });
@@ -91,7 +91,7 @@ describe("categoryPlaylistSaga", () => {
                 authorization: authorizationInitialState,
                 categories: {
                     mainCategories: categoriesInitialState,
-                    playlists: categoryPlaylistsInitialState,
+                    playlists: playlistsInitialState,
                 },
             },
             // eslint-disable-next-line
@@ -107,7 +107,7 @@ describe("categoryPlaylistSaga", () => {
             authorization: authorizationInitialState,
             categories: {
                 mainCategories: categoriesInitialState,
-                playlists: categoryPlaylistsInitialState,
+                playlists: playlistsInitialState,
             },
         });
 
@@ -128,7 +128,7 @@ describe("categoryPlaylistSaga", () => {
                 playlists: {
                     playlists: [],
                     isFetching: false,
-                    categoriesPlaylistsFetchingFailed: true,
+                    playlistsFetchingFailed: true,
                 },
             },
         });

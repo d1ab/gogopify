@@ -17,10 +17,10 @@ export const getMainCategories = createSelector(
 
 export const getCategoryPlaylists = createSelector(
     categoriesPlaylistsState,
-    ({ playlists, isFetching, categoriesPlaylistsFetchingFailed }) => ({
+    ({ playlists, isFetching, playlistsFetchingFailed }) => ({
         playlists,
         isFetching,
-        categoriesPlaylistsFetchingFailed,
+        playlistsFetchingFailed,
     })
 );
 
