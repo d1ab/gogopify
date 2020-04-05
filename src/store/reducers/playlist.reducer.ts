@@ -1,7 +1,15 @@
 import { ActionType, createReducer } from "typesafe-actions";
 import * as playlistActions from "store/actions/playlist.actions";
-import { Tracks } from "api/playlist";
-import { fetchPlaylist, go, updateTrack } from "store/actions/playlist.actions";
+import {
+    AlbumTracks,
+    Tracks,
+} from "api/playlist";
+import {
+    fetchAlbumPlaylist,
+    fetchPlaylist,
+    go,
+    updateTrack,
+} from "store/actions/playlist.actions";
 import { UNAUTHORIZED } from "http-status-codes";
 
 export const navigateTo = {
@@ -38,40 +46,68 @@ const rerollTracks = (state: PlaylistState, selectedTrackId: string) => {
     };
 };
 
+const assignAlbumTracks = (tracks: AlbumTracks[]) => {
+    return tracks
+        .filter((item) => {
+            return item.preview_url;
+        })
+        .map((item) => ({
+            track: item,
+            isPlaying: false,
+            isPaused: false,
+            isActive: false,
+        }));
+};
+
+const assignPlaylistTracks = (tracks: Tracks[]) => {
+    return tracks
+        .filter((item) => {
+            return item.track && item.track.preview_url;
+        })
+        .map((item) => ({
+            ...item,
+            isPlaying: false,
+            isPaused: false,
+            isActive: false,
+        }));
+};
+
+const isAlbum = (props: any): props is AlbumTracks[] => {
+    return Array.isArray(props) && !props[0].track;
+};
+
 export const playlistReducer = createReducer<PlaylistState, PlaylistAction>(
     playlistInitialState
 )
-    .handleAction(fetchPlaylist.request, () => {
+    .handleAction([fetchPlaylist.request, fetchAlbumPlaylist.request], () => {
         return {
             ...playlistInitialState,
             isFetching: true,
             playlistFetchingFailed: false,
         };
     })
-    .handleAction(fetchPlaylist.success, (state, { payload }) => {
-        return {
-            ...state,
-            isFetching: false,
-            items: payload.items
-                // TODO: probably this filtering can be done on API side
-                .filter((item) => item.track && item.track.preview_url)
-                .map((item) => {
-                    return {
-                        ...item,
-                        isPlaying: false,
-                        isPaused: false,
-                        isActive: false,
-                    };
-                }),
-        };
-    })
-    .handleAction(fetchPlaylist.failure, (state, { payload: { status } }) => {
-        return {
-            ...state,
-            isFetching: false,
-            playlistFetchingFailed: status !== UNAUTHORIZED,
-        };
-    })
+    .handleAction(
+        [fetchPlaylist.success, fetchAlbumPlaylist.success],
+        (state, { payload }) => {
+            return {
+                ...state,
+                isFetching: false,
+                items: isAlbum(payload.items)
+                    ? assignAlbumTracks(payload.items)
+                    : assignPlaylistTracks(payload.items),
+            };
+        }
+    )
+    .handleAction(
+        [fetchPlaylist.failure, fetchAlbumPlaylist.failure],
+        (state, { payload: { status } }) => {
+            return {
+                ...state,
+                isFetching: false,
+                playlistFetchingFailed: status !== UNAUTHORIZED,
+            };
+        }
+    )
     .handleAction(updateTrack, (state, { payload }) => {
         return {
             ...state,

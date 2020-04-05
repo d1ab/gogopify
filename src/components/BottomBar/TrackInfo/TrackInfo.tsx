@@ -22,13 +22,14 @@ export const TrackInfo: React.FC = () => {
                     style={{ justifyContent: "center", alignItems: "center" }}>
                     <FlexColumnContainer alignItems={"flex-start"}>
                         <Image
-                            src={track.album.images[1].url}
+                            // TODO: album doesn't exist in Album entity
+                            src={track.album && track.album.images[1].url}
                             style={{ maxWidth: "60px" }}
                         />
                     </FlexColumnContainer>
                     <FlexColumnContainer alignItems={"center"}>
                         <Paragraph margin={"5px 0"} fontSize={fontSize.normal}>
-                            {track.album.artists
+                            {track.artists
                                 .map((artist) => artist.name)
                                 .join(", ")}
                         </Paragraph>

@@ -17,10 +17,13 @@ import {
 } from "store/selectors/playlist.selectors";
 import { RouteComponentProps } from "react-router";
 import { useEffect } from "react";
-import { fetchPlaylist } from "store/actions/playlist.actions";
+import {
+    fetchAlbumPlaylist,
+    fetchPlaylist,
+} from "store/actions/playlist.actions";
 import { useLoader } from "hooks/useLoader";
 import { useNotification } from "hooks/useNotification";
-import { getCategoryPlaylistInfoById } from "../../store/selectors/categories.selectors";
+import { getPlaylistInfoById } from "store/selectors/categories.selectors";
 import { resetStateError } from "store/actions/utility.actions";
 
 const { H4 } = Typography;
@@ -32,11 +35,12 @@ const { H4 } = Typography;
  */
 export const Playlist: React.FC<RouteComponentProps<{
     id?: string;
-}>> = ({ match }) => {
+    albumId?: string;
+}>> = ({ match: { params } }) => {
     const dispatch = useDispatch();
     const tracks = useSelector(getTracks);
     const { name, image } = useSelector(
-        getCategoryPlaylistInfoById(match.params.id)
+        getPlaylistInfoById(params.id || params.albumId)
     );
     const { isFetching, playlistFetchingFailed } = useSelector(
         getPlaylistProcessingStatus
@@ -45,8 +49,12 @@ export const Playlist: React.FC<RouteComponentProps<{
     const { showNotification } = useNotification();
 
     useEffect(() => {
-        if (match.params.id) {
-            dispatch(fetchPlaylist.request(match.params.id));
+        if (params.id) {
+            dispatch(fetchPlaylist.request(params.id));
+        }
+
+        if (params.albumId) {
+            dispatch(fetchAlbumPlaylist.request(params.albumId));
         }
 
         return () => {
@@ -67,7 +75,7 @@ export const Playlist: React.FC<RouteComponentProps<{
     useEffect(() => {
         if (playlistFetchingFailed) {
             showNotification(
-                "Error occurred while fetching category playlists",
+                "Error occurred while fetching tracklist",
                 "error"
             );
         }
@@ -89,7 +97,7 @@ export const Playlist: React.FC<RouteComponentProps<{
                 <FlexContainerItem paddings={space.L}>
                     <List>
                         {tracks.map(({ track }) => {
-                            const artists = track.album.artists
+                            const artists = track.artists
                                 .map((artist) => artist.name)
                                 .join(", ");
 

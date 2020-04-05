@@ -139,7 +139,13 @@ export const App: React.FC = () => {
                             <ProtectedRoute
                                 isAuthorized={isAuthorized}
                                 exact={true}
-                                path={"/playlist/:id"}
+                                path={"/playlists/:id"}
+                                component={Playlist}
+                            />
+                            <ProtectedRoute
+                                isAuthorized={isAuthorized}
+                                exact={true}
+                                path={"/albums/:albumId/playlists"}
                                 component={Playlist}
                             />
                         </Switch>

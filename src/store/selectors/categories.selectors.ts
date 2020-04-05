@@ -24,7 +24,7 @@ export const getCategoryPlaylists = createSelector(
     })
 );
 
-export const getCategoryPlaylistInfoById = (id?: string) =>
+export const getPlaylistInfoById = (id?: string) =>
     createSelector(categoriesPlaylistsState, ({ playlists }) => {
         const currentPlaylist = playlists.find(
             (playlist) => playlist.id === id

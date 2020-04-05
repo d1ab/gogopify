@@ -72,11 +72,15 @@ export const Playlists: React.FC<Playlists> = ({
         <Container>
             <H3>{title}</H3>
             <FlexContainer style={{ flexWrap: "wrap" }}>
-                {playlists.map(({ id, name, description, images }) => {
+                {playlists.map(({ id, name, description, images, type }) => {
                     const [image] = images;
+                    const isAlbum = type === "album";
+                    const url = isAlbum
+                        ? `/albums/${id}/playlists/`
+                        : `/playlists/${id}`;
 
                     return (
-                        <Link key={id} to={`/playlist/${id}`}>
+                        <Link key={id} to={url}>
                             <PlaylistCard
                                 key={id}
                                 name={name}

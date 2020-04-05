@@ -9,8 +9,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     isAuthorized,
     ...props
 }) => {
-    console.log({props});
-    console.log({isAuthorized});
     if (!isAuthorized) {
         const renderComponent = () => <Redirect to={"/"} />;
 
