@@ -11,6 +11,7 @@ import { fetchCategories } from "../../store/actions/categories.actions";
 import { getMainCategories } from "store/selectors/categories.selectors";
 import { useLoader } from "../../hooks/useLoader";
 import { useNotification } from "../../hooks/useNotification";
+import { resetStateError } from "../../store/actions/utility.actions";
 
 const { H3, H5, Link } = Typography;
 const CATEGORY_LIMIT = 50;
@@ -27,6 +28,12 @@ export const Categories: React.FC<RouteComponentProps> = () => {
         if (!types.length) {
             dispatch(fetchCategories.request(CATEGORY_LIMIT));
         }
+
+        return () => {
+            if (categoriesFetchingFailed) {
+                dispatch(resetStateError());
+            }
+        };
     }, []);
 
     useEffect(() => {
@@ -48,7 +55,7 @@ export const Categories: React.FC<RouteComponentProps> = () => {
 
     return (
         <Container>
-            <H3>Kategorie</H3>
+            <H3>Categories</H3>
             <FlexContainer style={{ flexWrap: "wrap" }}>
                 {types.map(({ id, name, icons }) => {
                     const [icon] = icons;

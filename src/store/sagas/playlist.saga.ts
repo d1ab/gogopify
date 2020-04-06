@@ -21,12 +21,11 @@ export function* fetchPlaylistSaga(
 
         yield put(fetchPlaylist.success(response as PlaylistTracks));
     } catch (err) {
-        yield put(fetchPlaylist.failure(err.status));
+        yield put(fetchPlaylist.failure({ status: err.status }));
 
         // TODO: DRY, how to handle saga error handler?
         if (err.status === UNAUTHORIZED) {
             yield put(clearAccessToken());
-            removeAccessToken();
         }
 
         // TODO: can this happen?

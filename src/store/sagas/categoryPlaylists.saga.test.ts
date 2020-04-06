@@ -83,7 +83,9 @@ describe("categoryPlaylistSaga", () => {
         nock(API.baseApiUrl!, { allowUnmocked: true })
             .defaultReplyHeaders(nockHeaders)
             .get(`/browse/categories/${playlistId}/playlists`)
-            .reply(BAD_REQUEST);
+            .reply(BAD_REQUEST, {
+                status: BAD_REQUEST,
+            });
 
         const sagaTester = new SagaTester({
             initialState: {
@@ -115,6 +117,9 @@ describe("categoryPlaylistSaga", () => {
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
             type: types.FETCH_CATEGORY_PLAYLISTS_FAILED,
+            payload: {
+                status: BAD_REQUEST,
+            },
         });
 
         expect(sagaTester.getState()).toStrictEqual({
