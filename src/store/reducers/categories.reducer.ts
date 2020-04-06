@@ -98,18 +98,18 @@ const playlistReducer = createReducer<PlaylistsState, PlaylistsAction>(
             return {
                 ...state,
                 isFetching: false,
-                playlists: playlists.items.map(
-                    ({ description, artists, ...item }) => {
-                        return {
-                            ...item,
-                            // put artist to description if its an album
-                            description:
-                                item.type === "album" && artists
-                                    ? artists.map(({ name }) => name).join(", ")
-                                    : description,
-                        };
-                    }
-                ),
+                playlists: playlists.items.map(({ description, ...item }) => {
+                    return {
+                        ...item,
+                        // put artist to description if its an album
+                        description:
+                            item.type === "album" && item.artists
+                                ? item.artists
+                                      .map(({ name }) => name)
+                                      .join(", ")
+                                : description,
+                    };
+                }),
             };
         }
     )
@@ -121,7 +121,7 @@ const playlistReducer = createReducer<PlaylistsState, PlaylistsAction>(
         ],
         (state, { payload: { status } }) => {
             return {
-                ...state,
+                ...playlistsInitialState,
                 isFetching: false,
                 playlistsFetchingFailed: status !== UNAUTHORIZED,
             };

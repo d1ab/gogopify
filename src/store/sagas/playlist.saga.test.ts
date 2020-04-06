@@ -20,7 +20,7 @@ import { fetchPlaylist } from "../actions/playlist.actions";
 const sagaMiddleware = createSagaMiddleware();
 const playlistId = "37i9dQZF1DXbm6HfkbMtFZ";
 
-describe("categoryPlaylistSaga", () => {
+describe("playlistSaga", () => {
     it("creates 'FETCH_PLAYLIST_SUCCESS' when authorized user is fetching playlist tracks", async () => {
         nock(API.baseApiUrl!, { allowUnmocked: true })
             .defaultReplyHeaders(nockHeaders)

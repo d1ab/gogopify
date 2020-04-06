@@ -30,7 +30,7 @@ export interface Tracks extends TrackPlayerDecrator {
     track: AlbumTracks;
 }
 
-export interface AlbumTracks extends TrackPlayerDecrator {
+export interface AlbumTracks {
     id: string;
     name: string;
     preview_url: string;

@@ -36,11 +36,9 @@ export const Playlists: React.FC<Playlists> = ({
     useEffect(() => {
         if (match.params.id && handleRequest) {
             dispatch(handleRequest(match.params.id));
-
-            return;
         }
 
-        if (handleRequest) {
+        if (handleRequest && !match.params.id) {
             dispatch(handleRequest("")); //empty string used only for consistency with shared reducer
         }
 
@@ -67,6 +65,14 @@ export const Playlists: React.FC<Playlists> = ({
             );
         }
     }, [playlistsFetchingFailed]);
+
+    if (!playlists.length && !isFetching && !playlistsFetchingFailed) {
+        return (
+            <Container>
+                <H3>Playlist is empty</H3>
+            </Container>
+        );
+    }
 
     return (
         <Container>

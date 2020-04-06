@@ -13,7 +13,9 @@ import { Typography } from "components/_common/Typography/Typography";
 const { Paragraph, SmallParagraph } = Typography;
 
 export const TrackInfo: React.FC = () => {
-    const { isActive, track } = useSelector(getActiveTrack);
+    const {
+        activeTrack: { isActive, track },
+    } = useSelector(getActiveTrack);
 
     return (
         <FlexContainerItem space={"25%"}>

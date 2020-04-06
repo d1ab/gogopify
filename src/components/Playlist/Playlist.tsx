@@ -11,10 +11,7 @@ import { Image } from "components/_common/Image/Image.styled";
 import { List } from "components/_common/List/List.styled";
 import { TrackItem } from "./TrackItem/TrackItem";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    getPlaylistProcessingStatus,
-    getTracks,
-} from "store/selectors/playlist.selectors";
+import { getPlaylistProcessingStatus } from "store/selectors/playlist.selectors";
 import { RouteComponentProps } from "react-router";
 import { useEffect } from "react";
 import {
@@ -38,11 +35,10 @@ export const Playlist: React.FC<RouteComponentProps<{
     albumId?: string;
 }>> = ({ match: { params } }) => {
     const dispatch = useDispatch();
-    const tracks = useSelector(getTracks);
     const { name, image } = useSelector(
         getPlaylistInfoById(params.id || params.albumId)
     );
-    const { isFetching, playlistFetchingFailed } = useSelector(
+    const { isFetching, playlistFetchingFailed, items } = useSelector(
         getPlaylistProcessingStatus
     );
     const { showLoader, hideLoader } = useLoader();
@@ -81,8 +77,14 @@ export const Playlist: React.FC<RouteComponentProps<{
         }
     }, [playlistFetchingFailed]);
 
-    if (!tracks.length) {
-        return null;
+    if (!items.length && !playlistFetchingFailed && !isFetching) {
+        return (
+            <Container>
+                <FlexContainer>
+                    <H4>Track list does not contain preview audio</H4>
+                </FlexContainer>
+            </Container>
+        );
     }
 
     return (
@@ -96,7 +98,7 @@ export const Playlist: React.FC<RouteComponentProps<{
                 </FlexContainerItem>
                 <FlexContainerItem paddings={space.L}>
                     <List>
-                        {tracks.map(({ track }) => {
+                        {items.map(({ track }) => {
                             const artists = track.artists
                                 .map((artist) => artist.name)
                                 .join(", ");

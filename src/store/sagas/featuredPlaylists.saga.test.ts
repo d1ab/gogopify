@@ -19,7 +19,7 @@ import { fetchFeaturedPlaylists } from "../actions/featuredPlaylists.actions";
 
 const sagaMiddleware = createSagaMiddleware();
 
-describe("categoryPlaylistSaga", () => {
+describe("featuredPlaylistsSaga", () => {
     it("creates 'FETCH_FEATURED_PLAYLISTS_SUCCESS' when authorized user is fetching playlists", async () => {
         nock(API.baseApiUrl!, { allowUnmocked: true })
             .defaultReplyHeaders(nockHeaders)

@@ -10,10 +10,12 @@ import { TrackInfo } from "./TrackInfo/TrackInfo";
 
 export const Player: React.FC = () => {
     const {
-        isActive,
-        isPlaying: isActiveTrackPlaying,
-        isPaused: isActiveTrackPaused,
-        track,
+        activeTrack: {
+            isActive,
+            isPlaying: isActiveTrackPlaying,
+            isPaused: isActiveTrackPaused,
+            track,
+        },
     } = useSelector(getActiveTrack);
     const {
         audio,

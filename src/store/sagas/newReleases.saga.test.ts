@@ -11,22 +11,21 @@ import categoriesReducer, {
     categoriesInitialState,
     playlistsInitialState,
 } from "store/reducers/categories.reducer";
-import types from "store/constants/playlists.constants";
-import { playlistsFixture } from "fixtures/playlists.fixture";
+import types from "store/constants/albums.constants";
+import { newReleasesFixture } from "fixtures/newReleases.fixture";
 import createSagaMiddleware from "redux-saga";
-import { fetchPlaylists } from "store/actions/playlists.actions";
-import { fetchPlaylistsSaga } from "./playlists.saga";
+import { fetchNewReleasesSaga } from "./newReleases.saga";
+import { fetchNewReleases } from "../actions/albums.actions";
 
 const sagaMiddleware = createSagaMiddleware();
-const playlistId = "party";
 
-describe("playlistsSaga", () => {
-    it("creates 'FETCH_CATEGORY_PLAYLISTS_SUCCESS' when authorized user is fetching playlists", async () => {
+describe("newReleasesSaga", () => {
+    it("creates 'FETCH_NEW_RELEASES_SUCCESS' when authorized user is fetching new releases", async () => {
         nock(API.baseApiUrl!, { allowUnmocked: true })
             .defaultReplyHeaders(nockHeaders)
-            .get(`/browse/categories/${playlistId}/playlists`)
+            .get(`/browse/new-releases`)
             .reply(OK, {
-                playlists: playlistsFixture.playlists,
+                albums: newReleasesFixture.albums,
             });
 
         const sagaTester = new SagaTester({
@@ -44,7 +43,7 @@ describe("playlistsSaga", () => {
             },
             middlewares: [sagaMiddleware],
         });
-        sagaTester.start(fetchPlaylistsSaga, { payload: playlistId });
+        sagaTester.start(fetchNewReleasesSaga);
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
@@ -54,13 +53,13 @@ describe("playlistsSaga", () => {
             },
         });
 
-        sagaTester.dispatch(fetchPlaylists.request(playlistId));
-        await sagaTester.waitFor(types.FETCH_PLAYLISTS_SUCCESS);
+        sagaTester.dispatch(fetchNewReleases.request(""));
+        await sagaTester.waitFor(types.FETCH_NEW_RELEASES_SUCCESS);
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
-            type: types.FETCH_PLAYLISTS_SUCCESS,
+            type: types.FETCH_NEW_RELEASES_SUCCESS,
             payload: {
-                playlists: playlistsFixture.playlists,
+                playlists: newReleasesFixture.albums,
             },
         });
 
@@ -69,7 +68,14 @@ describe("playlistsSaga", () => {
             categories: {
                 mainCategories: categoriesInitialState,
                 playlists: {
-                    playlists: playlistsFixture.playlists.items,
+                    playlists: newReleasesFixture.albums.items.map((item) => {
+                        return {
+                            ...item,
+                            description: item.artists
+                                .map(({ name }) => name)
+                                .join(", "),
+                        };
+                    }),
                     isFetching: false,
                     playlistsFetchingFailed: false,
                 },
@@ -79,10 +85,10 @@ describe("playlistsSaga", () => {
         nock.cleanAll();
     });
 
-    it("creates 'FETCH_CATEGORY_PLAYLISTS_FAILED' when unauthorized user is fetching playlists", async () => {
+    it("creates 'FETCH_NEW_RELEASES_FAILED' when unauthorized user is fetching new releases", async () => {
         nock(API.baseApiUrl!, { allowUnmocked: true })
             .defaultReplyHeaders(nockHeaders)
-            .get(`/browse/categories/${playlistId}/playlists`)
+            .get(`/browse/new-releases`)
             .reply(BAD_REQUEST, {
                 status: BAD_REQUEST,
             });
@@ -102,7 +108,7 @@ describe("playlistsSaga", () => {
             },
             middlewares: [sagaMiddleware],
         });
-        sagaTester.start(fetchPlaylistsSaga, { payload: playlistId });
+        sagaTester.start(fetchNewReleasesSaga);
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
@@ -112,11 +118,11 @@ describe("playlistsSaga", () => {
             },
         });
 
-        sagaTester.dispatch(fetchPlaylists.request(playlistId));
-        await sagaTester.waitFor(types.FETCH_PLAYLISTS_FAILED);
+        sagaTester.dispatch(fetchNewReleases.request(""));
+        await sagaTester.waitFor(types.FETCH_NEW_RELEASES_FAILED);
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
-            type: types.FETCH_PLAYLISTS_FAILED,
+            type: types.FETCH_NEW_RELEASES_FAILED,
             payload: {
                 status: BAD_REQUEST,
             },
