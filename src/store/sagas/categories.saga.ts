@@ -3,7 +3,6 @@ import API, { Categories } from "api/categories";
 import { fetchCategories } from "store/actions/categories.actions";
 import { UNAUTHORIZED } from "http-status-codes";
 import { clearAccessToken } from "../actions/authorization.actions";
-import { removeAccessToken } from "utils/utils";
 import { getAuthorizationAccessToken } from "../selectors/authorization.selectors";
 
 export function* fetchCategoriesSaga(

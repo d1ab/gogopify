@@ -17,14 +17,14 @@ export const getMainCategories = createSelector(
 
 export const getCategoryPlaylists = createSelector(
     categoriesPlaylistsState,
-    ({ playlists, isFetching, categoriesPlaylistsFetchingFailed }) => ({
+    ({ playlists, isFetching, playlistsFetchingFailed }) => ({
         playlists,
         isFetching,
-        categoriesPlaylistsFetchingFailed,
+        playlistsFetchingFailed,
     })
 );
 
-export const getCategoryPlaylistInfoById = (id?: string) =>
+export const getPlaylistInfoById = (id?: string) =>
     createSelector(categoriesPlaylistsState, ({ playlists }) => {
         const currentPlaylist = playlists.find(
             (playlist) => playlist.id === id

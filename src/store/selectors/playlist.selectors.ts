@@ -4,13 +4,12 @@ import { Tracks } from "../../api/playlist";
 
 const playlistState = ({ playlist }: AppState) => playlist;
 
-export const getTracks = createSelector(playlistState, ({ items }) => items);
-
 export const getPlaylistProcessingStatus = createSelector(
     playlistState,
-    ({ isFetching, playlistFetchingFailed }) => ({
+    ({ isFetching, playlistFetchingFailed, items }) => ({
         isFetching,
         playlistFetchingFailed,
+        items,
     })
 );
 
@@ -28,12 +27,14 @@ export const checkActiveItemById = (id: string) =>
 export const getActiveTrack = createSelector(playlistState, ({ items }) => {
     const activeTrack = items.find(({ isActive }) => isActive);
 
-    return activeTrack
-        ? activeTrack
-        : ({
-              isActive: false,
-              isPlaying: false,
-              isPaused: false,
-              track: {},
-          } as Tracks);
+    return {
+        activeTrack: activeTrack
+            ? activeTrack
+            : ({
+                  isActive: false,
+                  isPlaying: false,
+                  isPaused: false,
+                  track: {},
+              } as Tracks),
+    };
 });

@@ -1,4 +1,4 @@
-export const categoryPlaylistsFixture = {
+export const playlistsFixture = {
     playlists: {
         href:
             "https://api.spotify.com/v1/browse/categories/party/playlists?country=BR&offset=0&limit=2",

@@ -3,10 +3,12 @@ import { getAuthorizationAccessToken } from "../selectors/authorization.selector
 import API, { Playlists } from "../../api/categories";
 import { NOT_FOUND, UNAUTHORIZED } from "http-status-codes";
 import { clearAccessToken } from "../actions/authorization.actions";
+import { fetchPlaylists } from "../actions/playlists.actions";
 import { push } from "connected-react-router";
-import { fetchFeaturedPlaylists } from "../actions/featuredPlaylists.actions";
 
-export function* fetchFeaturedPlaylistsSaga(): Generator {
+export function* fetchPlaylistsSaga(
+    action: ReturnType<typeof fetchPlaylists.request>
+): Generator {
     try {
         const token = yield select(getAuthorizationAccessToken);
         const headers = {
@@ -14,15 +16,14 @@ export function* fetchFeaturedPlaylistsSaga(): Generator {
         };
 
         const response = yield call(
-            // TODO: temporary walk-around, intarface unification needed
-            // eslint-disable-next-line
-            API.fetchFeaturedPlaylists,
+            API.fetchPlaylists,
+            action.payload,
             headers
         );
 
-        yield put(fetchFeaturedPlaylists.success(response as Playlists));
+        yield put(fetchPlaylists.success(response as Playlists));
     } catch (err) {
-        yield put(fetchFeaturedPlaylists.failure({ status: err.status }));
+        yield put(fetchPlaylists.failure({ status: err.status }));
 
         // TODO: DRY, how to handle saga error handler?
         if (err.status === UNAUTHORIZED) {

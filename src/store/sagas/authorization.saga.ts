@@ -1,16 +1,7 @@
-import {
-    authorize,
-    clearAccessToken,
-} from "store/actions/authorization.actions";
+import { authorize } from "store/actions/authorization.actions";
 import authorization, { Authorization } from "api/authorization";
 import { put, call } from "redux-saga/effects";
-import { UNAUTHORIZED } from "http-status-codes";
-import {
-    isTestingEnv,
-    removeAccessToken,
-    setAccessToken,
-    userIdentifier,
-} from "utils/utils";
+import { isTestingEnv, setAccessToken, userIdentifier } from "utils/utils";
 
 export function* authorizationSaga(): Generator {
     const headers: HeadersInit = {

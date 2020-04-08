@@ -2,7 +2,6 @@ import { put, call, select } from "redux-saga/effects";
 import API, { PlaylistTracks } from "api/playlist";
 import { NOT_FOUND, UNAUTHORIZED } from "http-status-codes";
 import { clearAccessToken } from "../actions/authorization.actions";
-import { removeAccessToken } from "utils/utils";
 import { getAuthorizationAccessToken } from "../selectors/authorization.selectors";
 import { fetchPlaylist } from "../actions/playlist.actions";
 import { push } from "connected-react-router";

@@ -9,38 +9,41 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLoader } from "hooks/useLoader";
 import { useNotification } from "hooks/useNotification";
 import { getCategoryPlaylists } from "store/selectors/categories.selectors";
-import { fetchCategoryPlaylists } from "store/actions/categoryPlaylists.actions";
 import { PlaylistCard } from "./PlaylistCard/PlaylistCard";
-import { fetchFeaturedPlaylists } from "store/actions/featuredPlaylists.actions";
 import { resetStateError } from "store/actions/utility.actions";
+import { PayloadActionCreator } from "typesafe-actions";
 
 const { H3, Link } = Typography;
 
-export const CategoryPlaylists: React.FC<RouteComponentProps<{
-    id?: string;
-    featuredId?: string;
-}>> = ({ match }) => {
+interface Playlists extends RouteComponentProps<{ id?: string }> {
+    handleRequest?: PayloadActionCreator<string, string>;
+    title: string;
+}
+
+export const Playlists: React.FC<Playlists> = ({
+    match,
+    title,
+    handleRequest,
+}) => {
     const dispatch = useDispatch();
     const { showLoader, hideLoader } = useLoader();
     const { showNotification } = useNotification();
-    const {
-        playlists,
-        isFetching,
-        categoriesPlaylistsFetchingFailed,
-    } = useSelector(getCategoryPlaylists);
+    const { playlists, isFetching, playlistsFetchingFailed } = useSelector(
+        getCategoryPlaylists
+    );
 
+    // TODO: think of a better way to handle this in storybook
     useEffect(() => {
-        // TODO: visited categories should be cached and taken from store
-        if (match.params.featuredId) {
-            dispatch(fetchFeaturedPlaylists.request("")); // empty string used only for consistency with shared reducer
+        if (match.params.id && handleRequest) {
+            dispatch(handleRequest(match.params.id));
         }
 
-        if (match.params.id) {
-            dispatch(fetchCategoryPlaylists.request(match.params.id));
+        if (handleRequest && !match.params.id) {
+            dispatch(handleRequest("")); //empty string used only for consistency with shared reducer
         }
 
         return () => {
-            if (categoriesPlaylistsFetchingFailed) {
+            if (playlistsFetchingFailed) {
                 dispatch(resetStateError());
             }
         };
@@ -55,23 +58,35 @@ export const CategoryPlaylists: React.FC<RouteComponentProps<{
     }, [isFetching]);
 
     useEffect(() => {
-        if (categoriesPlaylistsFetchingFailed) {
+        if (playlistsFetchingFailed) {
             showNotification(
                 "Error occurred while fetching category playlists",
                 "error"
             );
         }
-    }, [categoriesPlaylistsFetchingFailed]);
+    }, [playlistsFetchingFailed]);
+
+    if (!playlists.length && !isFetching && !playlistsFetchingFailed) {
+        return (
+            <Container>
+                <H3>Playlist is empty</H3>
+            </Container>
+        );
+    }
 
     return (
         <Container>
-            <H3>Playlists</H3>
+            <H3>{title}</H3>
             <FlexContainer style={{ flexWrap: "wrap" }}>
-                {playlists.map(({ id, name, description, images }) => {
+                {playlists.map(({ id, name, description, images, type }) => {
                     const [image] = images;
+                    const isAlbum = type === "album";
+                    const url = isAlbum
+                        ? `/albums/${id}/playlists/`
+                        : `/playlists/${id}`;
 
                     return (
-                        <Link key={id} to={`/playlist/${id}`}>
+                        <Link key={id} to={url}>
                             <PlaylistCard
                                 key={id}
                                 name={name}

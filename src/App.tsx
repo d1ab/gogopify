@@ -18,16 +18,19 @@ import { useSelector } from "react-redux";
 import {
     getAuthorizationExpirationState,
     getAuthorizationState,
-} from "./store/selectors/authorization.selectors";
-import { useNotification } from "./hooks/useNotification";
-import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+} from "store/selectors/authorization.selectors";
+import { useNotification } from "hooks/useNotification";
+import { ProtectedRoute } from "components/ProtectedRoute/ProtectedRoute";
 import { Typography } from "components/_common/Typography/Typography";
-import { Playlist } from "./components/Playlist/Playlist";
-import { CategoryPlaylists } from "./components/CategoryPlaylists/CategoryPlaylists";
-import { Button } from "./components/_common/Button/Button.styled";
-import { Player } from "./components/BottomBar/BottomBar";
-import { Search } from "./components/TopBar/Search/Search";
+import { Playlist } from "components/Playlist/Playlist";
+import { Playlists } from "components/Playlists/Playlists";
+import { Button } from "components/_common/Button/Button.styled";
+import { Player } from "components/BottomBar/BottomBar";
+import { Search } from "components/TopBar/Search/Search";
 import { removeAccessToken } from "./utils/utils";
+import { fetchNewReleases } from "store/actions/albums.actions";
+import { fetchFeaturedPlaylists } from "store/actions/featuredPlaylists.actions";
+import { fetchPlaylists } from "store/actions/playlists.actions";
 
 const { Link } = Typography;
 
@@ -53,8 +56,11 @@ export const App: React.FC = () => {
                         <Link to={"/categories"}>
                             <SideBarItem>Categories</SideBarItem>
                         </Link>
-                        <Link to={"/featured/playlists"}>
+                        <Link to={"/featured"}>
                             <SideBarItem>Featured</SideBarItem>
+                        </Link>
+                        <Link to={"/rew-releases"}>
+                            <SideBarItem>New releases</SideBarItem>
                         </Link>
                     </SideBar>
                 </FlexContainerItem>
@@ -94,18 +100,52 @@ export const App: React.FC = () => {
                                 isAuthorized={isAuthorized}
                                 exact={true}
                                 path={"/category/:id/playlists"}
-                                component={CategoryPlaylists}
+                                render={(props) => (
+                                    <Playlists
+                                        {...props}
+                                        title={"Playlists"}
+                                        handleRequest={fetchPlaylists.request}
+                                    />
+                                )}
+                            />
+                            <ProtectedRoute
+                                key={"featured"}
+                                isAuthorized={isAuthorized}
+                                exact={true}
+                                path={"/featured"}
+                                render={(props) => (
+                                    <Playlists
+                                        {...props}
+                                        title={"Featured"}
+                                        handleRequest={
+                                            fetchFeaturedPlaylists.request
+                                        }
+                                    />
+                                )}
+                            />
+                            <ProtectedRoute
+                                key={"new-releases"}
+                                isAuthorized={isAuthorized}
+                                exact={true}
+                                path={"/rew-releases"}
+                                render={(props) => (
+                                    <Playlists
+                                        {...props}
+                                        title={"New releases"}
+                                        handleRequest={fetchNewReleases.request}
+                                    />
+                                )}
                             />
                             <ProtectedRoute
                                 isAuthorized={isAuthorized}
                                 exact={true}
-                                path={"/:featuredId/playlists"}
-                                component={CategoryPlaylists}
+                                path={"/playlists/:id"}
+                                component={Playlist}
                             />
                             <ProtectedRoute
                                 isAuthorized={isAuthorized}
                                 exact={true}
-                                path={"/playlist/:id"}
+                                path={"/albums/:albumId/playlists"}
                                 component={Playlist}
                             />
                         </Switch>

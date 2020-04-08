@@ -16,20 +16,29 @@ export interface PlaylistTracks {
     total: number;
 }
 
-export interface Tracks extends TrackPlayerDecrator {
-    // track can be null
-    track: Track;
+export interface AlbumPlaylistTracks {
+    items: AlbumTracks[];
+    limit: number;
+    next: null | null;
+    offset: number;
+    previous: number | null;
+    total: number;
 }
 
-interface Track {
+export interface Tracks extends TrackPlayerDecrator {
+    // track can be null?
+    track: AlbumTracks;
+}
+
+export interface AlbumTracks {
     id: string;
     name: string;
-    // track can be null
     preview_url: string;
-    album: Album;
+    album?: Album;
+    artists: Artist[];
 }
 
-interface Artist {
+export interface Artist {
     id: string;
     name: string;
 }
@@ -52,6 +61,19 @@ const fetchPlaylist = (
     ).then(({ parsedBody }) => parsedBody);
 };
 
+const fetchAlbumPlaylist = (
+    playlistId: string,
+    headers?: HeadersInit
+): Promise<AlbumPlaylistTracks | undefined> => {
+    return get<AlbumPlaylistTracks>(
+        `${API.baseApiUrl}/albums/${playlistId}/tracks`,
+        {
+            headers,
+        }
+    ).then(({ parsedBody }) => parsedBody);
+};
+
 export default {
     fetchPlaylist,
+    fetchAlbumPlaylist,
 };

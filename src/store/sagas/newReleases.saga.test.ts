@@ -1,33 +1,31 @@
-import createSagaMiddleware from "redux-saga";
-import SagaTester from "redux-saga-tester";
 import nock from "nock";
-import types from "store/constants/categories.constants";
-import expect from "expect";
+import API from "api/api";
+import { nockHeaders } from "setupTests";
 import { BAD_REQUEST, OK } from "http-status-codes";
+import SagaTester from "redux-saga-tester";
+import {
+    authorizationInitialState,
+    authorizationReducer,
+} from "store/reducers/authorization.reducer";
 import categoriesReducer, {
     categoriesInitialState,
     playlistsInitialState,
 } from "store/reducers/categories.reducer";
-import { authorizationReducer } from "../reducers/authorization.reducer";
-import { nockHeaders } from "setupTests";
-import API from "api/api";
-import { fetchCategoriesSaga } from "./categories.saga";
-import { fetchCategories } from "../actions/categories.actions";
-import { categoriesFixture } from "../../fixtures/categories.fixture";
-import { authorizationInitialState } from "../reducers/authorization.reducer";
+import types from "store/constants/albums.constants";
+import { newReleasesFixture } from "fixtures/newReleases.fixture";
+import createSagaMiddleware from "redux-saga";
+import { fetchNewReleasesSaga } from "./newReleases.saga";
+import { fetchNewReleases } from "../actions/albums.actions";
 
 const sagaMiddleware = createSagaMiddleware();
 
-describe("categoriesSaga", () => {
-    it("creates 'FETCH_CATEGORIES_SUCCESS' when authorized user is fetching categories", async () => {
+describe("newReleasesSaga", () => {
+    it("creates 'FETCH_NEW_RELEASES_SUCCESS' when authorized user is fetching new releases", async () => {
         nock(API.baseApiUrl!, { allowUnmocked: true })
             .defaultReplyHeaders(nockHeaders)
-            .get("/browse/categories")
-            .query({
-                limit: 30,
-            })
+            .get(`/browse/new-releases`)
             .reply(OK, {
-                categories: categoriesFixture.categories,
+                albums: newReleasesFixture.albums,
             });
 
         const sagaTester = new SagaTester({
@@ -45,7 +43,7 @@ describe("categoriesSaga", () => {
             },
             middlewares: [sagaMiddleware],
         });
-        sagaTester.start(fetchCategoriesSaga, { payload: 30 });
+        sagaTester.start(fetchNewReleasesSaga);
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
@@ -55,38 +53,42 @@ describe("categoriesSaga", () => {
             },
         });
 
-        sagaTester.dispatch(fetchCategories.request(30));
-        await sagaTester.waitFor(types.FETCH_CATEGORIES_SUCCESS);
+        sagaTester.dispatch(fetchNewReleases.request(""));
+        await sagaTester.waitFor(types.FETCH_NEW_RELEASES_SUCCESS);
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
-            type: types.FETCH_CATEGORIES_SUCCESS,
+            type: types.FETCH_NEW_RELEASES_SUCCESS,
             payload: {
-                categories: categoriesFixture.categories,
+                playlists: newReleasesFixture.albums,
             },
         });
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
             categories: {
-                mainCategories: {
-                    types: categoriesFixture.categories.items,
+                mainCategories: categoriesInitialState,
+                playlists: {
+                    playlists: newReleasesFixture.albums.items.map((item) => {
+                        return {
+                            ...item,
+                            description: item.artists
+                                .map(({ name }) => name)
+                                .join(", "),
+                        };
+                    }),
                     isFetching: false,
-                    categoriesFetchingFailed: false,
+                    playlistsFetchingFailed: false,
                 },
-                playlists: playlistsInitialState,
             },
         });
 
         nock.cleanAll();
     });
 
-    it("creates 'FETCH_CATEGORIES_FAILED' when unauthorized user is fetching categories", async () => {
+    it("creates 'FETCH_NEW_RELEASES_FAILED' when unauthorized user is fetching new releases", async () => {
         nock(API.baseApiUrl!, { allowUnmocked: true })
             .defaultReplyHeaders(nockHeaders)
-            .get("/browse/categories")
-            .query({
-                limit: 30,
-            })
+            .get(`/browse/new-releases`)
             .reply(BAD_REQUEST, {
                 status: BAD_REQUEST,
             });
@@ -101,12 +103,12 @@ describe("categoriesSaga", () => {
             },
             // eslint-disable-next-line
             reducers: {
-                categories: categoriesReducer,
                 authorization: authorizationReducer,
+                categories: categoriesReducer,
             },
             middlewares: [sagaMiddleware],
         });
-        sagaTester.start(fetchCategoriesSaga, { payload: 30 });
+        sagaTester.start(fetchNewReleasesSaga);
 
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
@@ -116,11 +118,11 @@ describe("categoriesSaga", () => {
             },
         });
 
-        sagaTester.dispatch(fetchCategories.request(30));
-        await sagaTester.waitFor(types.FETCH_CATEGORIES_FAILED);
+        sagaTester.dispatch(fetchNewReleases.request(""));
+        await sagaTester.waitFor(types.FETCH_NEW_RELEASES_FAILED);
 
         expect(sagaTester.getLatestCalledAction()).toStrictEqual({
-            type: types.FETCH_CATEGORIES_FAILED,
+            type: types.FETCH_NEW_RELEASES_FAILED,
             payload: {
                 status: BAD_REQUEST,
             },
@@ -129,11 +131,11 @@ describe("categoriesSaga", () => {
         expect(sagaTester.getState()).toStrictEqual({
             authorization: authorizationInitialState,
             categories: {
-                playlists: playlistsInitialState,
-                mainCategories: {
-                    types: [],
+                mainCategories: categoriesInitialState,
+                playlists: {
+                    playlists: [],
                     isFetching: false,
-                    categoriesFetchingFailed: true,
+                    playlistsFetchingFailed: true,
                 },
             },
         });
