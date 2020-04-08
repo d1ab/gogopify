@@ -31,6 +31,7 @@ import { removeAccessToken } from "./utils/utils";
 import { fetchNewReleases } from "store/actions/albums.actions";
 import { fetchFeaturedPlaylists } from "store/actions/featuredPlaylists.actions";
 import { fetchPlaylists } from "store/actions/playlists.actions";
+import { SearchResult } from "./components/SearchResult/SearchResult";
 
 const { Link } = Typography;
 
@@ -147,6 +148,12 @@ export const App: React.FC = () => {
                                 exact={true}
                                 path={"/albums/:albumId/playlists"}
                                 component={Playlist}
+                            />
+                            <ProtectedRoute
+                                isAuthorized={isAuthorized}
+                                exact={true}
+                                path={"/search"}
+                                component={SearchResult}
                             />
                         </Switch>
                     </Container>

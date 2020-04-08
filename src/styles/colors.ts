@@ -1,6 +1,16 @@
 import * as CSS from "csstype";
 
-export type ColorTypes = "primary" | "secondary" | "link" | "success" | "warning" | "error" | "heading" | "text" | "disabled" | "border";
+export type ColorTypes =
+    | "primary"
+    | "secondary"
+    | "link"
+    | "success"
+    | "warning"
+    | "error"
+    | "heading"
+    | "text"
+    | "disabled"
+    | "border";
 
 export interface ThemeColors {
     primary: CSS.ColorProperty;

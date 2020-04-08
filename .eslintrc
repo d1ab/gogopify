@@ -1,17 +1,9 @@
 {
-    "parser": "@typescript-eslint/parser",
-    "globals": {
-        "FormData": true,
-        "Symbol": true,
-        "Request": true,
-        "Audio": true,
-        "Promise": true,
-        "process": true,
-        "window": true,
-        "fetch": true,
-        "document": true,
-        "localStorage": true
+    "env": {
+        "browser": true,
+        "node": true
     },
+    "parser": "@typescript-eslint/parser",
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
@@ -37,6 +29,7 @@
         "react/jsx-max-props-per-line": ["error", { "maximum": 1, "when": "multiline" }],
         "react/prop-types": "off",
         "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/camelcase": ["error", { "properties": "never" }]
     },
     "settings": {

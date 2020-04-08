@@ -9,4 +9,5 @@ export const Input = styled.input`
     border: 0;
     border-radius: 500px;
     text-overflow: ellipsis;
+    outline: none;
 `;
