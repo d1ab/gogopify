@@ -1,11 +1,14 @@
 import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
-import { createBrowserHistory } from "history";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { rootSaga } from "./rootSaga";
 import createRootReducer, { AppState } from "./rootReducer";
+import { isTestingEnv } from "utils/utils";
+import { createMemoryHistory, createBrowserHistory } from "history";
 
-export const history = createBrowserHistory();
+export const history = isTestingEnv
+    ? createMemoryHistory()
+    : createBrowserHistory();
 
 const sagaMiddleware = createSagaMiddleware();
 
