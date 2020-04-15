@@ -17,11 +17,13 @@ import { useEffect } from "react";
 import {
     fetchAlbumPlaylist,
     fetchPlaylist,
+    updateWithFavourites,
 } from "store/actions/playlist.actions";
 import { useLoader } from "hooks/useLoader";
 import { useNotification } from "hooks/useNotification";
 import { getPlaylistInfoById } from "store/selectors/categories.selectors";
 import { resetStateError } from "store/actions/utility.actions";
+import { getAllFavourites } from "store/selectors/favourites.selectors";
 
 const { H4 } = Typography;
 
@@ -33,8 +35,9 @@ const { H4 } = Typography;
 export const Playlist: React.FC<RouteComponentProps<{
     id?: string;
     albumId?: string;
-}>> = ({ match: { params } }) => {
+}>> = ({ match: { params, path } }) => {
     const dispatch = useDispatch();
+    const favouriteTracks = useSelector(getAllFavourites);
     const { name, image } = useSelector(
         getPlaylistInfoById(params.id || params.albumId)
     );
@@ -51,6 +54,10 @@ export const Playlist: React.FC<RouteComponentProps<{
 
         if (params.albumId) {
             dispatch(fetchAlbumPlaylist.request(params.albumId));
+        }
+
+        if (path === "/favourites") {
+            dispatch(updateWithFavourites({ favourites: favouriteTracks }));
         }
 
         return () => {

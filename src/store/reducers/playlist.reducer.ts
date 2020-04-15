@@ -1,14 +1,12 @@
 import { ActionType, createReducer } from "typesafe-actions";
 import * as playlistActions from "store/actions/playlist.actions";
-import {
-    AlbumTracks,
-    Tracks,
-} from "api/playlist";
+import { AlbumTrack, Track } from "api/playlist";
 import {
     fetchAlbumPlaylist,
     fetchPlaylist,
     go,
     updateTrack,
+    updateWithFavourites,
 } from "store/actions/playlist.actions";
 import { UNAUTHORIZED } from "http-status-codes";
 
@@ -20,7 +18,7 @@ export const navigateTo = {
 export type PlaylistAction = ActionType<typeof playlistActions>;
 
 export type PlaylistState = Readonly<{
-    items: Tracks[];
+    items: Track[];
     isFetching: boolean;
     playlistFetchingFailed: boolean;
 }>;
@@ -46,7 +44,7 @@ const rerollTracks = (state: PlaylistState, selectedTrackId: string) => {
     };
 };
 
-const assignAlbumTracks = (tracks: AlbumTracks[]) => {
+const assignAlbumTracks = (tracks: AlbumTrack[]) => {
     return tracks
         .filter((item) => {
             return item.preview_url;
@@ -59,7 +57,7 @@ const assignAlbumTracks = (tracks: AlbumTracks[]) => {
         }));
 };
 
-const assignPlaylistTracks = (tracks: Tracks[]) => {
+const assignPlaylistTracks = (tracks: Track[]) => {
     return tracks
         .filter((item) => {
             return item.track && item.track.preview_url;
@@ -72,7 +70,7 @@ const assignPlaylistTracks = (tracks: Tracks[]) => {
         }));
 };
 
-const isAlbum = (props: any): props is AlbumTracks[] => {
+const isAlbum = (props: any): props is AlbumTrack[] => {
     return Array.isArray(props) && !props[0].track;
 };
 
@@ -105,6 +103,20 @@ export const playlistReducer = createReducer<PlaylistState, PlaylistAction>(
                 ...state,
                 isFetching: false,
                 playlistFetchingFailed: status !== UNAUTHORIZED,
+            };
+        }
+    )
+    .handleAction(
+        updateWithFavourites,
+        (state, { payload: { favourites } }) => {
+            return {
+                ...state,
+                items:
+                    favourites.length === 0
+                        ? favourites
+                        : isAlbum(favourites)
+                        ? assignAlbumTracks(favourites)
+                        : assignPlaylistTracks(favourites),
             };
         }
     )

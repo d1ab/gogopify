@@ -12,6 +12,8 @@ import { fetchFeaturedPlaylistsSaga } from "./sagas/featuredPlaylists.saga";
 import { fetchNewReleases } from "./actions/albums.actions";
 import { fetchNewReleasesSaga } from "./sagas/newReleases.saga";
 import { fetchAlbumPlaylistSaga } from "./sagas/albumPlaylist.saga";
+import { addToFavourites } from "./actions/favourites.actions";
+import { addToFavouritesSaga } from "./sagas/favourites.saga";
 
 export function* rootSaga(): Generator {
     yield all([
@@ -22,5 +24,6 @@ export function* rootSaga(): Generator {
         takeEvery(fetchPlaylist.request, fetchPlaylistSaga),
         takeEvery(fetchAlbumPlaylist.request, fetchAlbumPlaylistSaga),
         takeEvery(fetchNewReleases.request, fetchNewReleasesSaga),
+        takeEvery(addToFavourites.request, addToFavouritesSaga),
     ]);
 }

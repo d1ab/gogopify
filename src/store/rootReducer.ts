@@ -9,12 +9,17 @@ import categoriesReducers, {
     CategoriesState,
 } from "./reducers/categories.reducer";
 import { PlaylistState, playlistReducer } from "./reducers/playlist.reducer";
+import {
+    favouritesReducer,
+    FavouritesState,
+} from "./reducers/favourites.reducer";
 
 export interface AppState {
     router: History<History.PoorMansUnknown>;
     authorization: AuthorizationState;
     categories: CategoriesState;
     playlist: PlaylistState;
+    favourites: FavouritesState;
 }
 
 const createRootReducer = (history: History<History.PoorMansUnknown>) =>
@@ -24,6 +29,7 @@ const createRootReducer = (history: History<History.PoorMansUnknown>) =>
         authorization: authorizationReducer,
         categories: categoriesReducers,
         playlist: playlistReducer,
+        favourites: favouritesReducer,
     });
 
 export default createRootReducer;
