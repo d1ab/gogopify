@@ -10,7 +10,6 @@ import { updateTrack } from "store/actions/playlist.actions";
 import styled from "styled-components";
 import { addToFavourites } from "store/actions/favourites.actions";
 import { getFavouriteById } from "store/selectors/favourites.selectors";
-import { useNotification } from "hooks/useNotification";
 
 const PlayBtn = PlayerIcon(Play);
 const PauseBtn = PlayerIcon(Pause);
@@ -45,8 +44,8 @@ export const TrackItem: React.FC<TrackItem> = ({
     const dispatch = useDispatch();
     const { isActive, isPlaying } = useSelector(checkActiveItemById(id));
     const existingFavourite = useSelector(getFavouriteById(id));
-    const { showNotification } = useNotification();
 
+    // could be handled by useCallback but probably not needed, will just allocate more memory
     const handleFavourite = () => {
         // don't add same favourite second time
         if (existingFavourite) {
@@ -54,7 +53,6 @@ export const TrackItem: React.FC<TrackItem> = ({
         }
 
         dispatch(addToFavourites.request({ trackId: id }));
-        showNotification("Track was added to favourites", "success");
     };
 
     return (

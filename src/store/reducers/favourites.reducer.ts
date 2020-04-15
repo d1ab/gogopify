@@ -2,7 +2,10 @@ import { ActionType, createReducer } from "typesafe-actions";
 import * as favouritesActions from "store/actions/favourites.actions";
 import { Track } from "api/playlist";
 import { getFavourites } from "utils/utils";
-import { addToFavourites } from "store/actions/favourites.actions";
+import {
+    addToFavourites,
+    resetFavouritesStatus,
+} from "store/actions/favourites.actions";
 export type FavouritesAction = ActionType<typeof favouritesActions>;
 
 export type FavouritesState = Readonly<{
@@ -34,5 +37,11 @@ export const favouritesReducer = createReducer<
             isAdding: false,
             isSuccess: true,
             items: [...state.items, action.payload],
+        };
+    })
+    .handleAction(resetFavouritesStatus, (state) => {
+        return {
+            ...favouritesInitialState,
+            items: state.items,
         };
     });

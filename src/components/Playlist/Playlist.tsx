@@ -23,7 +23,10 @@ import { useLoader } from "hooks/useLoader";
 import { useNotification } from "hooks/useNotification";
 import { getPlaylistInfoById } from "store/selectors/categories.selectors";
 import { resetStateError } from "store/actions/utility.actions";
-import { getAllFavourites } from "store/selectors/favourites.selectors";
+import {
+    getAllFavourites,
+    getFavouritesStatus,
+} from "store/selectors/favourites.selectors";
 
 const { H4 } = Typography;
 
@@ -38,6 +41,7 @@ export const Playlist: React.FC<RouteComponentProps<{
 }>> = ({ match: { params, path } }) => {
     const dispatch = useDispatch();
     const favouriteTracks = useSelector(getAllFavourites);
+    const { isSuccess, isAdding } = useSelector(getFavouritesStatus);
     const { name, image } = useSelector(
         getPlaylistInfoById(params.id || params.albumId)
     );
@@ -68,12 +72,18 @@ export const Playlist: React.FC<RouteComponentProps<{
     }, []);
 
     useEffect(() => {
-        if (isFetching) {
+        if (isSuccess) {
+            showNotification("Track was added to favourites", "success");
+        }
+    }, [isSuccess]);
+
+    useEffect(() => {
+        if (isFetching || isAdding) {
             return showLoader();
         }
 
         hideLoader();
-    }, [isFetching]);
+    }, [isFetching, isAdding]);
 
     useEffect(() => {
         if (playlistFetchingFailed) {
