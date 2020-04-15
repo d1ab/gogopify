@@ -46,7 +46,7 @@ export const TrackItem: React.FC<TrackItem> = ({
     const existingFavourite = useSelector(getFavouriteById(id));
 
     // could be handled by useCallback but probably not needed, will just allocate more memory
-    const handleFavourite = () => {
+    const handleFavourites = () => {
         // don't add same favourite second time
         if (existingFavourite) {
             return;
@@ -76,7 +76,7 @@ export const TrackItem: React.FC<TrackItem> = ({
             <SmallParagraph margin={"2px 0"} fontSize={fontSize.small}>
                 {songName}
             </SmallParagraph>
-            <FavouriteIcon onClick={handleFavourite} />
+            <FavouriteIcon onClick={handleFavourites} />
         </ListItem>
     );
 };
