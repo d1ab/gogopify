@@ -1,6 +1,6 @@
 import { AppState } from "store/rootReducer";
 import { createSelector } from "reselect";
-import { Tracks } from "../../api/playlist";
+import { Track } from "api/playlist";
 
 const playlistState = ({ playlist }: AppState) => playlist;
 
@@ -35,6 +35,11 @@ export const getActiveTrack = createSelector(playlistState, ({ items }) => {
                   isPlaying: false,
                   isPaused: false,
                   track: {},
-              } as Tracks),
+              } as Track),
     };
 });
+
+export const getTrackById = (id: string) =>
+    createSelector(playlistState, ({ items }) => {
+        return items.find(({ track }) => track.id === id);
+    });

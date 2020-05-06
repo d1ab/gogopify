@@ -8,7 +8,7 @@ export interface TrackPlayerDecrator {
 }
 
 export interface PlaylistTracks {
-    items: Tracks[];
+    items: Track[];
     limit: number;
     next: null | null;
     offset: number;
@@ -17,7 +17,7 @@ export interface PlaylistTracks {
 }
 
 export interface AlbumPlaylistTracks {
-    items: AlbumTracks[];
+    items: AlbumTrack[];
     limit: number;
     next: null | null;
     offset: number;
@@ -25,12 +25,12 @@ export interface AlbumPlaylistTracks {
     total: number;
 }
 
-export interface Tracks extends TrackPlayerDecrator {
+export interface Track extends TrackPlayerDecrator {
     // track can be null?
-    track: AlbumTracks;
+    track: AlbumTrack;
 }
 
-export interface AlbumTracks {
+export interface AlbumTrack {
     id: string;
     name: string;
     preview_url: string;

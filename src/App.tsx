@@ -63,6 +63,9 @@ export const App: React.FC = () => {
                         <Link to={"/rew-releases"}>
                             <SideBarItem>New releases</SideBarItem>
                         </Link>
+                        <Link to={"/favourites"}>
+                            <SideBarItem>Favourites</SideBarItem>
+                        </Link>
                     </SideBar>
                 </FlexContainerItem>
                 <FlexContainerItem>
@@ -144,6 +147,7 @@ export const App: React.FC = () => {
                                 component={Playlist}
                             />
                             <ProtectedRoute
+                                key={"tracklist"}
                                 isAuthorized={isAuthorized}
                                 exact={true}
                                 path={"/albums/:albumId/playlists"}
@@ -154,6 +158,13 @@ export const App: React.FC = () => {
                                 exact={true}
                                 path={"/search"}
                                 component={SearchResult}
+                            />
+                            <ProtectedRoute
+                                key={"favourites"}
+                                isAuthorized={isAuthorized}
+                                exact={true}
+                                path={"/favourites"}
+                                component={Playlist}
                             />
                         </Switch>
                     </Container>

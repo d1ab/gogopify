@@ -1,6 +1,6 @@
 import { createAction, createAsyncAction } from "typesafe-actions";
 import playlistConstants from "store/constants/playlist.constants";
-import { AlbumPlaylistTracks, PlaylistTracks } from "api/playlist";
+import { AlbumPlaylistTracks, PlaylistTracks, Track } from "api/playlist";
 
 const {
     FETCH_PLAYLIST_REQUEST,
@@ -11,6 +11,7 @@ const {
     FETCH_ALBUM_PLAYLIST_FAILED,
     UPDATE_TRACK,
     GO_TO_TRACK,
+    UPDATE_WITH_FAVOURITES,
 } = playlistConstants;
 
 export const fetchPlaylist = createAsyncAction(
@@ -36,4 +37,8 @@ export const updateTrack = createAction(UPDATE_TRACK)<{
  */
 export const go = createAction(GO_TO_TRACK)<{
     to: "next" | "previous";
+}>();
+
+export const updateWithFavourites = createAction(UPDATE_WITH_FAVOURITES)<{
+    favourites: Track[];
 }>();
